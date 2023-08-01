@@ -6,6 +6,9 @@
   export let hide = false
 
   let inputElem: HTMLElement
+
+  // Keep track of the history of commands
+  // so we can navigate through them with the arrows
   let history = {
     cmd: [] as string[],
     index: 0
@@ -62,7 +65,8 @@
     }
   }
 
-  // Everytime the element is visible, focus the input
+  // Every time the element is visible, focus the input.
+  // We wait for full rendering before focusing (next tick)
   $: if (!hide) {
     tick().then(() => inputElem?.focus())
   }
