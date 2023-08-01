@@ -1,11 +1,43 @@
-<script>
-  import Header from './Header.svelte';
-  import Prompt from './Prompt.svelte';
+<script lang="ts">
+  import Header from './Header.svelte'
+  import Output, { TypePrint } from './Output.svelte'
+  import Prompt from './Prompt.svelte'
+
+  let output: Output
+  let waiting = false
+
+  async function onCmd(event: CustomEvent<string>) {
+    const cmd = event.detail
+    output.print(cmd, TypePrint.PROMPT)
+
+    const wrapper = output.print('Running command', TypePrint.WAIT)
+    waiting = true
+
+    try {
+      const result = await new Promise<string>((resolve, reject) => {
+        setTimeout(() => {
+          Math.random() > 0.5
+            ? reject(new Error('Something went wrong'))
+            : resolve('This is the output of this command')
+        }, 500)
+      })
+
+      output.print(result, TypePrint.INFO, wrapper)
+    } catch (error) {
+      const { message } = error as Error
+      output.print(message, TypePrint.ERROR, wrapper)
+    } finally {
+      waiting = false
+    }
+  }
 </script>
 
 <div class="Terminal">
-  <Header />
-  <Prompt />
+  <div class="scrollable">
+    <Header />
+    <Output bind:this={output} />
+    <Prompt on:cmd={onCmd} hide={waiting} />
+  </div>
 </div>
 
 <style>
@@ -43,5 +75,10 @@
       transparent 2px
     );
     pointer-events: none;
+  }
+
+  .scrollable {
+    overflow-y: auto;
+    height: 100%;
   }
 </style>
