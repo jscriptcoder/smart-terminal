@@ -1,10 +1,38 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
 
   let input: HTMLElement;
 
-  onMount(() => {
+  function focusInput() {
     input.focus();
+
+    const selection = window.getSelection();
+
+    selection?.selectAllChildren(input);
+    selection?.collapseToEnd();
+  }
+
+  function onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const cmd = input.textContent?.trim();
+
+      console.log('Command entered:', cmd);
+
+      input.textContent = '';
+      event.preventDefault();
+    }
+  }
+
+  onMount(() => {
+    input.addEventListener('keydown', onKeydown);
+    document.addEventListener('click', focusInput);
+
+    focusInput();
+  });
+
+  onDestroy(() => {
+    input.removeEventListener('keydown', onKeydown);
+    document.removeEventListener('click', focusInput);
   });
 </script>
 
