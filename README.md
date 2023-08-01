@@ -1,2 +1,1 @@
-# BuyMeACoffee-contracts
-# smart-terminal
+Smart Terminal
