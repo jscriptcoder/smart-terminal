@@ -14,12 +14,12 @@
 
   import { SYMBOL } from './Prompt.svelte'
 
-  let outputElem: HTMLDivElement
+  let outputElem: HTMLElement
 
   export function print(
     text: string,
     type: TypePrint,
-    wrapperElem: HTMLDivElement = document.createElement('div')
+    wrapperElem: HTMLElement = document.createElement('div')
   ) {
     wrapperElem.className = ''
 

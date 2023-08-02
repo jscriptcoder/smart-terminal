@@ -1,4 +1,6 @@
 <script lang="ts">
+  import cmd2func from '../commands/cmd2func'
+  import parseCommand from '../utils/parseCommand'
   import Header from './Header.svelte'
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
@@ -10,17 +12,26 @@
     const cmd = event.detail
     output.print(cmd, TypePrint.PROMPT)
 
-    const wrapper = output.print('Running command', TypePrint.WAIT)
-    waiting = true
+    let wrapper: HTMLElement | undefined
+    let result: string
 
     try {
-      const result = await new Promise<string>((resolve, reject) => {
-        setTimeout(() => {
-          Math.random() > 0.5
-            ? reject(new Error('Something went wrong'))
-            : resolve('This is the output of this command')
-        }, 500)
-      })
+      const parsedCmd = parseCommand(cmd)
+
+      console.log('Parsed command:', parsedCmd)
+
+      const func = cmd2func[parsedCmd.name]
+
+      const { params, namedParams } = parsedCmd.args
+
+      if (func.async) {
+        waiting = true
+        wrapper = output.print('Running command', TypePrint.WAIT)
+
+        result = await func.exec(...params, namedParams)
+      } else {
+        result = func.exec(...params, namedParams)
+      }
 
       output.print(result, TypePrint.INFO, wrapper)
     } catch (error) {
