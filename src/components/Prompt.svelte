@@ -1,11 +1,19 @@
+<script lang="ts" context="module">
+  export const SYMBOL = '$>'
+</script>
+
 <script lang="ts">
   import { onDestroy, onMount, createEventDispatcher, tick } from 'svelte'
+  import type { Address } from 'viem'
+  import { account } from '../stores/account'
+  import shortenAddress from '../utils/shortenAddress'
 
-  const dispatch = createEventDispatcher<{ cmd: string }>()
+  const dispatch = createEventDispatcher<{ command: string }>()
 
   export let hide = false
 
   let inputElem: HTMLElement
+  let user: Address
 
   // Keep track of the history of commands
   // so we can navigate through them with the arrows
@@ -15,7 +23,6 @@
   }
 
   function moveCursorToEnd() {
-    // Places cursor at the end of the input
     const selection = window.getSelection()
     selection?.selectAllChildren(inputElem)
     selection?.collapseToEnd()
@@ -34,7 +41,7 @@
         const cmd = inputElem.textContent?.trim()
 
         if (cmd) {
-          dispatch('cmd', cmd)
+          dispatch('command', cmd)
           history.cmd.push(cmd)
           history.index = history.cmd.length
         }
@@ -71,6 +78,8 @@
     tick().then(() => inputElem?.focus())
   }
 
+  $: user = shortenAddress($account?.address)
+
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
     document.addEventListener('click', focusInput)
@@ -83,7 +92,10 @@
 </script>
 
 <div class="Prompt {hide ? 'hide' : ''}">
-  <span>$&gt;</span>
+  <span>
+    <span>{user}</span>
+    <span>{SYMBOL}</span>
+  </span>
   <div class="input" contenteditable="true" spellcheck="false" bind:this={inputElem} />
 </div>
 
@@ -96,6 +108,10 @@
 
   .Prompt.hide {
     display: none;
+  }
+
+  .Prompt > span {
+    display: flex;
   }
 
   .input {

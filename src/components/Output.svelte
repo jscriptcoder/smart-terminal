@@ -8,6 +8,12 @@
 </script>
 
 <script lang="ts">
+  import { account } from '../stores/account'
+
+  import shortenAddress from '../utils/shortenAddress'
+
+  import { SYMBOL } from './Prompt.svelte'
+
   let outputElem: HTMLDivElement
 
   export function print(
@@ -19,8 +25,16 @@
 
     switch (type) {
       case TypePrint.PROMPT:
+        const user = shortenAddress($account?.address)
+
         wrapperElem.classList.add('output__prompt')
-        wrapperElem.innerHTML = ['<span>$&gt;</span>', `<div>${text}</div>`].join('')
+        wrapperElem.innerHTML = [
+          '<span>',
+          `<span>${user}</span>`,
+          `<span>${SYMBOL}</span>`,
+          '</span>',
+          `<div>${text}</div>`
+        ].join('')
 
         break
       case TypePrint.INFO:
@@ -59,6 +73,10 @@
     display: flex;
     align-items: baseline;
     margin-top: 0.5rem;
+  }
+
+  :global(.output__prompt > span) {
+    display: flex;
   }
 
   :global(.output__prompt > div) {

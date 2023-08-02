@@ -6,7 +6,7 @@
   let output: Output
   let waiting = false
 
-  async function onCmd(event: CustomEvent<string>) {
+  async function onCommandSent(event: CustomEvent<string>) {
     const cmd = event.detail
     output.print(cmd, TypePrint.PROMPT)
 
@@ -36,7 +36,7 @@
   <div class="scrollable">
     <Header />
     <Output bind:this={output} />
-    <Prompt on:cmd={onCmd} hide={waiting} />
+    <Prompt on:command={onCommandSent} hide={waiting} />
   </div>
 </div>
 
