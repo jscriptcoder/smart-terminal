@@ -11,6 +11,7 @@
   import { account } from '../stores/account'
 
   import shortenAddress from '../utils/shortenAddress'
+  import Header from './Header.svelte'
 
   import { SYMBOL } from './Prompt.svelte'
 
@@ -58,9 +59,19 @@
 
     return wrapperElem
   }
+
+  export function clear() {
+    outputElem.innerHTML = ''
+  }
 </script>
 
-<div class="Output" bind:this={outputElem} />
+<div class="Output" bind:this={outputElem}>
+  <!--
+    Header is part of the output and will be deleted
+    when the output is cleared
+  -->
+  <Header />
+</div>
 
 <style>
   @keyframes ellipsis {

@@ -1,6 +1,8 @@
 // These are for testing purposes only
 
 export function log(msg: string) {
+  if (!msg) throw new Error('No message provided to log')
+
   console.log(msg)
   return `Message "${msg}" has been logged in the console`
 }
@@ -12,6 +14,8 @@ export function asyncLog(msg: string, timeout = '3000') {
 }
 
 export function echo(msg: string) {
+  if (!msg) throw new Error('No message provided to echo')
+
   return msg
 }
 

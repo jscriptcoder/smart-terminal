@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import cmd2func from '../commands/cmd2func'
   import parseCommand from '../utils/parseCommand'
   import Header from './Header.svelte'
@@ -12,16 +13,24 @@
   const memory: Record<string, string> = {}
 
   async function onCommandSent(event: CustomEvent<string>) {
-    const cmd = event.detail
-    output.print(cmd, TypePrint.PROMPT)
+    let cmd = event.detail
+
+    const parsedCmd = parseCommand(cmd)
+
+    if (!cmd.startsWith('__')) {
+      // Do not print commands starting with '__'
+      output.print(cmd, TypePrint.PROMPT)
+    }
 
     let wrapper: HTMLElement | undefined
     let result: string
 
     try {
-      const parsedCmd = parseCommand(cmd)
-
       console.log('Parsed command:', parsedCmd)
+
+      if (parsedCmd.varName && cmd2func[parsedCmd.varName]) {
+        throw new Error(`Variable clashes with an existing command: ${parsedCmd.varName}`)
+      }
 
       const func = cmd2func[parsedCmd.funcName]
 
@@ -46,7 +55,7 @@
           console.log('Memory:', memory)
         }
       } else if (!memory[parsedCmd.funcName]) {
-        // No function nor variable found
+        // Neither function nor variable found
         throw new Error(`Command not found: ${parsedCmd.funcName}`)
       } else {
         // We have a variable with this name
@@ -61,13 +70,41 @@
       waiting = false
     }
   }
+
+  // List of available commands and variables
+  $: utils = [
+    // Do not show commands starting with '__'. Those are special commands
+    ...Object.keys(cmd2func).filter((cmd) => !cmd.startsWith('__')),
+    ...Object.keys(memory)
+  ].sort()
+
+  onMount(() => {
+    // Internal commands
+    cmd2func['__tab'] = {
+      // Executes when the user inputs something and presses tab
+      // showing the list of matching commands and variables
+      exec: (input: string, ...matches: string[]) => {
+        output.print(input, TypePrint.PROMPT)
+        return matches.filter(Boolean).join(', ')
+      }
+    }
+
+    cmd2func['clear'] = {
+      exec: () => output.clear()
+    }
+
+    cmd2func['help'] = {
+      exec: () => {
+        // TODO
+      }
+    }
+  })
 </script>
 
 <div class="Terminal">
   <div class="scrollable">
-    <Header />
     <Output bind:this={output} />
-    <Prompt on:command={onCommandSent} hide={waiting} {memory} />
+    <Prompt on:command={onCommandSent} hide={waiting} {utils} />
   </div>
 </div>
 

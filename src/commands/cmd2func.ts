@@ -3,20 +3,20 @@ import { log, asyncLog, echo, asyncEcho } from "./test"
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
 
-const cmd2func: Record<string, { exec: AnyFunc, async: boolean }> = {
-  [log.name]: {
+const cmd2func: Record<string, { exec: AnyFunc, async?: boolean }> = {
+  ['log']: {
     exec: log,
     async: false,
   },
-  [asyncLog.name]: {
+  ['asynclog']: {
     exec: asyncLog,
     async: true,
   },
-  [echo.name]: {
+  ['echo']: {
     exec: echo,
     async: false,
   },
-  [asyncEcho.name]: {
+  ['asyncecho']: {
     exec: asyncEcho,
     async: true,
   }

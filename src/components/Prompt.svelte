@@ -11,7 +11,7 @@
   const dispatch = createEventDispatcher<{ command: string }>()
 
   export let hide = false
-  export let memory: Record<string, string>
+  export let utils: string[] = []
 
   let inputElem: HTMLElement
   let user: Address
@@ -68,6 +68,24 @@
         } else {
           // If we reach the end, clear the input
           inputElem.textContent = ''
+        }
+        break
+      case 'Tab':
+        event.preventDefault()
+
+        const input = inputElem.textContent?.trim()
+
+        if (input) {
+          const matches = utils.filter((util) => util.startsWith(input))
+
+          console.log('Matches:', matches)
+
+          if (matches.length === 1) {
+            inputElem.textContent = matches[0]
+            moveCursorToEnd()
+          } else if (matches.length > 1) {
+            dispatch('command', `__tab ${input} ${matches.join(' ')}`)
+          }
         }
         break
     }
