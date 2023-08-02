@@ -11,13 +11,14 @@
   const dispatch = createEventDispatcher<{ command: string }>()
 
   export let hide = false
+  export let memory: Record<string, string>
 
   let inputElem: HTMLElement
   let user: Address
 
   // Keep track of the history of commands
   // so we can navigate through them with the arrows
-  let history = {
+  const history = {
     cmd: [] as string[],
     index: 0
   }

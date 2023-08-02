@@ -8,6 +8,9 @@
   let output: Output
   let waiting = false
 
+  // Store result of commands in memory
+  const memory: Record<string, string> = {}
+
   async function onCommandSent(event: CustomEvent<string>) {
     const cmd = event.detail
     output.print(cmd, TypePrint.PROMPT)
@@ -20,17 +23,34 @@
 
       console.log('Parsed command:', parsedCmd)
 
-      const func = cmd2func[parsedCmd.name]
+      const func = cmd2func[parsedCmd.funcName]
 
-      const { params, namedParams } = parsedCmd.args
+      if (func) {
+        // We have a function for this command
+        const { params, namedParams } = parsedCmd.args
 
-      if (func.async) {
-        waiting = true
-        wrapper = output.print('Running command', TypePrint.WAIT)
+        if (func.async) {
+          // We show a loading indicator while the command is running
+          waiting = true
+          wrapper = output.print('Running command', TypePrint.WAIT)
 
-        result = await func.exec(...params, namedParams)
+          result = await func.exec(...params, namedParams)
+        } else {
+          result = func.exec(...params, namedParams)
+        }
+
+        // Do we have variable to store the result?
+        if (parsedCmd.varName) {
+          memory[parsedCmd.varName] = result
+
+          console.log('Memory:', memory)
+        }
+      } else if (!memory[parsedCmd.funcName]) {
+        // No function nor variable found
+        throw new Error(`Command not found: ${parsedCmd.funcName}`)
       } else {
-        result = func.exec(...params, namedParams)
+        // We have a variable with this name
+        result = memory[parsedCmd.funcName]
       }
 
       output.print(result, TypePrint.INFO, wrapper)
@@ -47,7 +67,7 @@
   <div class="scrollable">
     <Header />
     <Output bind:this={output} />
-    <Prompt on:command={onCommandSent} hide={waiting} />
+    <Prompt on:command={onCommandSent} hide={waiting} {memory} />
   </div>
 </div>
 
