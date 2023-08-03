@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
   export enum TypePrint {
-    PROMPT,
-    INFO,
-    WAIT,
-    ERROR
+    PROMPT = 'prompt',
+    INFO = 'info',
+    WAIT = 'wait',
+    ERROR = 'error'
   }
 </script>
 
@@ -22,13 +22,11 @@
     type: TypePrint,
     wrapperElem: HTMLElement = document.createElement('div')
   ) {
-    wrapperElem.className = ''
+    wrapperElem.classList.add(`output__${type}`)
 
     switch (type) {
       case TypePrint.PROMPT:
         const user = shortenAddress($account?.address)
-
-        wrapperElem.classList.add('output__prompt')
         wrapperElem.innerHTML = [
           '<span>',
           `<span>${user}</span>`,
@@ -38,21 +36,9 @@
         ].join('')
 
         break
-      case TypePrint.INFO:
-        wrapperElem.classList.add('output__info')
-        wrapperElem.textContent = text
-
-        break
-      case TypePrint.WAIT:
-        wrapperElem.classList.add('output__wait')
-        wrapperElem.textContent = text
-
-        break
-      case TypePrint.ERROR:
-        wrapperElem.classList.add('output__error')
+      default:
+        // TODO: add special cases for other types if needed
         wrapperElem.innerHTML = text
-
-        break
     }
 
     outputElem.appendChild(wrapperElem)

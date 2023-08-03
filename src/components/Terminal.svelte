@@ -2,15 +2,19 @@
   import { onMount } from 'svelte'
   import cmd2func from '../commands/cmd2func'
   import parseCommand from '../utils/parseCommand'
-  import Header from './Header.svelte'
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
 
   let output: Output
   let waiting = false
+  let scrollableElem: HTMLElement
 
   // Store result of commands in memory
   const memory: Record<string, string> = {}
+
+  function scrollToBottom() {
+    scrollableElem.scrollTop = scrollableElem.scrollHeight
+  }
 
   async function onCommandSent(event: CustomEvent<string>) {
     let cmd = event.detail
@@ -18,7 +22,7 @@
     const parsedCmd = parseCommand(cmd)
 
     if (!cmd.startsWith('__')) {
-      // Do not print commands starting with '__'
+      // Do not print back commands starting with '__'
       output.print(cmd, TypePrint.PROMPT)
     }
 
@@ -69,14 +73,16 @@
     } finally {
       waiting = false
     }
+
+    scrollToBottom()
   }
 
+  // Do not show commands starting with '__'. Those are special commands
+  $: cmds = Object.keys(cmd2func).filter((cmd) => !cmd.startsWith('__'))
+  $: vars = Object.keys(memory)
+
   // List of available commands and variables
-  $: utils = [
-    // Do not show commands starting with '__'. Those are special commands
-    ...Object.keys(cmd2func).filter((cmd) => !cmd.startsWith('__')),
-    ...Object.keys(memory)
-  ].sort()
+  $: utils = [...cmds, ...vars].sort()
 
   onMount(() => {
     // Internal commands
@@ -90,19 +96,36 @@
     }
 
     cmd2func['clear'] = {
-      exec: () => output.clear()
+      exec: () => {
+        output.clear()
+        return ''
+      },
+      help: 'Clear the terminal'
     }
 
     cmd2func['help'] = {
-      exec: () => {
-        // TODO
-      }
+      exec: (cmd?: string) => {
+        if (!cmd) {
+          return cmds.sort().join(', ')
+        }
+
+        const func = cmd2func[cmd]
+
+        if (!func) throw new Error(`Command not found: ${cmd}`)
+        if (!func.help) throw new Error(`No help found for command: ${cmd}`)
+
+        return func.help
+      },
+      help: [
+        'Shows available commands or help about a specific command.',
+        'Usage: help [command]'
+      ].join('<br>')
     }
   })
 </script>
 
 <div class="Terminal">
-  <div class="scrollable">
+  <div class="scrollable" bind:this={scrollableElem}>
     <Output bind:this={output} />
     <Prompt on:command={onCommandSent} hide={waiting} {utils} />
   </div>
@@ -122,7 +145,7 @@
     background-color: black;
     background-image: radial-gradient(rgb(0 150 0 / 75%), black 120%);
     overflow: hidden;
-    padding: 2rem;
+    padding: 0 2rem;
     color: white;
     font: 1.2rem monospace;
     text-shadow: 0 0 5px rgb(200 200 200);

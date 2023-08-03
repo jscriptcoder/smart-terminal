@@ -7,9 +7,21 @@ export function log(msg: string) {
   return `Message "${msg}" has been logged in the console`
 }
 
+export const logHelp = `
+Logs a message in the console.<br>
+Usage: log &lt;msg&gt;
+`
+
 export function asyncLog(msg: string, timeout = '3000') {
-  return new Promise<string>((resolve) => {
-    setTimeout(() => resolve(log(msg)), Number(timeout))
+  return new Promise<string>((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const result = log(msg)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    }, Number(timeout))
   })
 }
 
@@ -19,8 +31,20 @@ export function echo(msg: string) {
   return msg
 }
 
+export const echoHelp = `
+Echos a message in the terminal.<br>
+Usage: echo &lt;msg&gt;
+`
+
 export function asyncEcho(msg: string, timeout = '3000') {
-  return new Promise<string>((resolve) => {
-    setTimeout(() => resolve(echo(msg)), Number(timeout))
+  return new Promise<string>((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const result = echo(msg)
+        resolve(result)
+      } catch (error) {
+        reject(error)
+      }
+    }, Number(timeout))
   })
 }
