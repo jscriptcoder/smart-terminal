@@ -134,8 +134,8 @@
   }
 
   .input {
+    flex: 1;
     outline: none;
-    width: 100%;
     margin-left: 0.5rem;
   }
 </style>

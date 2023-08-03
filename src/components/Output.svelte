@@ -22,7 +22,7 @@
     type: TypePrint,
     wrapperElem: HTMLElement = document.createElement('div')
   ) {
-    wrapperElem.classList.add(`output__${type}`)
+    wrapperElem.className = `output__${type}`
 
     switch (type) {
       case TypePrint.PROMPT:
