@@ -7,7 +7,7 @@ function getVariableFromParams(params: string[]) {
   let varName: string | undefined
   const setterIdx = params.findIndex((param) => param.includes('>'))
 
-  if(setterIdx !== -1) {
+  if (setterIdx !== -1) {
     varName = params.slice(setterIdx + 1)[0]
 
     // Removes all elements after the setter, including the setter
@@ -18,17 +18,21 @@ function getVariableFromParams(params: string[]) {
 }
 
 function getArgumentsFromParams(params: string[]) {
-  return params.reduce<ParsedArguments>((acc, param) => {
-    const arg = param.split('=')
-    if (arg.length === 2) { // named argument
-      acc.namedParams = acc.namedParams ?? {}
-      acc.namedParams[arg[0]] = arg[1].replace(/"/g, '')
-    } else {
+  return params.reduce<ParsedArguments>(
+    (acc, param) => {
+      const arg = param.split('=')
+      if (arg.length === 2) {
+        // named argument
+        acc.namedParams = acc.namedParams ?? {}
+        acc.namedParams[arg[0]] = arg[1].replace(/"/g, '')
+      } else {
         acc.params.push(param.replace(/"/g, ''))
-    }
+      }
 
-    return acc
-  }, {params: []})
+      return acc
+    },
+    { params: [] }
+  )
 }
 
 function replaceVariables(args: ParsedArguments, variables: Record<string, unknown>) {
@@ -47,9 +51,7 @@ function replaceVariables(args: ParsedArguments, variables: Record<string, unkno
   })
 
   const namedParams = args.namedParams
-    ? Object
-      .entries(args.namedParams)
-      .reduce<Record<string, unknown>>((acc, [key, value]) => {
+    ? Object.entries(args.namedParams).reduce<Record<string, unknown>>((acc, [key, value]) => {
         if (typeof value === 'string' && value.startsWith('$')) {
           const varName = value.slice(1)
 

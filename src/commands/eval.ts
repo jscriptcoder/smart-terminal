@@ -1,5 +1,5 @@
 export function _eval(strJs: string) {
-    return eval(strJs);
+  return eval(strJs)
 }
 
 export const evalHelp = `
