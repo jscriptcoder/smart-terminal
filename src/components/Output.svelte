@@ -18,7 +18,7 @@
   let outputElem: HTMLElement
 
   export function print(
-    text: string,
+    value: unknown,
     type: TypePrint,
     wrapperElem: HTMLElement = document.createElement('div')
   ) {
@@ -32,13 +32,13 @@
           `<span>${user}</span>`,
           `<span>${SYMBOL}</span>`,
           '</span>',
-          `<div>${text}</div>`
+          `<div>${value}</div>`
         ].join('')
 
         break
       default:
         // TODO: add special cases for other types if needed
-        wrapperElem.innerHTML = text
+        wrapperElem.innerHTML = value as string
     }
 
     outputElem.appendChild(wrapperElem)
@@ -69,7 +69,7 @@
   :global(.output__prompt) {
     display: flex;
     align-items: baseline;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
 
   :global(.output__prompt > span) {

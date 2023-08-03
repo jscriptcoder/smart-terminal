@@ -1,4 +1,7 @@
-import { log, asyncLog, echo, asyncEcho, logHelp, echoHelp } from "./test"
+import { isoDate, now } from "./date"
+import { asyncEcho, echo, echoHelp } from "./echo"
+import { _eval, evalHelp } from "./eval"
+import { asyncLog, log, logHelp } from "./log"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -8,10 +11,9 @@ type CmdFunc = {
   help?: string
 }
 
-const cmd2func: Record<string, CmdFunc> = {
+const cmdFuncMap: Record<string, CmdFunc> = {
   ['log']: {
     exec: log,
-    async: false,
     help: logHelp,
   },
   ['asynclog']: {
@@ -21,14 +23,25 @@ const cmd2func: Record<string, CmdFunc> = {
   },
   ['echo']: {
     exec: echo,
-    async: false,
     help: echoHelp,
   },
   ['asyncecho']: {
     exec: asyncEcho,
     async: true,
     help: "Echos a message asynchronously. Type 'help echo' for more details.",
+  },
+  ['timestamp']: {
+    exec: now,
+    help: "Returns the current date in milliseconds.",
+  },
+  ['now']: {
+    exec: isoDate,
+    help: "Returns the current date in ISO format.",
+  },
+  ['eval']: {
+    exec: _eval,
+    help: evalHelp
   }
 }
 
-export default cmd2func
+export default cmdFuncMap

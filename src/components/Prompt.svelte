@@ -122,7 +122,7 @@
   .Prompt {
     display: flex;
     align-items: baseline;
-    margin-top: 0.5rem;
+    margin-top: 1rem;
   }
 
   .Prompt.hide {

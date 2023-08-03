@@ -1,6 +1,6 @@
 type ParsedArguments = {
-  params: string[]
-  namedParams?: Record<string, string>
+  params: unknown[]
+  namedParams?: Record<string, unknown>
 }
 
 function getVariableFromParams(params: string[]) {
@@ -31,7 +31,46 @@ function getArgumentsFromParams(params: string[]) {
   }, {params: []})
 }
 
-export default function parseCommand(cmd: string) {
+function replaceVariables(args: ParsedArguments, variables: Record<string, unknown>) {
+  const params = args.params.map((param) => {
+    if (typeof param === 'string' && param.startsWith('$')) {
+      const varName = param.slice(1)
+
+      if (!variables[varName]) {
+        throw new Error(`Variable not defined: ${varName}`)
+      }
+
+      return variables[varName]
+    }
+
+    return param
+  })
+
+  const namedParams = args.namedParams
+    ? Object
+      .entries(args.namedParams)
+      .reduce<Record<string, unknown>>((acc, [key, value]) => {
+        if (typeof value === 'string' && value.startsWith('$')) {
+          const varName = value.slice(1)
+
+          if (!variables[varName]) {
+            throw new Error(`Variable not defined: ${varName}`)
+          }
+
+          acc[key] = variables[varName]
+        } else {
+          acc[key] = value
+        }
+
+        return acc
+      }, {})
+    : undefined
+
+  args.params = params
+  args.namedParams = namedParams
+}
+
+export default function parseCommand(cmd: string, variables: Record<string, unknown>) {
   const matches = cmd.match(/("[^"]+"|[^\s"]+)/g)
 
   if (!matches) {
@@ -45,6 +84,9 @@ export default function parseCommand(cmd: string) {
   const varName = getVariableFromParams(params)
 
   const args = getArgumentsFromParams(params)
+
+  // Mutates args, replacing variables with their values
+  replaceVariables(args, variables)
 
   return { funcName, args, varName }
 }

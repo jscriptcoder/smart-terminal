@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import cmd2func from '../commands/cmd2func'
+  import cmdFuncMap from '../commands/cmdFuncMap'
   import parseCommand from '../utils/parseCommand'
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
@@ -9,8 +9,8 @@
   let waiting = false
   let scrollableElem: HTMLElement
 
-  // Store result of commands in memory
-  const memory: Record<string, string> = {}
+  // Store result of commands in variables
+  const variables: Record<string, unknown> = {}
 
   function scrollToBottom() {
     scrollableElem.scrollTop = scrollableElem.scrollHeight
@@ -19,7 +19,7 @@
   async function onCommandSent(event: CustomEvent<string>) {
     let cmd = event.detail
 
-    const parsedCmd = parseCommand(cmd)
+    const parsedCmd = parseCommand(cmd, variables)
 
     if (!cmd.startsWith('__')) {
       // Do not print back commands starting with '__'
@@ -27,16 +27,16 @@
     }
 
     let wrapper: HTMLElement | undefined
-    let result: string
+    let result: unknown
 
     try {
       console.log('Parsed command:', parsedCmd)
 
-      if (parsedCmd.varName && cmd2func[parsedCmd.varName]) {
+      if (parsedCmd.varName && cmdFuncMap[parsedCmd.varName]) {
         throw new Error(`Variable clashes with an existing command: ${parsedCmd.varName}`)
       }
 
-      const func = cmd2func[parsedCmd.funcName]
+      const func = cmdFuncMap[parsedCmd.funcName]
 
       if (func) {
         // We have a function for this command
@@ -54,16 +54,16 @@
 
         // Do we have variable to store the result?
         if (parsedCmd.varName) {
-          memory[parsedCmd.varName] = result
+          variables[parsedCmd.varName] = result
 
-          console.log('Memory:', memory)
+          console.log('Variables:', variables)
         }
-      } else if (!memory[parsedCmd.funcName]) {
+      } else if (!variables[parsedCmd.funcName]) {
         // Neither function nor variable found
         throw new Error(`Command not found: ${parsedCmd.funcName}`)
       } else {
         // We have a variable with this name
-        result = memory[parsedCmd.funcName]
+        result = variables[parsedCmd.funcName]
       }
 
       output.print(result, TypePrint.INFO, wrapper)
@@ -78,15 +78,16 @@
   }
 
   // Do not show commands starting with '__'. Those are special commands
-  $: cmds = Object.keys(cmd2func).filter((cmd) => !cmd.startsWith('__'))
-  $: vars = Object.keys(memory)
+  $: cmds = Object.keys(cmdFuncMap).filter((cmd) => !cmd.startsWith('__'))
+  $: vars = Object.keys(variables)
 
   // List of available commands and variables
   $: utils = [...cmds, ...vars].sort()
 
   onMount(() => {
     // Internal commands
-    cmd2func['__tab'] = {
+
+    cmdFuncMap['__tab'] = {
       // Executes when the user inputs something and presses tab
       // showing the list of matching commands and variables
       exec: (input: string, ...matches: string[]) => {
@@ -95,7 +96,7 @@
       }
     }
 
-    cmd2func['clear'] = {
+    cmdFuncMap['clear'] = {
       exec: () => {
         output.clear()
         return ''
@@ -103,13 +104,13 @@
       help: 'Clear the terminal'
     }
 
-    cmd2func['help'] = {
+    cmdFuncMap['help'] = {
       exec: (cmd?: string) => {
         if (!cmd) {
           return cmds.sort().join(', ')
         }
 
-        const func = cmd2func[cmd]
+        const func = cmdFuncMap[cmd]
 
         if (!func) throw new Error(`Command not found: ${cmd}`)
         if (!func.help) throw new Error(`No help found for command: ${cmd}`)
