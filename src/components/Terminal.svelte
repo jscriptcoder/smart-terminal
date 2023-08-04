@@ -68,7 +68,16 @@
 
       output.print(result, TypePrint.INFO, wrapper)
     } catch (error) {
-      const { message } = error as Error
+      console.error(error)
+
+      let message: string
+
+      if (error instanceof Error) {
+        message = error.message
+      } else {
+        message = error as string
+      }
+
       output.print(message, TypePrint.ERROR, wrapper)
     } finally {
       waiting = false

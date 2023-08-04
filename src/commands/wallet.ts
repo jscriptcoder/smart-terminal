@@ -24,6 +24,16 @@ const optionsMap: Record<Option, OpenOptions['route']> = {
 }
 
 export function wallet(option?: Option) {
+  const options: OpenOptions | undefined = option 
+    ? { route: optionsMap[option] }
+    : undefined
+
+  // If we have passed an option, but it's none of the valid ones
+  // then we throw an error
+  if(options && !options.route) {
+    return Promise.reject(`Invalid wallet option: ${option}. Type "help wallet" for more details.`)
+  }
+
   const deferred = new Deferred();
   let $account = get(account)
 
@@ -53,10 +63,6 @@ export function wallet(option?: Option) {
     }
   })
 
-  const options: OpenOptions | undefined = option 
-    ? { route: optionsMap[option] }
-    : undefined
-
   walletProvider.openModal(options);
 
   return deferred.promise;
@@ -71,13 +77,3 @@ option:<br>
 - help: opens the help modal<br>
 - network: opens the select network modal<br>
 `
-
-export function myAddress() {
-  const $account = get(account)
-
-  if(!$account?.isConnected) {
-    return 'Wallet not connected.'
-  }
-
-  return $account.address
-}

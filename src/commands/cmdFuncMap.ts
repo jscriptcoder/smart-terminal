@@ -2,7 +2,8 @@ import { isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
 import { asyncLog, log, logHelp } from './log'
-import { myAddress, wallet, walletHelp } from './web3modal'
+import { wallet, walletHelp } from './wallet'
+import { getAddress, getBalance } from './web3actions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -48,9 +49,14 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     async: true,
     help: walletHelp
   },
-  ['myaddress']: {
-    exec: myAddress,
+  ['address']: {
+    exec: getAddress,
     help: 'Returns the current wallet address.'
+  },
+  ['balance']: {
+    exec: getBalance,
+    async: true,
+    help: 'Returns the current wallet balance.'
   }
 }
 
