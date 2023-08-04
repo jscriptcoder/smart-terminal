@@ -1,6 +1,7 @@
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
+import { jsonPre, jsonPreHelp } from './json'
 import { asyncLog, log, logHelp } from './log'
 import { wallet, walletHelp } from './wallet'
 import { getAddress, getBalance, getBalanceHelp } from './web3actions'
@@ -29,7 +30,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['set']: { // makes more sense than 'echo' for setting a variable
     exec: echo,
-    help: 'Sets a variable: set value > varName'
+    help: 'Sets a variable.<br>Usage: set value > varName'
   },
   ['asyncecho']: {
     exec: asyncEcho,
@@ -65,6 +66,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: getBalance,
     async: true,
     help: getBalanceHelp
+  },
+  ['json']: {
+    exec: jsonPre,
+    help: jsonPreHelp
   }
 }
 

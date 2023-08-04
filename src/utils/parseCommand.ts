@@ -5,7 +5,7 @@ type ParsedArguments = {
 
 function getVariableFromParams(params: string[]) {
   let varName: string | undefined
-  const setterIdx = params.findIndex((param) => param.includes('>'))
+  const setterIdx = params.findIndex((param) => param === '>')
 
   if (setterIdx !== -1) {
     varName = params.slice(setterIdx + 1)[0]
