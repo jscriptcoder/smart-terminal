@@ -54,7 +54,27 @@
 
         // Do we have variable to store the result?
         if (parsedCmd.varName) {
-          variables[parsedCmd.varName] = result
+          switch (true) {
+            case Boolean(cmd.match(/\s>\s/)):
+              // We are setting a variable
+              variables[parsedCmd.varName] = result
+              break
+            case Boolean(cmd.match(/\s>>\s/)):
+              // We are appending into an array or inserting into an object new properties
+              const variable = variables[parsedCmd.varName]
+
+              if (Array.isArray(variable)) {
+                variable.push(result) // insert the new value at the end
+              } else if (typeof variable === 'object' && typeof result === 'object') {
+                variables[parsedCmd.varName] = { ...variable, ...result } // add the new properties
+              } else {
+                throw new Error(`Cannot add to variable: ${parsedCmd.varName}`)
+              }
+
+              break
+            default:
+              throw new Error(`Invalid assignment operator: ${cmd}`)
+          }
 
           console.log('Variables:', variables)
         }
@@ -140,6 +160,8 @@
     <Prompt on:command={onCommandSent} hide={waiting} {utils} />
   </div>
 </div>
+
+<input type="file" accept="application/json" />
 
 <style>
   /*
