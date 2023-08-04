@@ -7,8 +7,7 @@ export function log(msg: string) {
 
 export const logHelp = `
 Logs a value in the console.<br>
-Usage: log value
-`
+Usage: log value`
 
 export function asyncLog(msg: string, timeout = '3000') {
   return new Promise<string>((resolve, reject) => {

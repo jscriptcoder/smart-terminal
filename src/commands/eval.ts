@@ -5,6 +5,5 @@ export function _eval(strJs: string) {
 export const evalHelp = `
 Evaluates a JavaScript expression.<br>
 Usage:<br>
-- eval expression<br>
-- eval expression > varName
-`
+* eval expression<br>
+* eval expression > varName - sending the result to a variable for later use`

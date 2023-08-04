@@ -23,15 +23,22 @@ export function getAddress() {
   return $account.address
 }
 
-export async function getBalance(args: GetBalanceArgs) {
-  if (!args?.address) {
-    throw new Error('Address is required. Type "help balance" for more details.')
-  }
-
+export async function getBalance(args?: GetBalanceArgs) {
   const $account = get(account)
 
   if(!$account?.isConnected) {
     throw new Error('Wallet not connected.')
+  }
+
+  if (!args?.address) {
+    const $account = get(account)
+
+    // If no address is passed, we use the current wallet address
+    if($account.address) {
+      args = { ...args, address: $account.address }
+    } else {
+      throw new Error('Address is required. Type "help balance" for more details.')
+    }
   }
 
   try {
@@ -43,3 +50,12 @@ export async function getBalance(args: GetBalanceArgs) {
     throw new Error('Error fetching balance.', { cause: error })
   }
 }
+
+export const getBalanceHelp = `
+Returns the balance.<br>
+Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]<br>
+params:<br>
+* address - Address of balance to get back. Defaults to connected wallet<br>
+* chainId - Chain to get the balance from<br>
+* formatUnits: ether | gwei | wei - Units for formatting output<br>
+* token - ERC20 address`

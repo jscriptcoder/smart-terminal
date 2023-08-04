@@ -1,9 +1,9 @@
-import { isoDate, now } from './date'
+import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
 import { asyncLog, log, logHelp } from './log'
 import { wallet, walletHelp } from './wallet'
-import { getAddress, getBalance } from './web3actions'
+import { getAddress, getBalance, getBalanceHelp } from './web3actions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -21,22 +21,30 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['asynclog']: {
     exec: asyncLog,
     async: true,
-    help: "Logs a message asynchronously. Type 'help log' for more details."
+    help: 'Logs a message asynchronously. Type "help log" for more details.'
   },
   ['echo']: {
     exec: echo,
     help: echoHelp
   },
+  ['set']: { // makes more sense than 'echo' for setting a variable
+    exec: echo,
+    help: 'Sets a variable: set value > varName'
+  },
   ['asyncecho']: {
     exec: asyncEcho,
     async: true,
-    help: "Echos a message asynchronously. Type 'help echo' for more details."
+    help: 'Echos a message asynchronously. Type "help echo" for more details.'
   },
-  ['timestamp']: {
+  ['now']: {
     exec: now,
     help: 'Returns the current date in milliseconds.'
   },
-  ['now']: {
+  ['date']: {
+    exec: date,
+    help: 'Returns the current date in a human readable format.'
+  },
+  ['isodate']: {
     exec: isoDate,
     help: 'Returns the current date in ISO format.'
   },
@@ -56,7 +64,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['balance']: {
     exec: getBalance,
     async: true,
-    help: 'Returns the current wallet balance.'
+    help: getBalanceHelp
   }
 }
 

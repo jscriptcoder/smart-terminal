@@ -72,8 +72,7 @@ export const walletHelp = `
 Connects your wallet or opens the wallet modal if already connected.<br>
 Usage: wallet [option]<br>
 option:<br>
-- account: opens the account modal<br>
-- connect: opens the connect wallet modal<br>
-- help: opens the help modal<br>
-- network: opens the select network modal<br>
-`
+* account - opens the account modal<br>
+* connect - opens the connect wallet modal<br>
+* help - opens the help modal<br>
+* network - opens the select network modal<br>`
