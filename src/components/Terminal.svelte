@@ -58,6 +58,7 @@
             case Boolean(cmd.match(/\s>\s/)):
               // We are setting a variable
               variables[parsedCmd.varName] = result
+
               break
             case Boolean(cmd.match(/\s>>\s/)):
               // We are appending into an array or inserting into an object new properties
@@ -179,7 +180,8 @@
     overflow: hidden;
     padding: 0 2rem;
     color: white;
-    font: 1.2rem monospace;
+    font-family: monospace;
+    font-size: 1.2rem;
     text-shadow: 0 0 5px rgb(200 200 200);
   }
 
