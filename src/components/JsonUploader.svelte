@@ -30,8 +30,6 @@
       const json = JSON.parse(target.result as string)
       console.log('JSON loaded: ', json)
 
-      inputFile.value = ''
-
       deferredJson.resolve(json)
     }
 
@@ -39,11 +37,18 @@
   }
 
   function onWindowFocus() {
-    if (inputFile.value === '') {
-      deferredJson.reject(new Error('File selection canceled.'))
-    } else {
-      inputFile.value = ''
-    }
+    // This is hacky, but I'm not sure a better way to find out
+    // whether the user has canceled the file selection or not.
+    // This event is triggered before the onJsonLoaderChange event,
+    // and even needs some time before running the check
+    // TODO: do we have a better way to check this?
+    setTimeout(() => {
+      if (inputFile.value === '') {
+        deferredJson.reject(new Error('File selection canceled.'))
+      } else {
+        inputFile.value = ''
+      }
+    }, 500)
 
     window.removeEventListener('focus', onWindowFocus)
   }
@@ -66,6 +71,8 @@
         'Usage: loadjson > objVar - sending the parsed json into a variable'
       ].join('<br>')
     }
+
+    inputFile.addEventListener('change', onJsonLoaderChange)
   })
 
   onDestroy(() => {
