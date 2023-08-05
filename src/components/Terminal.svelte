@@ -163,7 +163,7 @@
         output.clear()
         return ''
       },
-      help: 'Clear the terminal'
+      help: 'Clear the terminal.'
     }
 
     cmdFuncMap['help'] = {
