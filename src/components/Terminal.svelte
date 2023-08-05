@@ -7,6 +7,7 @@
   } from '../utils/parseCommand'
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
+  import JsonUploader from './JsonUploader.svelte'
 
   let output: Output
   let waiting = false
@@ -194,7 +195,7 @@
   </div>
 </div>
 
-<input type="file" accept="application/json" />
+<JsonUploader />
 
 <style>
   /*
