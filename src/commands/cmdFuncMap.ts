@@ -10,7 +10,6 @@ import { getAddress, getBalance, getBalanceHelp } from './web3actions'
 type AnyFunc = (...args: any[]) => any
 type CmdFunc = {
   exec: AnyFunc
-  async?: boolean
   help?: string
 }
 
@@ -21,7 +20,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['asynclog']: {
     exec: asyncLog,
-    async: true,
     help: 'Logs a message asynchronously. Type "help log" for more details.'
   },
   ['echo']: {
@@ -34,7 +32,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['asyncecho']: {
     exec: asyncEcho,
-    async: true,
     help: 'Echos a message asynchronously. Type "help echo" for more details.'
   },
   ['now']: {
@@ -55,7 +52,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['wallet']: {
     exec: wallet,
-    async: true,
     help: walletHelp
   },
   ['address']: {
@@ -64,7 +60,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['balance']: {
     exec: getBalance,
-    async: true,
     help: getBalanceHelp
   },
   ['json']: {

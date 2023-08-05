@@ -1,7 +1,10 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import cmdFuncMap from '../commands/cmdFuncMap'
-  import parseCommand from '../utils/parseCommand'
+  import parseCommand, {
+    type ParseCommandResult,
+    type ParsedArguments
+  } from '../utils/parseCommand'
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
 
@@ -16,6 +19,52 @@
     scrollableElem.scrollTop = scrollableElem.scrollHeight
   }
 
+  async function executeSingleCommand(
+    funcName: string,
+    args: ParsedArguments,
+    lastResult: unknown
+  ) {
+    const cmdFunc = cmdFuncMap[funcName]
+
+    // We first check if the command is a built-in function.
+    // If not, we check if it is a variable
+    const func = cmdFunc?.exec ?? variables[funcName]
+
+    let result: unknown
+
+    if (typeof func === 'function') {
+      // We have a function for this command
+      const { params, namedParams } = args
+
+      if (typeof lastResult !== 'undefined') {
+        // Append the result of the previous command to the params
+        // TODO: how to handle named params here?
+        params.push(lastResult)
+      }
+
+      result = await func(...params, namedParams)
+    } else if (variables[funcName]) {
+      // We actually have a value stored in a variable with this name
+      result = variables[funcName]
+    } else {
+      // Neither function nor variable found
+      throw new Error(`Command not found: ${funcName}`)
+    }
+
+    return result
+  }
+
+  async function executeCommand(commands: ParseCommandResult['commands']) {
+    // Async reduce. Keep in mind that the accumulative result is a promise
+    return commands.reduce<Promise<unknown>>(async (promiseLastResult, command) => {
+      const lastResult = await promiseLastResult
+
+      const { funcName, args } = command
+
+      return executeSingleCommand(funcName, args, lastResult)
+    }, Promise.resolve(undefined))
+  }
+
   async function onCommandSent(event: CustomEvent<string>) {
     let cmd = event.detail
 
@@ -26,8 +75,8 @@
       output.print(cmd, TypePrint.PROMPT)
     }
 
-    let wrapper: HTMLElement | undefined
-    let result: unknown
+    waiting = true
+    let wrapper = output.print('Executing', TypePrint.WAIT)
 
     try {
       console.log('Parsed command:', parsedCmd)
@@ -36,55 +85,38 @@
         throw new Error(`Variable clashes with an existing command: ${parsedCmd.varName}`)
       }
 
-      const func = cmdFuncMap[parsedCmd.funcName]
+      const { commands, varName } = parsedCmd
 
-      if (func) {
-        // We have a function for this command
-        const { params, namedParams } = parsedCmd.args
+      const result = await executeCommand(commands)
 
-        if (func.async) {
-          // We show a loading indicator while the command is running
-          waiting = true
-          wrapper = output.print('Running command', TypePrint.WAIT)
+      console.log('Result:', result)
 
-          result = await func.exec(...params, namedParams)
-        } else {
-          result = func.exec(...params, namedParams)
+      // Do we have variable to store the result?
+      if (varName) {
+        switch (true) {
+          case Boolean(cmd.match(/\s+>\s+/)):
+            // We are setting a variable
+            variables[parsedCmd.varName] = result
+
+            break
+          case Boolean(cmd.match(/\s+>>\s+/)):
+            // We are appending into an array or inserting into an object new properties
+            const variable = variables[parsedCmd.varName]
+
+            if (Array.isArray(variable)) {
+              variable.push(result) // insert the new value at the end
+            } else if (typeof variable === 'object' && typeof result === 'object') {
+              variables[parsedCmd.varName] = { ...variable, ...result } // add the new properties
+            } else {
+              throw new Error(`Cannot add to variable: ${parsedCmd.varName}`)
+            }
+
+            break
+          default:
+            throw new Error(`Invalid assignment operator: ${cmd}`)
         }
 
-        // Do we have variable to store the result?
-        if (parsedCmd.varName) {
-          switch (true) {
-            case Boolean(cmd.match(/\s>\s/)):
-              // We are setting a variable
-              variables[parsedCmd.varName] = result
-
-              break
-            case Boolean(cmd.match(/\s>>\s/)):
-              // We are appending into an array or inserting into an object new properties
-              const variable = variables[parsedCmd.varName]
-
-              if (Array.isArray(variable)) {
-                variable.push(result) // insert the new value at the end
-              } else if (typeof variable === 'object' && typeof result === 'object') {
-                variables[parsedCmd.varName] = { ...variable, ...result } // add the new properties
-              } else {
-                throw new Error(`Cannot add to variable: ${parsedCmd.varName}`)
-              }
-
-              break
-            default:
-              throw new Error(`Invalid assignment operator: ${cmd}`)
-          }
-
-          console.log('Variables:', variables)
-        }
-      } else if (!variables[parsedCmd.funcName]) {
-        // Neither function nor variable found
-        throw new Error(`Command not found: ${parsedCmd.funcName}`)
-      } else {
-        // We have a variable with this name
-        result = variables[parsedCmd.funcName]
+        console.log('Variables:', variables)
       }
 
       output.print(result, TypePrint.INFO, wrapper)
