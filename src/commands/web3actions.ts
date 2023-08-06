@@ -1,18 +1,18 @@
-import { get } from "svelte/store";
-import { account } from "../stores";
-import { fetchBalance, type Address, type Unit, getNetwork } from "@wagmi/core";
-import checkConnected from "../utils/checkConnected";
+import { get } from 'svelte/store'
+import { account } from '../stores'
+import { fetchBalance, type Address, type Unit, getNetwork } from '@wagmi/core'
+import checkConnected from '../utils/checkConnected'
 
 type GetBalanceArgs = {
   // Address of balance to check
-  address: Address;
+  address: Address
   // Chain id to use for Public Client
-  chainId?: number;
+  chainId?: number
   // Units for formatting output
-  formatUnits?: Unit;
+  formatUnits?: Unit
   // ERC-20 address
-  token?: Address;
-};
+  token?: Address
+}
 
 export function getAddress() {
   const $account = checkConnected()
@@ -26,7 +26,7 @@ export async function getBalance(args?: GetBalanceArgs) {
     const $account = get(account)
 
     // If no address is passed, we use the current wallet address
-    if($account.address) {
+    if ($account.address) {
       args = { ...args, address: $account.address }
     } else {
       throw new Error('Address is required. Type "help balance" for more details.')
@@ -61,7 +61,7 @@ export function supportedChains() {
 
 export function connectedChain() {
   checkConnected()
-  
+
   const network = getNetwork()
   return network.chain
 }

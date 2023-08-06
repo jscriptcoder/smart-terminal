@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-static'
 import { vitePreprocess } from '@sveltejs/kit/vite'
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -10,8 +10,8 @@ const config = {
   kit: {
     // https://kit.svelte.dev/docs/single-page-apps
     adapter: adapter({
-      fallback: 'index.html',
-    }),
+      fallback: 'index.html'
+    })
   }
 }
 

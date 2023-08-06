@@ -1,8 +1,8 @@
-import { get } from "svelte/store";
-import { account } from "../stores";
-import Deferred from "../utils/Deferred";
-import walletProvider from "../web3/walletProvider";
-import { tick } from "svelte";
+import { get } from 'svelte/store'
+import { account } from '../stores'
+import Deferred from '../utils/Deferred'
+import walletProvider from '../web3/walletProvider'
+import { tick } from 'svelte'
 
 type ModalState = {
   open: boolean
@@ -24,48 +24,46 @@ const optionsMap: Record<Option, OpenOptions['route']> = {
 }
 
 export function wallet(option?: Option) {
-  const options: OpenOptions | undefined = option 
-    ? { route: optionsMap[option] }
-    : undefined
+  const options: OpenOptions | undefined = option ? { route: optionsMap[option] } : undefined
 
   // If we have passed an option, but it's none of the valid ones
   // then we throw an error
-  if(options && !options.route) {
+  if (options && !options.route) {
     return Promise.reject(`Invalid wallet option: ${option}. Type "help wallet" for more details.`)
   }
 
-  const deferred = new Deferred();
+  const deferred = new Deferred()
   let $account = get(account)
 
   // State of the wallet before the modal was opened
-  const walletWasConnected = $account ? $account.isConnected : false;
+  const walletWasConnected = $account ? $account.isConnected : false
 
   const unsubscribeModal = walletProvider.subscribeModal(({ open }: ModalState) => {
     if (!open) {
       // Closing the modal, we can unsubscribe now
-      unsubscribeModal();
+      unsubscribeModal()
 
       // Wait for the account to be updated in order to show the correct message
       tick().then(() => {
         $account = get(account)
 
         // The state of the wallet after the modal was closed
-        const walletIsConnected = $account ? $account.isConnected : false;
+        const walletIsConnected = $account ? $account.isConnected : false
 
-        if(!walletWasConnected && walletIsConnected) {
-          deferred.resolve('Wallet connected.');
+        if (!walletWasConnected && walletIsConnected) {
+          deferred.resolve('Wallet connected.')
         } else if (walletWasConnected && !walletIsConnected) {
-          deferred.resolve('Wallet disconnected.');
+          deferred.resolve('Wallet disconnected.')
         } else {
-          deferred.resolve('');
+          deferred.resolve('')
         }
       })
     }
   })
 
-  walletProvider.openModal(options);
+  walletProvider.openModal(options)
 
-  return deferred.promise;
+  return deferred.promise
 }
 
 export const walletHelp = `

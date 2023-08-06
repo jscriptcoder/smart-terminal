@@ -1,14 +1,13 @@
-import { readContract as wagmiReadContract, writeContract as wagmiWriteContract } from "@wagmi/core";
-import checkConnected from "../utils/checkConnected";
-import type { Abi, Address } from "viem";
+import { readContract as wagmiReadContract, writeContract as wagmiWriteContract } from '@wagmi/core'
+import checkConnected from '../utils/checkConnected'
+import type { Abi, Address } from 'viem'
 
 type ContractOptions = {
-  abi: Abi;
-  address: Address;
-  functionName: string;
-  chainId?: number;
+  abi: Abi
+  address: Address
+  functionName: string
+  chainId?: number
 }
-
 
 export function readContract(options: ContractOptions) {
   checkConnected()
@@ -26,7 +25,7 @@ Params:<br>
 
 export function writeContract(options: ContractOptions) {
   checkConnected()
-  return wagmiWriteContract({...options})
+  return wagmiWriteContract({ ...options })
 }
 
 export const writeContractHelp = `

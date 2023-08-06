@@ -5,7 +5,13 @@ import { _eval, evalHelp } from './eval'
 import { jsonPre, jsonPreHelp } from './json'
 import { asyncLog, log, logHelp } from './log'
 import { wallet, walletHelp } from './wallet'
-import { connectedChain, getAddress, getBalance, getBalanceHelp, supportedChains } from './web3actions'
+import {
+  connectedChain,
+  getAddress,
+  getBalance,
+  getBalanceHelp,
+  supportedChains
+} from './web3actions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -27,7 +33,8 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: echo,
     help: echoHelp
   },
-  ['set']: { // makes more sense than 'echo' for setting a variable
+  ['set']: {
+    // makes more sense than 'echo' for setting a variable
     exec: echo,
     help: 'Sets a variable.<br>Usage: set value > varName'
   },
