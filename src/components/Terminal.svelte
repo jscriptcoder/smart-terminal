@@ -47,6 +47,24 @@
     } else if (variables[funcName]) {
       // We actually have a value stored in a variable with this name
       result = variables[funcName]
+
+      if (result && typeof result === 'object' && args.params.length > 0) {
+        // We are trying to access properties of an object.
+        // Let's build another object with only those properties
+        // and return it back to the user
+        const props = args.params as string[]
+
+        const newResult = props.reduce((acc, propName) => {
+          // I found a very strange error here where `result` is still
+          // type unknown only inside the reduce function, hence @ts-ignore
+          // TODO: need to investigate this. Maybe a bug in TS?
+          // @ts-ignore
+          acc[propName] = result[propName]
+          return acc
+        }, {} as Record<string, unknown>)
+
+        result = newResult
+      }
     } else {
       // Neither function nor variable found
       throw new Error(`Command not found: ${funcName}`)

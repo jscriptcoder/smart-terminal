@@ -4,7 +4,7 @@ import { _eval, evalHelp } from './eval'
 import { jsonPre, jsonPreHelp } from './json'
 import { asyncLog, log, logHelp } from './log'
 import { wallet, walletHelp } from './wallet'
-import { getAddress, getBalance, getBalanceHelp } from './web3actions'
+import { connectedChain, getAddress, getBalance, getBalanceHelp, supportedChains } from './web3actions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -18,7 +18,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: log,
     help: logHelp
   },
-  ['asynclog']: {
+  ['asyncLog']: {
     exec: asyncLog,
     help: 'Logs a message asynchronously. Type "help log" for more details.'
   },
@@ -30,7 +30,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: echo,
     help: 'Sets a variable.<br>Usage: set value > varName'
   },
-  ['asyncecho']: {
+  ['asyncEcho']: {
     exec: asyncEcho,
     help: 'Echos a message asynchronously. Type "help echo" for more details.'
   },
@@ -42,7 +42,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: date,
     help: 'Returns the current date in a human readable format.'
   },
-  ['isodate']: {
+  ['isoDate']: {
     exec: isoDate,
     help: 'Returns the current date in ISO format.'
   },
@@ -65,6 +65,14 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['json']: {
     exec: jsonPre,
     help: jsonPreHelp
+  },
+  ['supportedChains']: {
+    exec: supportedChains,
+    help: 'Returns an array of supported chains.'
+  },
+  ['connectedChain']: {
+    exec: connectedChain,
+    help: 'Returns the chain we are currently connected to.'
   }
 }
 
