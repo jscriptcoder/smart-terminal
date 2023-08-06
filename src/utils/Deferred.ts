@@ -1,6 +1,6 @@
-import { noop } from "./noop";
+import noop from "./noop";
 
-export class Deferred<T> {
+export default class Deferred<T> {
   public promise: Promise<T>;
   public resolve: (value: T | PromiseLike<T>) => void = noop;
   public reject: (reason?: unknown) => void = noop;

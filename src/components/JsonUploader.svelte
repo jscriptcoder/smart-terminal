@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte'
   import cmdFuncMap from '../commands/cmdFuncMap'
-  import { Deferred } from '../utils/Deferred'
+  import Deferred from '../utils/Deferred'
 
   let inputFile: HTMLInputElement
   let deferredJson: Deferred<unknown>

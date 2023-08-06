@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { account } from "../stores";
-import { Deferred } from "../utils/Deferred";
-import { walletProvider } from "../web3/walletProvider";
+import Deferred from "../utils/Deferred";
+import walletProvider from "../web3/walletProvider";
 import { tick } from "svelte";
 
 type ModalState = {

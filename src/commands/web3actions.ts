@@ -1,6 +1,7 @@
 import { get } from "svelte/store";
 import { account } from "../stores";
 import { fetchBalance, type Address, type Unit, getNetwork } from "@wagmi/core";
+import checkConnected from "../utils/checkConnected";
 
 type GetBalanceArgs = {
   // Address of balance to check
@@ -12,16 +13,6 @@ type GetBalanceArgs = {
   // ERC-20 address
   token?: Address;
 };
-
-function checkConnected() {
-  const $account = get(account)
-
-  if(!$account?.isConnected) {
-    throw new Error('Wallet not connected.')
-  }
-
-  return $account
-}
 
 export function getAddress() {
   const $account = checkConnected()

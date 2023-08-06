@@ -7,6 +7,7 @@
   import type { Address } from 'viem'
   import { account } from '../stores/account'
   import shortenAddress from '../utils/shortenAddress'
+  import noop from '../utils/noop'
 
   const dispatch = createEventDispatcher<{ command: string }>()
 
@@ -101,16 +102,22 @@
 
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
-    document.addEventListener('click', focusInput)
+    // document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
-    document.removeEventListener('click', focusInput)
+    // document.removeEventListener('click', focusInput)
   })
 </script>
 
-<div class="Prompt {hide ? 'hide' : ''}">
+<div
+  role="button"
+  tabindex="0"
+  class="Prompt {hide ? 'hide' : ''}"
+  on:click={focusInput}
+  on:keypress={noop}
+>
   <span>
     <span>{user}</span>
     <span>{SYMBOL}</span>
@@ -123,6 +130,7 @@
     display: flex;
     align-items: baseline;
     margin-top: 1rem;
+    cursor: pointer;
   }
 
   .Prompt.hide {

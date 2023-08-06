@@ -7,7 +7,7 @@ const projectId = PUBLIC_WALLET_CONNECT_PROJECT_ID
 
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
-export const walletProvider = new Web3Modal({
+const walletProvider = new Web3Modal({
   projectId,
   themeVariables: {
     '--w3m-font-family': 'monospace',
@@ -22,3 +22,5 @@ export const walletProvider = new Web3Modal({
     '--w3m-color-bg-1': 'rgba(0, 0, 0, 0.5)',
   },
 }, ethereumClient)
+
+export default walletProvider
