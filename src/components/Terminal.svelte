@@ -54,16 +54,33 @@
         // and return it back to the user
         const props = args.params as string[]
 
-        const newResult = props.reduce((acc, propName) => {
-          // I found a very strange error here where `result` is still
-          // type unknown only inside the reduce function, hence @ts-ignore
-          // TODO: need to investigate this. Maybe a bug in TS?
-          // @ts-ignore
-          acc[propName] = result[propName]
-          return acc
-        }, {} as Record<string, unknown>)
+        if (Array.isArray(result)) {
+          // We create an array of empty objects, as many as the length of result
+          const initialValue = Array(result.length).fill({}) as Record<string, unknown>[]
 
-        result = newResult
+          // The idea here is to return in an array of objects with only the properties
+          // that the user requested
+          result = props.reduce((acc, propName) => {
+            // I found a very strange error here where `result` is still
+            // type unknown inside the map/reduce function, hence @ts-ignore
+            // TODO: need to investigate this. Maybe a bug in TS?
+
+            acc = acc.map((obj, i) => {
+              // @ts-ignore
+              return { ...obj, [propName]: result[i][propName] }
+            })
+
+            return acc
+          }, initialValue)
+        } else {
+          // Returns an object with only the requested properties
+          result = props.reduce((acc, propName) => {
+            // @ts-ignore
+            acc[propName] = result[propName]
+
+            return acc
+          }, {} as Record<string, unknown>)
+        }
       }
     } else {
       // Neither function nor variable found
