@@ -55,31 +55,39 @@
         const props = args.params as string[]
 
         if (Array.isArray(result)) {
-          // We create an array of empty objects, as many as the length of result
-          const initialValue = Array(result.length).fill({}) as Record<string, unknown>[]
+          const records = result as Record<string, unknown>[]
 
-          // The idea here is to return in an array of objects with only the properties
-          // that the user requested
-          result = props.reduce((acc, propName) => {
-            // I found a very strange error here where `result` is still
-            // type unknown inside the map/reduce function, hence @ts-ignore
-            // TODO: need to investigate this. Maybe a bug in TS?
+          if (props.length === 1) {
+            // There is only one property, so we return an array of values
+            result = records.map((record) => record[props[0]])
+          } else {
+            // We create an array of empty objects, as many as the length of result
+            const initialValue = Array(result.length).fill({}) as Record<string, unknown>[]
 
-            acc = acc.map((obj, i) => {
-              // @ts-ignore
-              return { ...obj, [propName]: result[i][propName] }
-            })
+            // The idea here is to return in an array of objects with only the properties
+            // that the user requested
+            result = props.reduce((acc, propName) => {
+              acc = acc.map((obj, i) => {
+                return { ...obj, [propName]: records[i][propName] }
+              })
 
-            return acc
-          }, initialValue)
+              return acc
+            }, initialValue)
+          }
         } else {
           // Returns an object with only the requested properties
-          result = props.reduce((acc, propName) => {
-            // @ts-ignore
-            acc[propName] = result[propName]
 
-            return acc
-          }, {} as Record<string, unknown>)
+          const record = result as Record<string, unknown>
+
+          if (props.length === 1) {
+            // There is only one property, so we return the value
+            result = record[props[0]]
+          } else {
+            result = props.reduce((acc, propName) => {
+              acc[propName] = record[propName]
+              return acc
+            }, {} as Record<string, unknown>)
+          }
         }
       }
     } else {

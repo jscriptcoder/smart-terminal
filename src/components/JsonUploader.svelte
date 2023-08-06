@@ -54,7 +54,7 @@
   }
 
   onMount(() => {
-    cmdFuncMap['loadjson'] = {
+    cmdFuncMap['loadJson'] = {
       exec: () => {
         inputFile.click()
 
