@@ -46,7 +46,7 @@ export async function getBalance(args?: GetBalanceArgs) {
 export const getBalanceHelp = `
 Returns the balance.<br>
 Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]<br>
-params:<br>
+Params:<br>
 * address - Address of balance to get back. Defaults to connected wallet<br>
 * chainId - Chain to get the balance from<br>
 * formatUnits: ether | gwei | wei - Units for formatting output<br>

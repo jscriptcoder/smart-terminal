@@ -1,3 +1,4 @@
+import { readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
@@ -73,6 +74,14 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['connectedChain']: {
     exec: connectedChain,
     help: 'Returns the chain we are currently connected to.'
+  },
+  ['readContract']: {
+    exec: readContract,
+    help: readContractHelp
+  },
+  ['writeContract']: {
+    exec: writeContract,
+    help: writeContractHelp
   }
 }
 

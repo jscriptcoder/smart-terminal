@@ -68,7 +68,7 @@
       },
       help: [
         'Load a JSON file.',
-        'Usage: loadjson > objVar - sending the parsed json into a variable'
+        'Usage: loadJson > objVar - sending the parsed json into a variable'
       ].join('<br>')
     }
 
