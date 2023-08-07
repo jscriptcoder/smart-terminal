@@ -2,8 +2,8 @@ import { readContract, readContractHelp, writeContract, writeContractHelp } from
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
-import { jsonPre, jsonPreHelp } from './json'
 import { asyncLog, log, logHelp } from './log'
+import { inspect, inspectHelp } from './object'
 import { wallet, walletHelp } from './wallet'
 import {
   connectedChain,
@@ -70,9 +70,17 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: getBalance,
     help: getBalanceHelp
   },
-  ['json']: {
-    exec: jsonPre,
-    help: jsonPreHelp
+  ['keys']: {
+    exec: Object.keys,
+    help: 'Returns the keys of an object.'
+  },
+  ['values']: {
+    exec: Object.values,
+    help: 'Returns the values of an object.'
+  },
+  ['inspect']: {
+    exec: inspect,
+    help: inspectHelp
   },
   ['supportedChains']: {
     exec: supportedChains,

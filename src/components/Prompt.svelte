@@ -9,10 +9,17 @@
   import shortenAddress from '../utils/shortenAddress'
   import noop from '../utils/noop'
 
-  const dispatch = createEventDispatcher<{ command: string }>()
+  const dispatch = createEventDispatcher<{
+    command: string | undefined
+    tab: {
+      input: string
+      matches: string[]
+    }
+  }>()
 
   export let hide = false
-  export let utils: string[] = []
+  export let cmds: string[] = []
+  export let vars: string[] = []
 
   let inputElem: HTMLElement
   let user: Address
@@ -42,8 +49,9 @@
 
         const cmd = inputElem.textContent?.trim()
 
+        dispatch('command', cmd)
+
         if (cmd) {
-          dispatch('command', cmd)
           history.cmd.push(cmd)
           history.index = history.cmd.length
         }
@@ -76,18 +84,55 @@
 
         const input = inputElem.textContent?.trim()
 
-        if (input) {
-          const matches = utils.filter((util) => util.startsWith(input))
+        if (!input) return
 
-          console.log('Matches:', matches)
+        if (input.match(/^\b\w+\b$/)) {
+          // We find matches within commands and variables if we are at the
+          // with only one word in the input
+
+          const matches = [...cmds, ...vars].filter((util) => util.startsWith(input)).sort()
 
           if (matches.length === 1) {
             inputElem.textContent = matches[0]
             moveCursorToEnd()
           } else if (matches.length > 1) {
-            dispatch('command', `__tab ${input} ${matches.join(' ')}`)
+            dispatch('tab', { input, matches })
+          }
+        } else {
+          // Find matches for the last word in the input.
+          // Remember, this words could have a `$` at the beginning,
+          // in which case we are talking about variables
+
+          const lastUtilMatch = input.match(/\$?([^\s=]*)$/)
+
+          if (lastUtilMatch) {
+            const [groupMatch, lastUtil] = lastUtilMatch
+            let matches: string[] = []
+            let isVar = false // we use it to add the `$` sign if it's a variable
+
+            if (groupMatch.startsWith('$')) {
+              // We looking  variables
+              matches = vars.filter((variable) => variable.startsWith(lastUtil))
+              isVar = true
+            } else {
+              // We are looking for commands
+              matches = cmds.filter((cmd) => cmd.startsWith(lastUtil))
+            }
+
+            console.log('Matches:', matches)
+
+            if (matches.length === 1) {
+              inputElem.textContent = input.replace(
+                /\$?[^\s=]*$/,
+                `${isVar ? '$' : ''}${matches[0]}`
+              )
+              moveCursorToEnd()
+            } else if (matches.length > 1) {
+              dispatch('tab', { input, matches })
+            }
           }
         }
+
         break
     }
   }
@@ -102,12 +147,12 @@
 
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
-    // document.addEventListener('click', focusInput)
+    document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
-    // document.removeEventListener('click', focusInput)
+    document.removeEventListener('click', focusInput)
   })
 </script>
 

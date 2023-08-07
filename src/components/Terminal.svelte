@@ -16,6 +16,9 @@
   // Store result of commands in variables
   const variables: Record<string, unknown> = {}
 
+  $: cmds = Object.keys(cmdFuncMap)
+  $: vars = Object.keys(variables)
+
   function scrollToBottom() {
     scrollableElem.scrollTop = scrollableElem.scrollHeight
   }
@@ -98,7 +101,7 @@
     return result
   }
 
-  async function executeCommand(commands: ParseCommandResult['commands']) {
+  async function executeCommands(commands: ParseCommandResult['commands']) {
     // Async reduce. Keep in mind that the accumulative result is a promise
     return commands.reduce<Promise<unknown>>(async (promiseLastResult, command) => {
       const lastResult = await promiseLastResult
@@ -109,15 +112,16 @@
     }, Promise.resolve(undefined))
   }
 
-  async function onCommandSent(event: CustomEvent<string>) {
+  async function onCommand(event: CustomEvent<string | undefined>) {
     let cmd = event.detail
 
-    const parsedCmd = parseCommand(cmd, variables)
+    // If no cmd is sent, it means the user pressed enter
+    // without typing anything. We just print a new prompt
+    output.print(cmd ?? '', TypePrint.PROMPT)
 
-    if (!cmd.startsWith('__')) {
-      // Do not print back commands starting with '__'
-      output.print(cmd, TypePrint.PROMPT)
-    }
+    if (!cmd) return
+
+    const parsedCmd = parseCommand(cmd, variables)
 
     waiting = true
     let wrapper = output.print('Executing', TypePrint.WAIT)
@@ -131,7 +135,7 @@
 
       const { commands, varName } = parsedCmd
 
-      const result = await executeCommand(commands)
+      const result = await executeCommands(commands)
 
       console.log('Result:', result)
 
@@ -183,31 +187,22 @@
     scrollToBottom()
   }
 
-  // Do not show commands starting with '__'. Those are special commands
-  $: cmds = Object.keys(cmdFuncMap).filter((cmd) => !cmd.startsWith('__'))
-  $: vars = Object.keys(variables)
+  async function onTab(event: CustomEvent<{ input: string; matches: string[] }>) {
+    let { input, matches } = event.detail
 
-  // List of available commands and variables
-  $: utils = [...cmds, ...vars].sort()
+    output.print(input, TypePrint.PROMPT)
+    output.print(matches.join(', '), TypePrint.INFO)
+  }
 
   onMount(() => {
     // Internal commands
-
-    cmdFuncMap['__tab'] = {
-      // Executes when the user inputs something and presses tab
-      // showing the list of matching commands and variables
-      exec: (input: string, ...matches: string[]) => {
-        output.print(input, TypePrint.PROMPT)
-        return matches.filter(Boolean).join(', ')
-      }
-    }
 
     cmdFuncMap['clear'] = {
       exec: () => {
         output.clear()
         return ''
       },
-      help: 'Clear the terminal.'
+      help: 'Clears the terminal.'
     }
 
     cmdFuncMap['help'] = {
@@ -228,13 +223,18 @@
         'Usage: help [command]'
       ].join('<br>')
     }
+
+    cmdFuncMap['vars'] = {
+      exec: () => vars.sort().join(', '),
+      help: 'Shows available variables.'
+    }
   })
 </script>
 
 <div class="Terminal">
   <div class="scrollable" bind:this={scrollableElem}>
     <Output bind:this={output} />
-    <Prompt on:command={onCommandSent} hide={waiting} {utils} />
+    <Prompt on:command={onCommand} on:tab={onTab} hide={waiting} {cmds} {vars} />
   </div>
 </div>
 

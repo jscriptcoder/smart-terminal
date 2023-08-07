@@ -1,10 +1,10 @@
-export function jsonPre(value: unknown) {
+export function inspect(value: unknown) {
   return `<pre>${JSON.stringify(value, null, 2)}</pre>`
 }
 
-export const jsonPreHelp = `
-Helps to visualize JSON objects.<br>
-Usage: json $object<br>
+export const inspectHelp = `
+Helps to visualize objects.<br>
+Usage: inspect $object<br>
 Output:<br>
 {<br>
 &nbsp;&nbsp;prop1: value1,<br>
