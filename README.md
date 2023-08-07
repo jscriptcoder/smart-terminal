@@ -5,6 +5,8 @@ Smart Terminal is a tool to interact with Smart contracts and make RPC calls fro
     <img src="smart-terminal.png">
 </P>
 
+Continues deployment of changes are happening here: https://smart-terminal.vercel.app/
+
 ## Developing
 
 Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
