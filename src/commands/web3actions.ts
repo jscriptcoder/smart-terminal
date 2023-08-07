@@ -54,10 +54,10 @@ export const getBalanceHelp = `
 Returns the balance.<br>
 Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]<br>
 Params:<br>
-* address - Address of balance to get back. Defaults to connected wallet<br>
-* chainId - Chain to get the balance from<br>
-* formatUnits: ether | gwei | wei - Units for formatting output<br>
-* token - ERC20 address`
+[address] => Address of balance to get back. Defaults to connected wallet<br>
+[chainId] => Chain to get the balance from<br>
+[formatUnits] => Units for formatting output. Values: ether | gwei | wei<br>
+[token] => ERC20 address`
 
 export function supportedChains() {
   checkConnected()
@@ -91,5 +91,5 @@ export const getTransactionReceiptHelp = `
 Waits for a transaction to be mined, and returns the receipt.<br>
 Usage: transactionReceipt hash=0x…<br>
 Params:<br>
-* hash - Transaction hash to wait for
+hash => Transaction hash to wait for
 `

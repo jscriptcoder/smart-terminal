@@ -103,6 +103,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['transactionReceipt']: {
     exec: getTransactionReceipt,
     help: getTransactionReceiptHelp
+  },
+  ['array']: {
+    exec: (...args: unknown[]) => args,
+    help: 'Returns an array with the arguments passed to the command.'
   }
 }
 

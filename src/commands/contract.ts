@@ -24,7 +24,7 @@ function checkMandatoryParams(options: ContractOptions) {
   }
 }
 
-export function readContract(options: ContractOptions) {
+export async function readContract(options: ContractOptions) {
   checkConnected()
   checkMandatoryParams(options)
 
@@ -35,20 +35,17 @@ export const readContractHelp = `
 Calls a read-only function on a contract, returning data.<br>
 Usage: readContract address=0x… abi=$abiJson functionName=balanceOf [chainId=id] [args=$args]<br>
 Params:<br>
-* address - Address of the contract<br>
-* abi - Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
-* functionName - A function to extract from the ABI and call<br>
-* chainId - Force a specific chain id for the request<br>
-* args - List of arguments to pass to the function`
+address => Address of the contract<br>
+abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
+functionName => A function to extract from the ABI and call<br>
+[chainId] => Force a specific chain id for the request<br>
+[args] => List of arguments to pass to the function`
 
 export async function writeContract(options: ContractOptions) {
   checkConnected()
   checkMandatoryParams(options)
 
   const { hash } = await wagmiWriteContract({ ...options })
-
-  console.log(`Transaction sent: ${hash}`)
-
   return hash
 }
 
@@ -56,8 +53,8 @@ export const writeContractHelp = `
 Calls a write function on a contract, and returns the transaction hash.<br>
 Usage: writeContract address=0x… abi=$abiJson functionName=mint [chainId=id] [args=$args]<br>
 Params:<br>
-* address - Contract's address<br>
-* abi - Contract's Abi. See "loadJson" command to import this ABI into a variable<br>
-* functionName - Function to call<br>
-* chainId - Optional chain id for the request<br>
-* args - Optional list of arguments to pass to the function`
+address => Address of the contract<br>
+abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
+functionName => A function to extract from the ABI and call<br>
+[chainId] => Force a specific chain id for the request<br>
+[args] => List of arguments to pass to the function`

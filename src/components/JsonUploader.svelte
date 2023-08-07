@@ -67,8 +67,9 @@
         return deferredJson.promise
       },
       help: [
-        'Load a JSON file.',
-        'Usage: loadJson > objVar - sending the parsed json into a variable'
+        'Loads a JSON file.',
+        'Usage:',
+        'loadJson > parsedJson => Sends the parsed json into a variable'
       ].join('<br>')
     }
 

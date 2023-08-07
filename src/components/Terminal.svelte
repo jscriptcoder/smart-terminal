@@ -220,7 +220,9 @@
       },
       help: [
         'Shows available commands or help about a specific command.',
-        'Usage: help [command]'
+        'Usage: help [command]',
+        'Params:',
+        '* command => the command to get help for'
       ].join('<br>')
     }
 
