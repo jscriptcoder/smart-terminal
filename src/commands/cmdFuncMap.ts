@@ -1,3 +1,4 @@
+import { array } from './array'
 import { readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
@@ -105,7 +106,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     help: getTransactionReceiptHelp
   },
   ['array']: {
-    exec: (...args: unknown[]) => args,
+    exec: array,
     help: 'Returns an array with the arguments passed to the command.'
   }
 }
