@@ -1,18 +1,9 @@
-# create-svelte
+# Smart Terminal (work in progress)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Smart Terminal is a tool to interact with Smart contracts and make PRC calls from a terminal command line. This work is still in progress...
+<p align="center">
+    <img src="smart-terminal.png">
+</P>
 
 ## Developing
 
