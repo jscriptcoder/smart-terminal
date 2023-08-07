@@ -12,7 +12,7 @@ function getArgumentsFromParams(params: string[]) {
   return params.reduce<ParsedArguments>(
     (acc, param) => {
       // Does it match property=value?
-      if (param.match(/^([a-zA-Z0-1]+)\s*=\s*([$?a-zA-Z0-1]+)$/)) {
+      if (param.match(/^([a-zA-Z0-1]+)\s*=\s*([$?\w]+)$/)) {
         const arg = param.split('=')
         // named argument
         acc.namedParams = acc.namedParams ?? {}
