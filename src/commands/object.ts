@@ -1,5 +1,7 @@
 export function inspect(value: unknown) {
-  return `<pre>${JSON.stringify(value, null, 2)}</pre>`
+  // We need to serialize the BigInts as strings
+  const serializedValue = JSON.stringify(value, (_, v) => (typeof v === 'bigint' ? `${v}n` : v), 2)
+  return `<pre>${serializedValue}</pre>`
 }
 
 export const inspectHelp = `

@@ -10,13 +10,29 @@ type ContractOptions = {
   args?: unknown[]
 }
 
+function checkMandatoryParams(options: ContractOptions) {
+  if (!options?.address) {
+    throw new Error('Address is required. Type "help writeContract" for more details.')
+  }
+
+  if (!options?.abi) {
+    throw new Error('ABI is required. Type "help writeContract" for more details.')
+  }
+
+  if (!options?.functionName) {
+    throw new Error('Function name is required. Type "help writeContract" for more details.')
+  }
+}
+
 export function readContract(options: ContractOptions) {
   checkConnected()
+  checkMandatoryParams(options)
+
   return wagmiReadContract(options)
 }
 
 export const readContractHelp = `
-Calls a read-only function on a contract, and returns the response.<br>
+Calls a read-only function on a contract, returning data.<br>
 Usage: readContract address=0x… abi=$abiJson functionName=balanceOf [chainId=id] [args=$args]<br>
 Params:<br>
 * address - Address of the contract<br>
@@ -25,13 +41,19 @@ Params:<br>
 * chainId - Force a specific chain id for the request<br>
 * args - List of arguments to pass to the function`
 
-export function writeContract(options: ContractOptions) {
+export async function writeContract(options: ContractOptions) {
   checkConnected()
-  return wagmiWriteContract({ ...options })
+  checkMandatoryParams(options)
+
+  const { hash } = await wagmiWriteContract({ ...options })
+
+  console.log(`Transaction sent: ${hash}`)
+
+  return hash
 }
 
 export const writeContractHelp = `
-Calls a write function on a contract, and returns the response.<br>
+Calls a write function on a contract, and returns the transaction hash.<br>
 Usage: writeContract address=0x… abi=$abiJson functionName=mint [chainId=id] [args=$args]<br>
 Params:<br>
 * address - Contract's address<br>

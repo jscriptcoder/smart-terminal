@@ -10,6 +10,8 @@ import {
   getAddress,
   getBalance,
   getBalanceHelp,
+  getTransactionReceipt,
+  getTransactionReceiptHelp,
   supportedChains
 } from './web3actions'
 
@@ -97,6 +99,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['writeContract']: {
     exec: writeContract,
     help: writeContractHelp
+  },
+  ['transactionReceipt']: {
+    exec: getTransactionReceipt,
+    help: getTransactionReceiptHelp
   }
 }
 

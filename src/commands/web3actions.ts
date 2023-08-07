@@ -1,6 +1,13 @@
 import { get } from 'svelte/store'
 import { account } from '../stores'
-import { fetchBalance, type Address, type Unit, getNetwork } from '@wagmi/core'
+import {
+  fetchBalance,
+  type Address,
+  type Unit,
+  getNetwork,
+  type Hash,
+  waitForTransaction
+} from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 
 type GetBalanceArgs = {
@@ -65,3 +72,24 @@ export function connectedChain() {
   const network = getNetwork()
   return network.chain
 }
+
+export async function getTransactionReceipt(hash: Hash) {
+  checkConnected()
+
+  if (!hash) {
+    throw new Error('Hash is required. Type "help transactionReceipt" for more details.')
+  }
+
+  const receipt = await waitForTransaction({ hash })
+
+  console.log('Transaction receipt:', receipt)
+
+  return receipt
+}
+
+export const getTransactionReceiptHelp = `
+Waits for a transaction to be mined, and returns the receipt.<br>
+Usage: transactionReceipt hash=0x…<br>
+Params:<br>
+* hash - Transaction hash to wait for
+`
