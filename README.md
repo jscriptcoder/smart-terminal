@@ -1,6 +1,6 @@
 # Smart Terminal (work in progress)
 
-Smart Terminal is a tool to interact with Smart contracts and make PRC calls from a terminal command line. This work is still in progress...
+Smart Terminal is a tool to interact with Smart contracts and make RPC calls from a terminal command line. This work is still in progress...
 <p align="center">
     <img src="smart-terminal.png">
 </P>
