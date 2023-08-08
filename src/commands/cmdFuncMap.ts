@@ -1,5 +1,5 @@
 import { array } from './array'
-import { readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
+import { contractEvent, contractEventHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
@@ -7,13 +7,17 @@ import { asyncLog, log, logHelp } from './log'
 import { inspect, inspectHelp } from './object'
 import { wallet, walletHelp } from './wallet'
 import {
+  addNetwork,
+  addNetworkHelp,
   connectedChain,
   getAddress,
   getBalance,
   getBalanceHelp,
   getTransactionReceipt,
   getTransactionReceiptHelp,
-  supportedChains
+  supportedChains,
+  switchNetwork,
+  switchNetworkHelp
 } from './web3actions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -120,6 +124,18 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['toBoolean']: {
     exec: Boolean,
     help: 'Converts a string to a Boolean.'
+  },
+  ['addNetwork']: {
+    exec: addNetwork,
+    help: addNetworkHelp
+  },
+  ['switchNetwork']: {
+    exec: switchNetwork,
+    help: switchNetworkHelp
+  },
+  ['contractEvent']: {
+    exec: contractEvent,
+    help: contractEventHelp
   }
 }
 

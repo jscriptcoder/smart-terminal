@@ -74,6 +74,7 @@
 
   :global(.output__prompt > span) {
     display: flex;
+    text-wrap: nowrap;
   }
 
   :global(.output__prompt > div) {
