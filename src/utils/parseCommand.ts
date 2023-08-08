@@ -65,7 +65,7 @@ function replaceVariables(args: ParsedArguments, variables: Record<string, unkno
 }
 
 function parseSingleCommand(cmd: string, variables: Record<string, unknown>) {
-  const matches = cmd.match(/("[^"]+"|[^\s"]+)/g)
+  const matches = cmd.match(/("[^"]*"|[^\s"]+)/g)
 
   if (!matches) {
     throw new Error(`Could not parse command: "${cmd}"`)

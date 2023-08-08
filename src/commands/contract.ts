@@ -10,7 +10,7 @@ type ContractOptions = {
   args?: unknown[]
 }
 
-function checkMandatoryParams(options: ContractOptions) {
+function checkOptions(options: ContractOptions) {
   if (!options?.address) {
     throw new Error('Address is required. Type "help writeContract" for more details.')
   }
@@ -26,7 +26,7 @@ function checkMandatoryParams(options: ContractOptions) {
 
 export async function readContract(options: ContractOptions) {
   checkConnected()
-  checkMandatoryParams(options)
+  checkOptions(options)
 
   return wagmiReadContract(options)
 }
@@ -43,7 +43,7 @@ functionName => A function to extract from the ABI and call<br>
 
 export async function writeContract(options: ContractOptions) {
   checkConnected()
-  checkMandatoryParams(options)
+  checkOptions(options)
 
   const { hash } = await wagmiWriteContract({ ...options })
   return hash

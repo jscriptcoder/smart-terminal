@@ -38,8 +38,10 @@
   }
 
   function focusInput() {
+    // setTimeout(() => {
     inputElem.focus()
     moveCursorToEnd()
+    // }, 100)
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -137,22 +139,39 @@
     }
   }
 
+  function onPaste(event: ClipboardEvent) {
+    event.preventDefault() // prevents pasting the text in the input
+
+    const text = event.clipboardData?.getData('text/plain')
+
+    // TODO: the following API is deprecated. Any other, more standard, alternative?
+
+    // We want to remove any formatting from the text
+    if (document.queryCommandSupported('insertText')) {
+      document.execCommand('insertText', false, text)
+    } else {
+      document.execCommand('paste', false, text)
+    }
+  }
+
   // Every time the element is visible, focus the input.
   // We wait for full rendering before focusing (next tick)
   $: if (!hide) {
-    tick().then(() => inputElem?.focus())
+    tick().then(focusInput)
   }
 
   $: user = shortenAddress($account?.address)
 
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
-    document.addEventListener('click', focusInput)
+    inputElem.addEventListener('paste', onPaste)
+    // document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
-    document.removeEventListener('click', focusInput)
+    inputElem.addEventListener('paste', onPaste)
+    // document.removeEventListener('click', focusInput)
   })
 </script>
 

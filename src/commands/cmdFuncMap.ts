@@ -108,6 +108,18 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['array']: {
     exec: array,
     help: 'Returns an array with the arguments passed to the command.'
+  },
+  ['toBigint']: {
+    exec: BigInt,
+    help: 'Converts a string to a BigInt.'
+  },
+  ['toNumber']: {
+    exec: Number,
+    help: 'Converts a string to a Number.'
+  },
+  ['toBoolean']: {
+    exec: Boolean,
+    help: 'Converts a string to a Boolean.'
   }
 }
 
