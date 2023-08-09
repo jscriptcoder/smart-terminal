@@ -3,6 +3,8 @@
   import cmdFuncMap from '../commands/cmdFuncMap'
   import Deferred from '../utils/Deferred'
 
+  export let variables: Record<string, unknown> = {}
+
   let inputFile: HTMLInputElement
   let deferredJson: Deferred<unknown>
 
@@ -70,6 +72,24 @@
         'Loads a JSON file.',
         'Usage:',
         'loadJson > parsedJson => Sends the parsed json into a variable'
+      ].join('<br>')
+    }
+
+    cmdFuncMap['loadVars'] = {
+      exec: async () => {
+        const objVariables = await cmdFuncMap['loadJson'].exec()
+
+        if (Array.isArray(objVariables) || typeof objVariables !== 'object') {
+          throw new Error('The loaded file is not a valid JSON object.')
+        }
+
+        variables = { ...variables, ...objVariables }
+
+        return objVariables
+      },
+      help: [
+        'Loads a JSON file with variables.',
+        'Usage: loadVars => Sends the parsed json into variables defined in the file'
       ].join('<br>')
     }
 

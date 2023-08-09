@@ -14,10 +14,7 @@
   let scrollableElem: HTMLElement
 
   // Store result of commands in variables
-  const variables: Record<string, unknown> = {}
-
-  $: cmds = Object.keys(cmdFuncMap)
-  $: vars = Object.keys(variables)
+  let variables: Record<string, unknown> = {}
 
   function scrollToBottom() {
     scrollableElem.scrollTop = scrollableElem.scrollHeight
@@ -208,7 +205,7 @@
     cmdFuncMap['help'] = {
       exec: (cmd?: string) => {
         if (!cmd) {
-          return cmds.sort().join(', ')
+          return Object.keys(cmdFuncMap).sort().join(', ')
         }
 
         const func = cmdFuncMap[cmd]
@@ -227,7 +224,7 @@
     }
 
     cmdFuncMap['vars'] = {
-      exec: () => vars.sort().join(', '),
+      exec: () => Object.keys(variables).sort().join(', '),
       help: 'Shows available variables.'
     }
   })
@@ -236,11 +233,17 @@
 <div class="Terminal">
   <div class="scrollable" bind:this={scrollableElem}>
     <Output bind:this={output} />
-    <Prompt on:command={onCommand} on:tab={onTab} hide={waiting} {cmds} {vars} />
+    <Prompt
+      on:command={onCommand}
+      on:tab={onTab}
+      hide={waiting}
+      cmds={Object.keys(cmdFuncMap)}
+      vars={Object.keys(variables)}
+    />
   </div>
 </div>
 
-<JsonUploader />
+<JsonUploader bind:variables />
 
 <style>
   /*
