@@ -18,7 +18,37 @@ function getArgumentsFromParams(params: string[]) {
         acc.namedParams = acc.namedParams ?? {}
         acc.namedParams[arg[0].trim()] = arg[1].trim().replace(/"/g, '')
       } else {
-        acc.params.push(param.trim().replace(/"/g, ''))
+        const tmpParam = param.trim()
+
+        if (tmpParam.startsWith('$')) {
+          // It's a variable. Do not parse it.
+          // WIll be replaced later on
+          acc.params.push(tmpParam)
+          return acc
+        }
+
+        if (
+          // if "..." then string
+          tmpParam.match(/^".*"$/) || 
+
+           // if 123.45 then number
+          Number(tmpParam) ||
+
+          // if true | false then boolean
+          ['true', 'false'].includes(tmpParam) ||
+
+          // if [...] then possibly array (if not error will be thrown)
+          tmpParam.match(/^\[.*\]$/) ||
+
+          // if {...} then possibly object (if not error will be thrown)
+          tmpParam.match(/^{.*}$/)
+        ) {
+          acc.params.push(JSON.parse(tmpParam))
+          return acc
+        }
+
+        // if rest then string => JSON.parse with "..."
+        acc.params.push(JSON.parse(`"${tmpParam}"`))
       }
 
       return acc
@@ -65,7 +95,7 @@ function replaceVariables(args: ParsedArguments, variables: Record<string, unkno
 }
 
 function parseSingleCommand(cmd: string, variables: Record<string, unknown>) {
-  const matches = cmd.match(/("[^"]*"|[^\s"]+)/g)
+  const matches = cmd.match(/("[^"]*"|\[[^\]]*\]|{[^}]*\}|[^\s"]+)/g)
 
   if (!matches) {
     throw new Error(`Could not parse command: "${cmd}"`)

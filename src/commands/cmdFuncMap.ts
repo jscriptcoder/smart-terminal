@@ -157,7 +157,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['encodePacked']: {
     exec: encodePacked,
-    help: 'Click <a href="https://viem.sh/docs/abi/encodePacked.html#encodepacked" target="_blank">here</a> for more details about this command.'
+    help: [
+      'Generates <a href="https://docs.soliditylang.org/en/v0.8.18/abi-spec.html#non-standard-packed-mode" target="_blank">ABI non-standard packed encoded data</a> given a set of solidity types compatible with packed encoding.',
+      'Usage: TODO',
+      'Params: TODO'
+    ].join('<br>')
   },
   ['keccak256']: {
     exec: keccak256,

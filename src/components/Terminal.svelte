@@ -121,12 +121,12 @@
 
     if (!cmd) return
 
-    const parsedCmd = parseCommand(cmd, variables)
-
     waiting = true
     let wrapper = output.print('Executing', TypePrint.WAIT)
 
     try {
+      const parsedCmd = parseCommand(cmd, variables)
+
       console.log('Parsed command:', parsedCmd)
 
       if (parsedCmd.varName && cmdFuncMap[parsedCmd.varName]) {
