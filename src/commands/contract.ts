@@ -75,7 +75,7 @@ functionName => A function to extract from the ABI and call<br>
 [chainId] => Forces a specific chain id for the request<br>
 [args] => List of arguments to pass to the function`
 
-export async function contractEvent(args: ContractEventFilterArgs) {
+export async function contractEvents(args: ContractEventFilterArgs) {
   checkConnected()
   checkEventFilterArgs(args)
 
@@ -96,7 +96,7 @@ export async function contractEvent(args: ContractEventFilterArgs) {
   return client.getFilterLogs({ filter });
 }
 
-export const contractEventHelp = `
+export const contractEventsHelp = `
 Retrieves events from a contract.<br>
 Usage: contractEvent abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]<br>
 Params:<br>

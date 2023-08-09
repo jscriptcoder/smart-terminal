@@ -1,5 +1,6 @@
+import { encodePacked, keccak256, toHex, toRlp } from 'viem';
 import { array, findInSerialize, findInSerializeHelp, fromProperty, fromPropertyHelp } from './array'
-import { contractEvent, contractEventHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
+import { contractEvents, contractEventsHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
@@ -18,7 +19,7 @@ import {
   supportedChains,
   switchNetwork,
   switchNetworkHelp
-} from './web3actions'
+} from './web3'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -134,8 +135,8 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     help: switchNetworkHelp
   },
   ['contractEvent']: {
-    exec: contractEvent,
-    help: contractEventHelp
+    exec: contractEvents,
+    help: contractEventsHelp
   },
   ['findInSerialize']: {
     exec: findInSerialize,
@@ -148,6 +149,22 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['fromProperty']: {
     exec: fromProperty,
     help: fromPropertyHelp
+  },
+  ['encodePacked']: {
+    exec: encodePacked,
+    help: 'Click <a href="https://viem.sh/docs/abi/encodePacked.html#encodepacked" target="_blank">here</a> for more details about this command.'
+  },
+  ['keccak256']: {
+    exec: keccak256,
+    help: 'Click <a href="https://viem.sh/docs/utilities/keccak256.html#keccak256" target="_blank">here</a> for more details about this command.'
+  },
+  ['toHex']: {
+    exec: toHex,
+    help: 'Click <a href="https://viem.sh/docs/utilities/toHex.html#tohex" target="_blank">here</a> for more details about this command.'
+  },
+  ['toRlp']: {
+    exec: toRlp,
+    help: 'Click <a href="https://viem.sh/docs/utilities/toRlp.html#torlp" target="_blank">here</a> for more details about this command.'
   }
 }
 

@@ -18,7 +18,12 @@ export function array(...args: unknown[]) {
 }
 
 export function findInSerialize(stringToFind: string, objects: object[]) {
-  return objects.filter((obj) => serialize(obj).includes(stringToFind))
+  const items = objects.filter((obj) => serialize(obj).includes(stringToFind))
+
+  // Returns the single item if there is only one, otherwise returns the array
+  if (items.length === 1) return items[0]
+
+  return items
 }
 
 export const findInSerializeHelp = `
