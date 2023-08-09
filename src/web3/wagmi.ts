@@ -15,8 +15,8 @@ export const wagmiConfig = createConfig({
   publicClient
 })
 
-export function isChainSupported(chainId: number) {
-  return Boolean(chains.find((supportedChain) => supportedChain.id === chainId))
+export function isChainSupported(chainId: number | string) {
+  return Boolean(chains.find((supportedChain) => supportedChain.id === Number(chainId)))
 }
 
 export function checkSupportedChain (chainId: number) {

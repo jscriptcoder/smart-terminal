@@ -1,10 +1,10 @@
-import { array } from './array'
+import { array, findInSerialize, findInSerializeHelp, fromProperty, fromPropertyHelp } from './array'
 import { contractEvent, contractEventHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo, echoHelp } from './echo'
 import { _eval, evalHelp } from './eval'
 import { asyncLog, log, logHelp } from './log'
-import { inspect, inspectHelp } from './object'
+import { getProperty, getPropertyHelp, inspect, inspectHelp } from './object'
 import { wallet, walletHelp } from './wallet'
 import {
   addNetwork,
@@ -136,6 +136,18 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['contractEvent']: {
     exec: contractEvent,
     help: contractEventHelp
+  },
+  ['findInSerialize']: {
+    exec: findInSerialize,
+    help: findInSerializeHelp
+  },
+  ['getProperty']: {
+    exec: getProperty,
+    help: getPropertyHelp
+  },
+  ['fromProperty']: {
+    exec: fromProperty,
+    help: fromPropertyHelp
   }
 }
 

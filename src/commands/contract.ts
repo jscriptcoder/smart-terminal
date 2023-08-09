@@ -1,7 +1,7 @@
-import { readContract as wagmiReadContract, writeContract as wagmiWriteContract } from '@wagmi/core'
+import { getPublicClient, readContract as wagmiReadContract, writeContract as wagmiWriteContract } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 import type { Abi, Address } from 'viem'
-import { checkSupportedChain, publicClient } from '../web3/wagmi'
+import { checkSupportedChain } from '../web3/wagmi'
 
 type ContractOptions = {
   abi: Abi
@@ -84,9 +84,14 @@ export async function contractEvent(args: ContractEventFilterArgs) {
     checkSupportedChain(args.chainId)
   }
   
-  const client = publicClient({ chainId: args.chainId })
+  const client = getPublicClient({ chainId: args.chainId })
+
+  if(args.fromBlock) args.fromBlock = BigInt(args.fromBlock)
+  if(args.toBlock) args.toBlock = BigInt(args.toBlock)
 
   const filter = await client.createContractEventFilter(args)
+
+  console.log('Filter created:', filter)
 
   return client.getFilterLogs({ filter });
 }
