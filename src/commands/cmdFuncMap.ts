@@ -20,6 +20,7 @@ import {
   switchNetwork,
   switchNetworkHelp
 } from './web3'
+import author from './author';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyFunc = (...args: any[]) => any
@@ -29,6 +30,10 @@ type CmdFunc = {
 }
 
 const cmdFuncMap: Record<string, CmdFunc> = {
+  ['author']: {
+    exec: author,
+    help: 'Who is the author of this shell?.'
+  },
   ['log']: {
     exec: log,
     help: logHelp
