@@ -14,6 +14,9 @@ import {
   getAddress,
   getBalance,
   getBalanceHelp,
+  getBlock,
+  getProof,
+  getProofHelp,
   getTransactionReceipt,
   getTransactionReceiptHelp,
   supportedChains,
@@ -159,21 +162,40 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: encodePacked,
     help: [
       'Generates <a href="https://docs.soliditylang.org/en/v0.8.18/abi-spec.html#non-standard-packed-mode" target="_blank">ABI non-standard packed encoded data</a> given a set of solidity types compatible with packed encoding.',
-      'Usage: TODO',
-      'Params: TODO'
+      'Usage: see <a href="https://viem.sh/docs/abi/encodePacked.html#encodepacked" target="_blank">here</a> for more details.',
     ].join('<br>')
   },
   ['keccak256']: {
     exec: keccak256,
-    help: 'Click <a href="https://viem.sh/docs/utilities/keccak256.html#keccak256" target="_blank">here</a> for more details about this command.'
+    help: [
+      'Calculates the <a href="https://en.wikipedia.org/wiki/SHA-3"target="_blank">Keccak256</a> hash of a byte array or hex value.',
+      'Usage: see <a href="https://viem.sh/docs/utilities/keccak256.html#keccak256" target="_blank">here</a> for more details. ',
+    ].join('<br>')
   },
   ['toHex']: {
     exec: toHex,
-    help: 'Click <a href="https://viem.sh/docs/utilities/toHex.html#tohex" target="_blank">here</a> for more details about this command.'
+    help: [
+      'Encodes a string, number, boolean or byte array to a hex value value.',
+      'Usage:',
+      'toHex 420 => "0x1a4"',
+      'toHex "Hello world" => "0x48656c6c6f20776f726c642e"',
+      'toHex true => "0x1"',
+    ].join('<br>')
   },
   ['toRlp']: {
     exec: toRlp,
-    help: 'Click <a href="https://viem.sh/docs/utilities/toRlp.html#torlp" target="_blank">here</a> for more details about this command.'
+    help: [
+      'Encodes a hex value or byte array into a <a href="https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/">Recursive-Length Prefix (RLP)</a> encoded value.',
+      'Usage: see <a href="https://viem.sh/docs/utilities/toRlp.html#torlp" target="_blank">here</a> for more details.',
+    ].join('<br>')
+  },
+  ['getBlock']: {
+    exec: getBlock,
+    help: 'Returns information about a block at a block number, hash or tag.'
+  },
+  ['getProof']: {
+    exec: getProof,
+    help: getProofHelp
   }
 }
 

@@ -12,6 +12,13 @@ import {
 } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 import { chains, checkSupportedChain, isChainSupported } from '../web3/wagmi'
+import type { BlockTag, GetBlockParameters, Hex } from 'viem'
+import getPublicClient from '../utils/getPublicClient'
+
+export function getAddress() {
+  const $account = checkConnected()
+  return $account.address
+}
 
 type GetBalanceArgs = {
   // Address of balance to check
@@ -22,11 +29,6 @@ type GetBalanceArgs = {
   formatUnits?: Unit
   // ERC-20 address
   token?: Address
-}
-
-export function getAddress() {
-  const $account = checkConnected()
-  return $account.address
 }
 
 export async function getBalance(args?: GetBalanceArgs) {
@@ -126,3 +128,65 @@ export const switchNetworkHelp = `
 Switches to a different chain.<br>
 Usage: switchNetwork chainId
 `
+
+type GetBlockArgs = GetBlockParameters & {
+  chainId?: number
+}
+
+export function getBlock(args: GetBlockArgs) {
+  checkConnected()
+
+  const client = getPublicClient(args?.chainId)
+  return client.getBlock(args)
+}
+
+type GetProofArgs = {
+  chainId?: number
+  address: Address
+  storageKeys: Hash[]
+  block: Hex | 'latest' | 'earliest'
+}
+
+export type ClientWithEthGetProofRequest = {
+  request(getProofArgs: {
+    method: 'eth_getProof';
+    params: [
+      GetProofArgs['address'], 
+      GetProofArgs['storageKeys'],
+      GetProofArgs['block']
+    ];
+  }): Promise<unknown>;
+};
+
+export async function getProof(args: GetProofArgs) {
+  checkConnected()
+
+  const client = getPublicClient(args?.chainId)
+
+  // Unfortunately, since this method is stagnant, it hasn't been included into Viem lib
+  // as supported methods. Still stupported  by Alchmey, Infura and others.
+  // See https://eips.ethereum.org/EIPS/eip-1186
+  // Following is a workaround to support this method.
+  const clientWithEthProofRequest = client as ClientWithEthGetProofRequest;
+
+  return clientWithEthProofRequest.request({
+    method: 'eth_getProof',
+    params: [
+      // Address of the account to get the proof for
+      args.address,
+
+      // Array of storage-keys that should be proofed and included
+      args.storageKeys,
+
+      args.block,
+    ],
+  });
+}
+
+export const getProofHelp = `
+Returns the account and storage values, including the Merkle proof, of the specified account.<br>
+Usage: getProof address=0x… storageKeys=["0x…"] block=0x…<br>
+Params:<br>
+address => The address of the account for which the balance is to be checked<br>
+storageKeys => An array of storage-keys that should be proofed and included<br>
+block => A hexadecimal block number, or the string "latest" or "earliest"`
