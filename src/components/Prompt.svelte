@@ -105,6 +105,7 @@
             moveCursorToEnd()
           } else if (matches.length > 1) {
             dispatch('tab', { input, matches })
+            focusInput()
           }
         } else {
           // Find matches for the last word in the input.
@@ -137,6 +138,7 @@
               moveCursorToEnd()
             } else if (matches.length > 1) {
               dispatch('tab', { input, matches })
+              focusInput()
             }
           }
         }

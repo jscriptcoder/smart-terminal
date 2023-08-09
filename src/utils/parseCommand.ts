@@ -1,3 +1,5 @@
+import { isHex } from "viem"
+
 export type ParsedArguments = {
   params: unknown[]
   namedParams?: Record<string, unknown>
@@ -8,90 +10,60 @@ export type ParseCommandResult = {
   varName?: string
 }
 
-function getArgumentsFromParams(params: string[]) {
+function parseValue(value: string, variables: Record<string, unknown>) {
+  const tmpValue = value.trim()
+
+  if (tmpValue.startsWith('$')) {
+    // It's a variable. Let's replace it
+    const varName = tmpValue.slice(1)
+
+    if (!variables[varName]) {
+      throw new Error(`Variable not defined: ${varName}`)
+    }
+
+    return variables[varName]
+  }
+
+  if (
+    // if "..." then string
+    tmpValue.match(/^".*"$/) || 
+
+     // if 123.45 then number
+    (Number(tmpValue) && !isHex(tmpValue)) ||
+
+    // if true | false then boolean
+    ['true', 'false'].includes(tmpValue) ||
+
+    // if [...] then possibly array (if not error will be thrown)
+    tmpValue.match(/^\[.*\]$/) ||
+
+    // if {...} then possibly object (if not error will be thrown)
+    tmpValue.match(/^{.*}$/)
+  ) {
+    return JSON.parse(tmpValue)
+  }
+
+  // We consider the rest strings => JSON.parse with quotes
+  return JSON.parse(`"${tmpValue}"`)
+}
+
+function getArgumentsFromParams(params: string[], variables: Record<string, unknown>) {
   return params.reduce<ParsedArguments>(
     (acc, param) => {
       // Does it match property=value?
       if (param.match(/^([a-zA-Z0-1]+)\s*=\s*([$?\w]+)$/)) {
         const arg = param.split('=')
-        // named argument
+        // named parameter
         acc.namedParams = acc.namedParams ?? {}
-        acc.namedParams[arg[0].trim()] = arg[1].trim().replace(/"/g, '')
+        acc.namedParams[arg[0].trim()] = parseValue(arg[1], variables)
       } else {
-        const tmpParam = param.trim()
-
-        if (tmpParam.startsWith('$')) {
-          // It's a variable. Do not parse it.
-          // WIll be replaced later on
-          acc.params.push(tmpParam)
-          return acc
-        }
-
-        if (
-          // if "..." then string
-          tmpParam.match(/^".*"$/) || 
-
-           // if 123.45 then number
-          Number(tmpParam) ||
-
-          // if true | false then boolean
-          ['true', 'false'].includes(tmpParam) ||
-
-          // if [...] then possibly array (if not error will be thrown)
-          tmpParam.match(/^\[.*\]$/) ||
-
-          // if {...} then possibly object (if not error will be thrown)
-          tmpParam.match(/^{.*}$/)
-        ) {
-          acc.params.push(JSON.parse(tmpParam))
-          return acc
-        }
-
-        // if rest then string => JSON.parse with "..."
-        acc.params.push(JSON.parse(`"${tmpParam}"`))
+        acc.params.push(parseValue(param, variables))
       }
 
       return acc
     },
     { params: [] }
   )
-}
-
-function replaceVariables(args: ParsedArguments, variables: Record<string, unknown>) {
-  const params = args.params.map((param) => {
-    if (typeof param === 'string' && param.startsWith('$')) {
-      const varName = param.slice(1)
-
-      if (!variables[varName]) {
-        throw new Error(`Variable not defined: ${varName}`)
-      }
-
-      return variables[varName]
-    }
-
-    return param
-  })
-
-  const namedParams = args.namedParams
-    ? Object.entries(args.namedParams).reduce<Record<string, unknown>>((acc, [key, value]) => {
-        if (typeof value === 'string' && value.startsWith('$')) {
-          const varName = value.slice(1)
-
-          if (!variables[varName]) {
-            throw new Error(`Variable not defined: ${varName}`)
-          }
-
-          acc[key] = variables[varName]
-        } else {
-          acc[key] = value
-        }
-
-        return acc
-      }, {})
-    : undefined
-
-  args.params = params
-  args.namedParams = namedParams
 }
 
 function parseSingleCommand(cmd: string, variables: Record<string, unknown>) {
@@ -103,10 +75,7 @@ function parseSingleCommand(cmd: string, variables: Record<string, unknown>) {
 
   const [funcName, ...params] = matches
 
-  const args = getArgumentsFromParams(params)
-
-  // TODO: do not mutate args
-  replaceVariables(args, variables)
+  const args = getArgumentsFromParams(params, variables)
 
   return { funcName, args }
 }
