@@ -12,7 +12,7 @@ import {
 } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 import { chains, checkSupportedChain, isChainSupported } from '../web3/wagmi'
-import type { BlockTag, GetBlockParameters, Hex } from 'viem'
+import type { GetBlockParameters, Hex } from 'viem'
 import getPublicClient from '../utils/getPublicClient'
 
 export function getAddress() {
@@ -97,25 +97,6 @@ Waits for a transaction to be mined, and returns the receipt.<br>
 Usage: transactionReceipt hash=0x…<br>
 Params:<br>
 hash => Transaction hash to wait for
-`
-
-export function addNetwork(chain: Chain) {
-  // If the chain is not yet supported, we add it to the list of supported chains
-  
-  if(isChainSupported(chain.id)) {
-    throw new Error('Chain is already supported.')
-  }
-
-  chains.push(chain)
-
-  return chains
-}
-
-export const addNetworkHelp = `
-Adds a chain to the list of supported chains.<br>
-Usage: addNetwork $chain
-Params:<br>
-chain => Object type Chain
 `
 
 export function switchNetwork(chainId: number) {

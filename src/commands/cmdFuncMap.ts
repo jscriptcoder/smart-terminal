@@ -8,8 +8,6 @@ import { asyncLog, log, logHelp } from './log'
 import { getProperty, getPropertyHelp, inspect, inspectHelp } from './object'
 import { wallet, walletHelp } from './wallet'
 import {
-  addNetwork,
-  addNetworkHelp,
   connectedChain,
   getAddress,
   getBalance,
@@ -133,10 +131,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['toBoolean']: {
     exec: Boolean,
     help: 'Converts a string to a Boolean.'
-  },
-  ['addNetwork']: {
-    exec: addNetwork,
-    help: addNetworkHelp
   },
   ['switchNetwork']: {
     exec: switchNetwork,
