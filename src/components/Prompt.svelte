@@ -72,6 +72,7 @@
           inputElem.textContent = history.cmd[history.index]
           moveCursorToEnd()
         }
+
         break
       case 'ArrowDown':
         event.preventDefault()
@@ -84,6 +85,7 @@
           // If we reach the end, clear the input
           inputElem.textContent = ''
         }
+
         break
       case 'Tab':
         event.preventDefault()
