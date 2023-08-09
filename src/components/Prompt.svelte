@@ -37,11 +37,13 @@
     selection?.collapseToEnd()
   }
 
-  function focusInput() {
-    // setTimeout(() => {
+  async function focusInput() {
     inputElem.focus()
     moveCursorToEnd()
-    // }, 100)
+
+    // Wait for rendering before scrolling
+    await tick()
+    inputElem.scrollIntoView()
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -59,6 +61,8 @@
         }
 
         inputElem.textContent = ''
+        focusInput()
+
         break
       case 'ArrowUp':
         event.preventDefault()
@@ -165,13 +169,13 @@
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    // document.addEventListener('click', focusInput)
+    document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    // document.removeEventListener('click', focusInput)
+    document.removeEventListener('click', focusInput)
   })
 </script>
 

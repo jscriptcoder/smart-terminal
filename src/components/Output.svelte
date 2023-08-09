@@ -66,6 +66,12 @@
     }
   }
 
+  :global(a) {
+    color: white;
+    font-weight: bold;
+    text-underline-offset: 0.2rem;
+  }
+
   :global(.output__prompt) {
     display: flex;
     align-items: baseline;
