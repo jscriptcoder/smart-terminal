@@ -8,6 +8,7 @@
   import { account } from '../stores/account'
   import shortenAddress from '../utils/shortenAddress'
   import noop from '../utils/noop'
+  import Editor from './Editor.svelte'
 
   const dispatch = createEventDispatcher<{
     command: string | undefined
@@ -173,13 +174,13 @@
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    document.addEventListener('click', focusInput)
+    // document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    document.removeEventListener('click', focusInput)
+    // document.removeEventListener('click', focusInput)
   })
 </script>
 
@@ -196,6 +197,9 @@
   </span>
   <div class="input" contenteditable="true" spellcheck="false" bind:this={inputElem} />
 </div>
+
+<!-- TODO: work in progress -->
+<!-- <Editor /> -->
 
 <style>
   .Prompt {

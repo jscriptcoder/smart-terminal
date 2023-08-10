@@ -7,11 +7,10 @@ import {
   getNetwork,
   type Hash,
   waitForTransaction,
-  type Chain,
   switchNetwork as wagmiSwitchNetwork
 } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
-import { chains, checkSupportedChain, isChainSupported } from '../web3/wagmi'
+import { checkSupportedChain } from '../web3/wagmi'
 import type { GetBlockParameters, Hex } from 'viem'
 import getPublicClient from '../utils/getPublicClient'
 

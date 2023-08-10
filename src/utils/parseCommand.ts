@@ -51,7 +51,7 @@ function getArgumentsFromParams(params: string[], variables: Record<string, unkn
   return params.reduce<ParsedArguments>(
     (acc, param) => {
       // Does it match property=value?
-      if (param.match(/^([a-zA-Z0-1]+)\s*=\s*([$?\w]+)$/)) {
+      if (param.match(/^([a-zA-Z0-1]+)\s*=\s*(\$?.+)$/)) {
         const arg = param.split('=')
         // named parameter
         acc.namedParams = acc.namedParams ?? {}

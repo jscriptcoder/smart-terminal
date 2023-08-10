@@ -1,4 +1,4 @@
-import { encodePacked, keccak256, toHex, toRlp } from 'viem';
+import { encodeAbiParameters, encodePacked, keccak256, toHex, toRlp } from 'viem';
 import { array, findInSerialize, findInSerializeHelp, fromProperty, fromPropertyHelp } from './array'
 import { contractEvents, contractEventsHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
 import { date, isoDate, now } from './date'
@@ -190,6 +190,13 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['getProof']: {
     exec: getProof,
     help: getProofHelp
+  },
+  ['encodeAbiParameters']: {
+    exec: encodeAbiParameters,
+    help: [
+      'Generates ABI encoded data using the <a href="https://docs.soliditylang.org/en/latest/abi-spec.html" target="_blank">ABI specification</a>, given a set of ABI parameters (inputs/outputs) and their corresponding values.',
+      'Usage: see <a href="https://viem.sh/docs/abi/encodeAbiParameters.html#encodeabiparameters" target="_blank">here</a> for more details.',
+    ].join('<br>')
   }
 }
 
