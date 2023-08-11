@@ -1,39 +1,70 @@
 <script lang="ts">
   import { onDestroy, onMount, tick } from 'svelte'
+  import Deferred from '../utils/Deferred'
 
-  const TABS = '  '
+  const TABS = Array(2).fill(' ').join('')
   let codeElem: HTMLElement
-  let linesWritten: string[] = []
+  let lines: string[] = []
+  let editing: Deferred<string> | null = null
+  let isFocused = false
+
+  export function open() {
+    editing = new Deferred()
+
+    tick().then(() => codeElem.focus())
+
+    return editing.promise
+  }
+
+  export function cancel() {
+    editing?.reject()
+    editing = null
+  }
+
+  export function close() {
+    const result = eval(codeElem.innerText)
+    editing?.resolve(result)
+    editing = null
+  }
+
+  export function isEditing() {
+    return Boolean(editing)
+  }
 
   function onKeydown(event: KeyboardEvent) {
     switch (event.key) {
       case 'Enter':
-        const previousLineTabMatches = linesWritten.at(-1)?.match(/^(\s+)/)
+        // const previousLineTabMatches = lines.at(-1)?.match(/^(\s+)/)
 
-        if (previousLineTabMatches) {
-          event.preventDefault()
-          if (document.queryCommandSupported('insertText')) {
-            document.execCommand('insertText', false, `\n${previousLineTabMatches[1]}`)
-          } else {
-            codeElem.innerText += `\n${previousLineTabMatches[1]}`
-          }
-        }
+        // if (previousLineTabMatches) {
+        //   event.preventDefault()
+        //   document.execCommand('insertText', false, `\n${previousLineTabMatches[1]}`)
+        // }
 
         break
       case 'Tab':
         event.preventDefault()
-        if (document.queryCommandSupported('insertText')) {
-          document.execCommand('insertText', false, TABS)
-        } else {
-          codeElem.innerText += TABS
-        }
+        document.execCommand('insertText', false, TABS)
+
+        break
+      case 'Escape':
+        event.preventDefault()
+        cancel()
 
         break
     }
   }
 
   function onInput(event: Event) {
-    linesWritten = codeElem.innerText.split('\n')
+    lines = codeElem.innerText.split('\n')
+  }
+
+  function onFocus() {
+    isFocused = true
+  }
+
+  function onBlur() {
+    isFocused = false
   }
 
   function onPaste(event: ClipboardEvent) {
@@ -54,25 +85,35 @@
   onMount(() => {
     codeElem.addEventListener('keydown', onKeydown)
     codeElem.addEventListener('input', onInput)
+    codeElem.addEventListener('focus', onFocus)
+    codeElem.addEventListener('blur', onBlur)
     codeElem.addEventListener('paste', onPaste)
   })
 
   onDestroy(() => {
     codeElem.removeEventListener('keydown', onKeydown)
+    codeElem.removeEventListener('input', onInput)
+    codeElem.removeEventListener('focus', onFocus)
+    codeElem.removeEventListener('blur', onBlur)
     codeElem.removeEventListener('paste', onPaste)
   })
 </script>
 
-<div class="Editor">
-  <div class="code" contenteditable="true" spellcheck="false" bind:this={codeElem} />
-</div>
+<div
+  class="Editor"
+  class:show={editing}
+  contenteditable="true"
+  spellcheck="false"
+  bind:this={codeElem}
+/>
 
 <style>
   .Editor {
+    display: none;
+    outline: none;
   }
 
-  .code {
-    flex: 1;
-    outline: none;
+  .Editor.show {
+    display: block;
   }
 </style>

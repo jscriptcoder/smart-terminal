@@ -8,8 +8,10 @@
   import Output, { TypePrint } from './Output.svelte'
   import Prompt from './Prompt.svelte'
   import JsonUploader from './JsonUploader.svelte'
+  import Editor from './Editor.svelte'
 
   let output: Output
+  let editor: Editor
   let waiting = false
   let scrollableElem: HTMLElement
 
@@ -118,8 +120,18 @@
 
     if (!cmd) return
 
+    // Will wrap the output of the command. We only need this
+    // in order to override the waiting state in case we are running
+    // a command that takes a long time to finish
+    let wrapper: HTMLElement | undefined
+
     waiting = true
-    let wrapper = output.print('Executing', TypePrint.WAIT)
+
+    // We only want to show this message if we are not editing, but just
+    // waiting for a command to finish running
+    if (!cmd.startsWith('editor')) {
+      wrapper = output.print('Executing', TypePrint.WAIT)
+    }
 
     try {
       const parsedCmd = parseCommand(cmd, variables)
@@ -227,6 +239,20 @@
       exec: () => Object.keys(variables).sort().join(', '),
       help: 'Shows available variables.'
     }
+
+    cmdFuncMap['editor'] = {
+      exec: async () => {
+        waiting = true
+        try {
+          return await editor.open()
+        } catch (_) {
+          throw new Error('Editing has been canceled.')
+        } finally {
+          waiting = false
+        }
+      },
+      help: 'Shows'
+    }
   })
 </script>
 
@@ -240,6 +266,8 @@
       cmds={Object.keys(cmdFuncMap)}
       vars={Object.keys(variables)}
     />
+    <!-- TODO: work in progress -->
+    <!-- <Editor bind:this={editor} /> -->
   </div>
 </div>
 

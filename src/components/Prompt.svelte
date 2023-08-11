@@ -8,7 +8,6 @@
   import { account } from '../stores/account'
   import shortenAddress from '../utils/shortenAddress'
   import noop from '../utils/noop'
-  import Editor from './Editor.svelte'
 
   const dispatch = createEventDispatcher<{
     command: string | undefined
@@ -156,11 +155,7 @@
     // TODO: the following API is deprecated. Any other, more standard, alternative?
 
     // We want to remove any formatting from the text
-    if (document.queryCommandSupported('insertText')) {
-      document.execCommand('insertText', false, text)
-    } else {
-      document.execCommand('paste', false, text)
-    }
+    document.execCommand('insertText', false, text)
   }
 
   // Every time the element is visible, focus the input.
@@ -174,13 +169,11 @@
   onMount(() => {
     inputElem.addEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    // document.addEventListener('click', focusInput)
   })
 
   onDestroy(() => {
     inputElem.removeEventListener('keydown', onKeydown)
     inputElem.addEventListener('paste', onPaste)
-    // document.removeEventListener('click', focusInput)
   })
 </script>
 
@@ -197,9 +190,6 @@
   </span>
   <div class="input" contenteditable="true" spellcheck="false" bind:this={inputElem} />
 </div>
-
-<!-- TODO: work in progress -->
-<!-- <Editor /> -->
 
 <style>
   .Prompt {
