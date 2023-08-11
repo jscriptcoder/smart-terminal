@@ -1,0 +1,65 @@
+ [
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "srcHeight",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": true
+      },
+      {
+        "name": "blockHash",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": false
+      },
+      {
+        "name": "signalRoot",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": false
+      }
+    ],
+    "name": "CrossChainSynced"
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "number",
+        "internalType": "uint256",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCrossChainBlockHash",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "number",
+        "internalType": "uint256",
+        "type": "uint256"
+      }
+    ],
+    "name": "getCrossChainSignalRoot",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      }
+    ]
+  }
+]

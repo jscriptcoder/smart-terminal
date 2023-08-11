@@ -1,0 +1,734 @@
+[
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "RESOLVER_DENIED"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "RESOLVER_INVALID_ADDR"
+  },
+  {
+    "type": "error",
+    "inputs": [
+      {
+        "name": "chainId",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "name",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      }
+    ],
+    "name": "RESOLVER_ZERO_ADDR"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_CANONICAL_TOKEN_NOT_FOUND"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_AMOUNT"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_OWNER"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_SENDER"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_SRC_CHAIN_ID"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_TO"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_TOKEN"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_INVALID_VALUE"
+  },
+  {
+    "type": "error",
+    "inputs": [],
+    "name": "TOKENVAULT_MESSAGE_NOT_FAILED"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "addressManager",
+        "internalType": "address",
+        "type": "address",
+        "indexed": false
+      }
+    ],
+    "name": "AddressManagerChanged"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "srcChainId",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": true
+      },
+      {
+        "name": "canonicalToken",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "bridgedToken",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "canonicalTokenSymbol",
+        "internalType": "string",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "name": "canonicalTokenName",
+        "internalType": "string",
+        "type": "string",
+        "indexed": false
+      },
+      {
+        "name": "canonicalTokenDecimal",
+        "internalType": "uint8",
+        "type": "uint8",
+        "indexed": false
+      }
+    ],
+    "name": "BridgedERC20Deployed"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "msgHash",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "to",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "srcChainId",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "token",
+        "internalType": "address",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "name": "ERC20Received"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "msgHash",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "token",
+        "internalType": "address",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "name": "ERC20Released"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "msgHash",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "to",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "destChainId",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "token",
+        "internalType": "address",
+        "type": "address",
+        "indexed": false
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "name": "ERC20Sent"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "msgHash",
+        "internalType": "bytes32",
+        "type": "bytes32",
+        "indexed": true
+      },
+      {
+        "name": "from",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "to",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "destChainId",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256",
+        "indexed": false
+      }
+    ],
+    "name": "EtherSent"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "version",
+        "internalType": "uint8",
+        "type": "uint8",
+        "indexed": false
+      }
+    ],
+    "name": "Initialized"
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "inputs": [
+      {
+        "name": "previousOwner",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      },
+      {
+        "name": "newOwner",
+        "internalType": "address",
+        "type": "address",
+        "indexed": true
+      }
+    ],
+    "name": "OwnershipTransferred"
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [],
+    "name": "addressManager",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "address",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "bridgedAddress",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "bridgedToCanonical",
+    "outputs": [
+      {
+        "name": "chainId",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "addr",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "decimals",
+        "internalType": "uint8",
+        "type": "uint8"
+      },
+      {
+        "name": "symbol",
+        "internalType": "string",
+        "type": "string"
+      },
+      {
+        "name": "name",
+        "internalType": "string",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "chainId",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "canonicalAddress",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "canonicalToBridged",
+    "outputs": [
+      {
+        "name": "bridgedAddress",
+        "internalType": "address",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "addressManager",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "init",
+    "outputs": []
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "tokenAddress",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "isBridgedToken",
+    "outputs": [
+      {
+        "name": "isBridged",
+        "internalType": "bool",
+        "type": "bool"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "msgHash",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      }
+    ],
+    "name": "messageDeposits",
+    "outputs": [
+      {
+        "name": "token",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "address",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "canonicalToken",
+        "internalType": "struct TokenVault.CanonicalERC20",
+        "type": "tuple",
+        "components": [
+          {
+            "name": "chainId",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "addr",
+            "internalType": "address",
+            "type": "address"
+          },
+          {
+            "name": "decimals",
+            "internalType": "uint8",
+            "type": "uint8"
+          },
+          {
+            "name": "symbol",
+            "internalType": "string",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "internalType": "string",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "from",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "to",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256"
+      }
+    ],
+    "name": "receiveERC20",
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "message",
+        "internalType": "struct IBridge.Message",
+        "type": "tuple",
+        "components": [
+          {
+            "name": "id",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "sender",
+            "internalType": "address",
+            "type": "address"
+          },
+          {
+            "name": "srcChainId",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "destChainId",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "owner",
+            "internalType": "address",
+            "type": "address"
+          },
+          {
+            "name": "to",
+            "internalType": "address",
+            "type": "address"
+          },
+          {
+            "name": "refundAddress",
+            "internalType": "address",
+            "type": "address"
+          },
+          {
+            "name": "depositValue",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "callValue",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "processingFee",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "gasLimit",
+            "internalType": "uint256",
+            "type": "uint256"
+          },
+          {
+            "name": "data",
+            "internalType": "bytes",
+            "type": "bytes"
+          },
+          {
+            "name": "memo",
+            "internalType": "string",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "proof",
+        "internalType": "bytes",
+        "type": "bytes"
+      }
+    ],
+    "name": "releaseERC20",
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": []
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "chainId",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "name",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      },
+      {
+        "name": "allowZeroAddress",
+        "internalType": "bool",
+        "type": "bool"
+      }
+    ],
+    "name": "resolve",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "address payable",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "stateMutability": "view",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "name",
+        "internalType": "bytes32",
+        "type": "bytes32"
+      },
+      {
+        "name": "allowZeroAddress",
+        "internalType": "bool",
+        "type": "bool"
+      }
+    ],
+    "name": "resolve",
+    "outputs": [
+      {
+        "name": "",
+        "internalType": "address payable",
+        "type": "address"
+      }
+    ]
+  },
+  {
+    "stateMutability": "payable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "destChainId",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "to",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "token",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "amount",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "gasLimit",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "processingFee",
+        "internalType": "uint256",
+        "type": "uint256"
+      },
+      {
+        "name": "refundAddress",
+        "internalType": "address",
+        "type": "address"
+      },
+      {
+        "name": "memo",
+        "internalType": "string",
+        "type": "string"
+      }
+    ],
+    "name": "sendERC20",
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "newAddressManager",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "setAddressManager",
+    "outputs": []
+  },
+  {
+    "stateMutability": "nonpayable",
+    "type": "function",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "internalType": "address",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
+    "outputs": []
+  }
+]
