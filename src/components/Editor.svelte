@@ -4,7 +4,6 @@
 
   const TABS = Array(2).fill(' ').join('')
   let codeElem: HTMLElement
-  let lines: string[] = []
   let editing: Deferred<string> | null = null
   let isFocused = false
 
@@ -18,12 +17,16 @@
 
   export function cancel() {
     editing?.reject()
+
+    codeElem.innerText = ''
     editing = null
   }
 
   export function close() {
-    const result = eval(codeElem.innerText)
+    const result = eval(`(${codeElem.innerText})`)
     editing?.resolve(result)
+
+    codeElem.innerText = ''
     editing = null
   }
 
@@ -34,13 +37,7 @@
   function onKeydown(event: KeyboardEvent) {
     switch (event.key) {
       case 'Enter':
-        // const previousLineTabMatches = lines.at(-1)?.match(/^(\s+)/)
-
-        // if (previousLineTabMatches) {
-        //   event.preventDefault()
-        //   document.execCommand('insertText', false, `\n${previousLineTabMatches[1]}`)
-        // }
-
+        // TODO: think about how to preserve the tabs
         break
       case 'Tab':
         event.preventDefault()
@@ -52,11 +49,14 @@
         cancel()
 
         break
-    }
-  }
+      case 's':
+        if (event.ctrlKey || event.metaKey) {
+          event.preventDefault()
+          close()
+        }
 
-  function onInput(event: Event) {
-    lines = codeElem.innerText.split('\n')
+        break
+    }
   }
 
   function onFocus() {
@@ -84,7 +84,6 @@
 
   onMount(() => {
     codeElem.addEventListener('keydown', onKeydown)
-    codeElem.addEventListener('input', onInput)
     codeElem.addEventListener('focus', onFocus)
     codeElem.addEventListener('blur', onBlur)
     codeElem.addEventListener('paste', onPaste)
@@ -92,7 +91,6 @@
 
   onDestroy(() => {
     codeElem.removeEventListener('keydown', onKeydown)
-    codeElem.removeEventListener('input', onInput)
     codeElem.removeEventListener('focus', onFocus)
     codeElem.removeEventListener('blur', onBlur)
     codeElem.removeEventListener('paste', onPaste)

@@ -155,7 +155,11 @@
     // TODO: the following API is deprecated. Any other, more standard, alternative?
 
     // We want to remove any formatting from the text
-    document.execCommand('insertText', false, text)
+    if (document.queryCommandSupported('insertText')) {
+      document.execCommand('insertText', false, text)
+    } else {
+      document.execCommand('paste', false, text)
+    }
   }
 
   // Every time the element is visible, focus the input.

@@ -267,7 +267,7 @@
       vars={Object.keys(variables)}
     />
     <!-- TODO: work in progress -->
-    <!-- <Editor bind:this={editor} /> -->
+    <Editor bind:this={editor} />
   </div>
 </div>
 
