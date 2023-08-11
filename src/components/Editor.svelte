@@ -2,7 +2,8 @@
   import { onDestroy, onMount, tick } from 'svelte'
   import Deferred from '../utils/Deferred'
 
-  const TABS = Array(2).fill(' ').join('')
+  const TABS = Array(2).fill(' ').join('') // TODO: 2 is a magic number. Config?
+
   let codeElem: HTMLElement
   let editing: Deferred<string> | null = null
   let isFocused = false
