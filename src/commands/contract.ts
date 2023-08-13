@@ -47,16 +47,6 @@ export async function readContract(options: ContractOptions) {
   return wagmiReadContract(options)
 }
 
-export const readContractHelp = `
-Calls a read-only function on a contract, returning data.<br>
-Usage: readContract address=0x… abi=$abiJson functionName=balanceOf [chainId=id] [args=$args]<br>
-Params:<br>
-address => Address of the contract<br>
-abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
-functionName => A function to extract from the ABI and call<br>
-[chainId] => Forces a specific chain id for the request<br>
-[args] => List of arguments to pass to the function`
-
 export async function writeContract(options: ContractOptions) {
   checkConnected()
   checkOptions(options)
@@ -64,16 +54,6 @@ export async function writeContract(options: ContractOptions) {
   const { hash } = await wagmiWriteContract({ ...options })
   return hash
 }
-
-export const writeContractHelp = `
-Calls a write function on a contract, and returns the transaction hash.<br>
-Usage: writeContract address=0x… abi=$abiJson functionName=mint [chainId=id] [args=$args]<br>
-Params:<br>
-address => Address of the contract<br>
-abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
-functionName => A function to extract from the ABI and call<br>
-[chainId] => Forces a specific chain id for the request<br>
-[args] => List of arguments to pass to the function`
 
 export async function contractEvents(args: ContractEventFilterArgs) {
   checkConnected()
@@ -95,15 +75,3 @@ export async function contractEvents(args: ContractEventFilterArgs) {
 
   return client.getFilterLogs({ filter });
 }
-
-export const contractEventsHelp = `
-Retrieves events from a contract.<br>
-Usage: contractEvent abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]<br>
-Params:<br>
-abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable<br>
-[chainId] => Forces a specific chain id for the request<br>
-[address] => Address of the contract<br>
-[eventName] => Name of the event to filter on<br>
-[fromBlock] => Block number to start the filter from<br>
-[toBlock] => Block number to end the filter at
-`

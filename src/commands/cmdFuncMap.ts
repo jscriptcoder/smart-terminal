@@ -1,25 +1,20 @@
-import { encodeAbiParameters, encodePacked, keccak256, toHex, toRlp } from 'viem';
-import { array, findInSerialize, findInSerializeHelp, fromProperty, fromPropertyHelp } from './array'
-import { contractEvents, contractEventsHelp, readContract, readContractHelp, writeContract, writeContractHelp } from './contract'
+import { encodeAbiParameters, encodePacked, keccak256, parseAbiParameters, toHex, toRlp } from 'viem';
+import { array, findInSerialize, fromProperty } from './array'
+import { contractEvents, readContract, writeContract } from './contract'
 import { date, isoDate, now } from './date'
-import { asyncEcho, echo, echoHelp } from './echo'
-import { _eval, evalHelp } from './eval'
-import { asyncLog, log, logHelp } from './log'
-import { getProperty, getPropertyHelp, inspect, inspectHelp } from './object'
-import { wallet, walletHelp } from './wallet'
+import { asyncEcho, echo } from './echo'
+import { asyncLog, log } from './log'
+import { getProperty, inspect } from './object'
+import { wallet } from './wallet'
 import {
   connectedChain,
   getAddress,
   getBalance,
-  getBalanceHelp,
   getBlock,
   getProof,
-  getProofHelp,
   getTransactionReceipt,
-  getTransactionReceiptHelp,
   supportedChains,
   switchNetwork,
-  switchNetworkHelp
 } from './web3'
 import author from './author';
 
@@ -33,11 +28,15 @@ type CmdFunc = {
 const cmdFuncMap: Record<string, CmdFunc> = {
   ['author']: {
     exec: author,
-    help: 'Who is the author of this shell?.'
+    help: 'Shows details about the author of this shell.'
   },
   ['log']: {
     exec: log,
-    help: logHelp
+    help: [
+      'Logs a value in the console.',
+      'Usage: log value',
+      'Console: value'
+    ].join('<br>')
   },
   ['asyncLog']: {
     exec: asyncLog,
@@ -45,56 +44,116 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['echo']: {
     exec: echo,
-    help: echoHelp
-  },
-  ['set']: {
-    // makes more sense than 'echo' for setting a variable
-    exec: echo,
-    help: 'Sets a variable.<br>Usage: set value > varName'
+    help: [
+      'Echos a value in the terminal.',
+      'Usage: echo value',
+      'Output: value'
+    ].join('<br>')
   },
   ['asyncEcho']: {
     exec: asyncEcho,
     help: 'Echos a message asynchronously. Type "help echo" for more details.'
   },
+  ['set']: {
+    exec: echo,
+    help: [
+      'Can be used to set a variable.',
+      'Usage: set value > varName'
+    ].join('<br>')
+  },
   ['now']: {
     exec: now,
-    help: 'Returns the current date in milliseconds.'
+    help: [
+      'Returns the current date in milliseconds.',
+      'Usage: now',
+      'Output: 1691869299389'
+    ].join('<br>')
   },
   ['date']: {
     exec: date,
-    help: 'Returns the current date in a human readable format.'
+    help: [
+      'Returns the current date in a human readable format.',
+      'Usage: date',
+      'Output: Sat Aug 12 2023 21:41:24 GMT+0200 (Central European Summer Time)'
+    ].join('<br>')
   },
   ['isoDate']: {
     exec: isoDate,
-    help: 'Returns the current date in ISO format.'
+    help: [
+      'Returns the current date in ISO format.',
+      'Usage: isoDate',
+      'Output: 2023-08-12T19:42:10.598Z'
+    ].join('<br>')
   },
   ['eval']: {
-    exec: _eval,
-    help: evalHelp
+    exec: eval,
+    help: [
+      'Evaluates a JavaScript expression between double quotation.',
+      'Usage:',
+      'eval expression',
+      'eval "2 + 2" => outputs 4',
+      'eval "[1, 2, 3]" => outputs the array',
+      `eval "({name: 'Fran', age: 44})" => outputs the object`,
+      'eval expression > varName => Sends the result to a variable for later use'
+    ].join('<br>')
   },
   ['wallet']: {
     exec: wallet,
-    help: walletHelp
+    help: [
+      'Connects your wallet or opens the wallet modal if already connected.',
+      'Usage: wallet [option]',
+      'Params:',
+      '[option] => Option to open a specific modal. Values: help | account | connect | network'
+    ].join('<br>')
   },
   ['address']: {
     exec: getAddress,
-    help: 'Returns the current wallet address.'
+    help: [
+      'Returns the current wallet address.',
+      'Usage: address',
+      'Output: 0xB3cAe61…'
+    ].join('<br>')
   },
   ['balance']: {
     exec: getBalance,
-    help: getBalanceHelp
+    help: [
+      'Returns the balance.',
+      'Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]',
+      'Params:',
+      '[address] => Address of balance to get back. Defaults to connected wallet',
+      '[chainId] => Chain to get the balance from',
+      '[formatUnits] => Units for formatting output. Values: ether | gwei | wei',
+      '[token] => ERC20 contract address'
+    ].join('<br>')
   },
   ['keys']: {
     exec: Object.keys,
-    help: 'Returns the keys of an object.'
+    help: [
+      'Returns the keys of an object.',
+      'Usage: keys $object',
+      'Output: [key1, key2, ...]'
+    ].join('<br>')
   },
   ['values']: {
     exec: Object.values,
-    help: 'Returns the values of an object.'
+    help: [
+      'Returns the values of an object.',
+      'Usage: values $object',
+      'Output: [value1, value2, ...]'
+    ].join('<br>')
   },
   ['inspect']: {
     exec: inspect,
-    help: inspectHelp
+    help: [
+      'Helps to visualize objects.',
+      'Usage: inspect $object',
+      'Output:',
+      '{',
+      '&nbsp;&nbsp;prop1: value1,',
+      '&nbsp;&nbsp;prop2: value2,',
+      '&nbsp;&nbsp;...',
+      '}'
+    ].join('<br>')
   },
   ['supportedChains']: {
     exec: supportedChains,
@@ -106,19 +165,46 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['readContract']: {
     exec: readContract,
-    help: readContractHelp
+    help: [
+      'Calls a read-only function on a contract, returning data.',
+      'Usage: readContract address=0x… abi=$abiJson functionName=balanceOf [chainId=id] [args=$args]',
+      'Params:',
+      'address => Address of the contract',
+      `abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable`,
+      'functionName => A function to extract from the ABI and call',
+      '[chainId] => Forces a specific chain id for the request',
+      '[args] => List of arguments to pass to the function',
+    ].join('<br>')
   },
   ['writeContract']: {
     exec: writeContract,
-    help: writeContractHelp
+    help: [
+      'Calls a write function on a contract, and returns the transaction hash.',
+      'Usage: writeContract address=0x… abi=$abiJson functionName=mint [chainId=id] [args=$args]',
+      'Params:',
+      'address => Address of the contract',
+      `abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable`,
+      'functionName => A function to extract from the ABI and call',
+      '[chainId] => Forces a specific chain id for the request',
+      '[args] => List of arguments to pass to the function',
+    ].join('<br>')
   },
   ['transactionReceipt']: {
     exec: getTransactionReceipt,
-    help: getTransactionReceiptHelp
+    help: [
+      'Waits for a transaction to be mined, and returns the receipt.',
+      'Usage: transactionReceipt hash=0x…',
+      'Params:',
+      'hash => Transaction hash to wait for'
+    ].join('<br>')
   },
   ['array']: {
     exec: array,
-    help: 'Returns an array with the arguments passed to the command.'
+    help: [
+      'Returns an array with the arguments passed to the command.',
+      'Usage: array arg1 arg2 arg3 ...',
+      'Output: [arg1, arg2, arg3, ...]'
+    ].join('<br>')
   },
   ['toBigint']: {
     exec: BigInt,
@@ -134,23 +220,54 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['switchNetwork']: {
     exec: switchNetwork,
-    help: switchNetworkHelp
+    help: [
+      'Switches to a different chain. Chain must be supported. You can list the supported chain ids by typing "supportedChains | fromProperty id".',
+      'Usage: switchNetwork chainId'
+    ].join('<br>')
   },
   ['contractEvent']: {
     exec: contractEvents,
-    help: contractEventsHelp
+    help: [
+      'Retrieves events from a contract.',
+      'Usage: contractEvent abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]',
+      'Params:',
+      `abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable`,
+      '[chainId] => Forces a specific chain id for the request',
+      '[address] => Address of the contract',
+      '[eventName] => Name of the event to filter on',
+      '[fromBlock] => Block number to start the filter from',
+      '[toBlock] => Block number to end the filter at',
+    ].join('<br>')
   },
   ['findInSerialize']: {
     exec: findInSerialize,
-    help: findInSerializeHelp
+    help: [
+      'Finds objects where the serilized version includes the string passed as parameter.',
+      'Usage: findInSerialize stringToFind $objects',
+      'Params:',
+      'stringToFind => String to find in the array of objects',
+      'objects => Array of objects to search in',
+    ].join('<br>')
   },
   ['getProperty']: {
     exec: getProperty,
-    help: getPropertyHelp
+    help: [
+      'Returns the value of a property in an object.',
+      'Usage: getProperty pathToProp $object',
+      'Params:',
+      'pathToProp => Path to the property to get. Example: prop1.prop2.prop3',
+      'object => Object to get the property from'
+    ].join('<br>')
   },
   ['fromProperty']: {
     exec: fromProperty,
-    help: fromPropertyHelp
+    help: [
+      'Returns an array with the values of a property in an array of objects.',
+      'Usage: fromProperty pathToProp $objects',
+      'Params:',
+      'pathToProp => Path to the property to get. Example: prop1.prop2.prop3',
+      'objects => Array of objects to get the property from'
+    ].join('<br>')
   },
   ['encodePacked']: {
     exec: encodePacked,
@@ -163,7 +280,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: keccak256,
     help: [
       'Calculates the <a href="https://en.wikipedia.org/wiki/SHA-3"target="_blank">Keccak256</a> hash of a byte array or hex value.',
-      'Usage: see <a href="https://viem.sh/docs/utilities/keccak256.html#keccak256" target="_blank">here</a> for more details. ',
+      'Usage: encodePacked $listOfTypes $listOfValues',
+      'Params:',
+      "listOfTypes => List of solidity types compatible with packed encoding. Example: ['address', 'string', 'bytes16[]']",
+      "listOfValues => List of values to encode. Example: ['0x123…', 'Hello world', ['0x123…', '0x456…']]",
     ].join('<br>')
   },
   ['toHex']: {
@@ -180,7 +300,9 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: toRlp,
     help: [
       'Encodes a hex value or byte array into a <a href="https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/">Recursive-Length Prefix (RLP)</a> encoded value.',
-      'Usage: see <a href="https://viem.sh/docs/utilities/toRlp.html#torlp" target="_blank">here</a> for more details.',
+      'Usage:',
+      'toRlp 0x123456789 => 0x850123456789',
+      'toRlp ["0x7f", "0x7f", "0x8081e8"] => 0xc67f7f838081e8',
     ].join('<br>')
   },
   ['getBlock']: {
@@ -189,7 +311,24 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['getProof']: {
     exec: getProof,
-    help: getProofHelp
+    help: [
+      'Returns the account and storage values, including the Merkle proof, of the specified account.',
+      'Usage: getProof address=0x… storageKeys=["0x…"] block=0x…',
+      'Params:',
+      'address => The address of the account for which the balance is to be checked',
+      'storageKeys => An array of storage-keys that should be proofed and included',
+      'block => A hexadecimal block number, or the string "latest" or "earliest"'
+    ].join('<br>')
+  },
+  ['parseAbiParameters']: {
+    exec: parseAbiParameters,
+    help: [
+      'Parses human-readable <a href="https://viem.sh/docs/glossary/types.html#abiparameter" target="_blank">ABI parameters</a> into AbiParameters. Re-exported from <a href="https://abitype.dev/api/human#parseabiparameters-1" target="_blank">ABIType</a>',
+      'Usage:',
+      'parseAbiParameters "address from, address to, uint256 amount"',
+      'Params:',
+      'params => Human-readable ABI parameters',
+    ].join('<br>')
   },
   ['encodeAbiParameters']: {
     exec: encodeAbiParameters,

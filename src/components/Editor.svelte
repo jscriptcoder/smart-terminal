@@ -48,7 +48,6 @@
       case 'Escape':
         event.preventDefault()
         cancel()
-
         break
       case 's':
         if (event.ctrlKey || event.metaKey) {

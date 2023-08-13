@@ -40,10 +40,6 @@
   async function focusInput() {
     inputElem.focus()
     moveCursorToEnd()
-
-    // Wait for rendering before scrolling
-    await tick()
-    inputElem.scrollIntoView()
   }
 
   function onKeydown(event: KeyboardEvent) {

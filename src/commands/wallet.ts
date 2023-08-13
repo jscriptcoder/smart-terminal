@@ -65,9 +65,3 @@ export function wallet(option?: Option) {
 
   return deferred.promise
 }
-
-export const walletHelp = `
-Connects your wallet or opens the wallet modal if already connected.<br>
-Usage: wallet [option]<br>
-Params:<br>
-[option] => Option to open a specific modal. Values: help | account | connect | network`

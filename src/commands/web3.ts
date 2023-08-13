@@ -54,15 +54,6 @@ export async function getBalance(args?: GetBalanceArgs) {
   }
 }
 
-export const getBalanceHelp = `
-Returns the balance.<br>
-Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]<br>
-Params:<br>
-[address] => Address of balance to get back. Defaults to connected wallet<br>
-[chainId] => Chain to get the balance from<br>
-[formatUnits] => Units for formatting output. Values: ether | gwei | wei<br>
-[token] => ERC20 address`
-
 export function supportedChains() {
   checkConnected()
 
@@ -91,23 +82,11 @@ export async function getTransactionReceipt(hash: Hash) {
   return receipt
 }
 
-export const getTransactionReceiptHelp = `
-Waits for a transaction to be mined, and returns the receipt.<br>
-Usage: transactionReceipt hash=0x…<br>
-Params:<br>
-hash => Transaction hash to wait for
-`
-
 export function switchNetwork(chainId: number) {
   checkSupportedChain(chainId)
 
   return wagmiSwitchNetwork({ chainId })
 }
-
-export const switchNetworkHelp = `
-Switches to a different chain.<br>
-Usage: switchNetwork chainId
-`
 
 type GetBlockArgs = GetBlockParameters & {
   chainId?: number
@@ -162,11 +141,3 @@ export async function getProof(args: GetProofArgs) {
     ],
   });
 }
-
-export const getProofHelp = `
-Returns the account and storage values, including the Merkle proof, of the specified account.<br>
-Usage: getProof address=0x… storageKeys=["0x…"] block=0x…<br>
-Params:<br>
-address => The address of the account for which the balance is to be checked<br>
-storageKeys => An array of storage-keys that should be proofed and included<br>
-block => A hexadecimal block number, or the string "latest" or "earliest"`

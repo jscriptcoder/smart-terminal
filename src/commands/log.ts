@@ -5,10 +5,6 @@ export function log(msg: string) {
   return `Message "${msg}" has been logged in the console`
 }
 
-export const logHelp = `
-Logs a value in the console.<br>
-Usage: log value`
-
 export function asyncLog(msg: string, timeout = '3000') {
   return new Promise<string>((resolve, reject) => {
     setTimeout(() => {

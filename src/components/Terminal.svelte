@@ -18,10 +18,6 @@
   // Store result of commands in variables
   let variables: Record<string, unknown> = {}
 
-  function scrollToBottom() {
-    scrollableElem.scrollTop = scrollableElem.scrollHeight
-  }
-
   async function executeSingleCommand(
     funcName: string,
     args: ParsedArguments,
@@ -192,8 +188,6 @@
     } finally {
       waiting = false
     }
-
-    scrollToBottom()
   }
 
   async function onTab(event: CustomEvent<{ input: string; matches: string[] }>) {

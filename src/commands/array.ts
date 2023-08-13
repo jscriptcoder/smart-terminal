@@ -26,21 +26,6 @@ export function findInSerialize(stringToFind: string, objects: object[]) {
   return items
 }
 
-export const findInSerializeHelp = `
-Finds objects where the serilized version includes the string.<br>
-Usage: findInSerialize stringToFind $objects<br>
-Params:<br>
-stringToFind => String to find in the array of objects<br>
-objects => Array of objects to search in`
-
-
 export function fromProperty(pathToProp: string, objects: Record<string, unknown>[]) {
   return objects.map((obj) => getProperty(pathToProp, obj))
 }
-
-export const fromPropertyHelp = `
-Returns an array with the values of a property in an array of objects.<br>
-Usage: fromProperty pathToProp $objects<br>
-Params:<br>
-pathToProp => Path to the property to get. Example: prop1.prop2.prop3<br>
-objects => Array of objects to get the property from`
