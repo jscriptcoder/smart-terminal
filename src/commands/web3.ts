@@ -47,7 +47,7 @@ export async function getBalance(args?: GetBalanceArgs) {
   try {
     const balance = await fetchBalance(args)
 
-    return `${balance.formatted} ETH`
+    return `${balance.formatted} ${balance.symbol}`
   } catch (error) {
     console.error(error)
     throw new Error('Error fetching balance.', { cause: error })
