@@ -40,6 +40,9 @@
   async function focusInput() {
     inputElem.focus()
     moveCursorToEnd()
+
+    await tick()
+    inputElem.scrollIntoView({ behavior: 'smooth' })
   }
 
   function onKeydown(event: KeyboardEvent) {
