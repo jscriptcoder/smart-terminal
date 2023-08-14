@@ -1,5 +1,5 @@
 import { encodeAbiParameters, encodePacked, keccak256, parseAbiParameters, toHex, toRlp } from 'viem';
-import { array, findInSerialize, fromProperty } from './array'
+import { array, byteArray, findInSerialize, fromProperty } from './array'
 import { contractEvents, readContract, writeContract } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo } from './echo'
@@ -206,6 +206,14 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Output: [arg1, arg2, arg3, ...]'
     ].join('<br>')
   },
+  ['byteArray']: {
+    exec: byteArray,
+    help: [
+      'Returns an array of bytes with the arguments passed to the command.',
+      'Usage: byteArray arg1 arg2 arg3 ...',
+      'Output: Uint8Array[arg1, arg2, arg3, ...]'
+    ].join('<br>')
+  },
   ['toBigint']: {
     exec: BigInt,
     help: 'Converts a string to a BigInt.'
@@ -273,17 +281,19 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: encodePacked,
     help: [
       'Generates <a href="https://docs.soliditylang.org/en/v0.8.18/abi-spec.html#non-standard-packed-mode" target="_blank">ABI non-standard packed encoded data</a> given a set of solidity types compatible with packed encoding.',
-      'Usage: see <a href="https://viem.sh/docs/abi/encodePacked.html#encodepacked" target="_blank">here</a> for more details.',
+      'Usage: encodePacked $listOfTypes $listOfValues',
+      'Params:',
+      "listOfTypes => List of solidity types compatible with packed encoding. Example: ['address', 'string', 'bytes16[]']",
+      "listOfValues => List of values to encode. Example: ['0x123…', 'Hello world', ['0x123…', '0x456…']]",
     ].join('<br>')
   },
   ['keccak256']: {
     exec: keccak256,
     help: [
       'Calculates the <a href="https://en.wikipedia.org/wiki/SHA-3"target="_blank">Keccak256</a> hash of a byte array or hex value.',
-      'Usage: encodePacked $listOfTypes $listOfValues',
-      'Params:',
-      "listOfTypes => List of solidity types compatible with packed encoding. Example: ['address', 'string', 'bytes16[]']",
-      "listOfValues => List of values to encode. Example: ['0x123…', 'Hello world', ['0x123…', '0x456…']]",
+      'Usage:',
+      'keccak256 0x123 => 0x667d3611…',
+      'toHex "hello world" | keccak256 => 0x47173285…',
     ].join('<br>')
   },
   ['toHex']: {
@@ -291,9 +301,9 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     help: [
       'Encodes a string, number, boolean or byte array to a hex value value.',
       'Usage:',
-      'toHex 420 => "0x1a4"',
-      'toHex "Hello world" => "0x48656c6c6f20776f726c642e"',
-      'toHex true => "0x1"',
+      'toHex 420 => 0x1a4',
+      'toHex "Hello world" => 0x48656c6c6f20776f726c642e',
+      'toHex true => 0x1',
     ].join('<br>')
   },
   ['toRlp']: {
@@ -307,7 +317,15 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   },
   ['getBlock']: {
     exec: getBlock,
-    help: 'Returns information about a block at a block number, hash or tag.'
+    help: [
+      'Returns information about a block at a block number, hash or tag.',
+      'Usage: getBlock [blockHash=0x…] [blockNumber=123…] [blockTag=latest] [includeTransactions=false]',
+      'Params:',
+      'blockHash => The hash of the block to retrieve',
+      'blockNumber => The block number of the block to retrieve',
+      'blockTag => The tag of the block to retrieve. Values: latest | earliest | pending | safe | finalized',
+      'includeTransactions => If true, includes the transactions in the block'
+    ].join('<br>')
   },
   ['getProof']: {
     exec: getProof,
@@ -326,6 +344,19 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Parses human-readable <a href="https://viem.sh/docs/glossary/types.html#abiparameter" target="_blank">ABI parameters</a> into AbiParameters. Re-exported from <a href="https://abitype.dev/api/human#parseabiparameters-1" target="_blank">ABIType</a>',
       'Usage:',
       'parseAbiParameters "address from, address to, uint256 amount"',
+      'Output:',
+      '[{',
+      '&nbsp;&nbsp;"type": "address",',
+      '&nbsp;&nbsp;"name": "from"',
+      '},',
+      '{',
+      '&nbsp;&nbsp;"type": "address",',
+      '&nbsp;&nbsp;"name": "to"',
+      '},',
+      '{',
+      '&nbsp;&nbsp;"type": "uint256",',
+      '&nbsp;&nbsp;"name": "amount"',
+      '}]',
       'Params:',
       'params => Human-readable ABI parameters',
     ].join('<br>')
@@ -334,7 +365,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: encodeAbiParameters,
     help: [
       'Generates ABI encoded data using the <a href="https://docs.soliditylang.org/en/latest/abi-spec.html" target="_blank">ABI specification</a>, given a set of ABI parameters (inputs/outputs) and their corresponding values.',
-      'Usage: see <a href="https://viem.sh/docs/abi/encodeAbiParameters.html#encodeabiparameters" target="_blank">here</a> for more details.',
+      'Usage: encodeAbiParameters $abiParameters $values',
+      'Params:',
+      'abiParameters => Array of ABI parameters (inputs/outputs). Example: [{ "name": "amount", "type": "uint256" }]',
+      'values => Array of values to encode. Example: [ 123456 ]',
     ].join('<br>')
   }
 }

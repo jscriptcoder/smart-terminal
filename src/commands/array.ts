@@ -17,6 +17,11 @@ export function array(...args: unknown[]) {
   return [...args, lastArgument]
 }
 
+export function byteArray(...args: unknown[]) {
+  const arr = array(...args) as number[]
+  return new Uint8Array(arr)
+}
+
 export function findInSerialize(stringToFind: string, objects: object[]) {
   const items = objects.filter((obj) => serialize(obj).includes(stringToFind))
 
