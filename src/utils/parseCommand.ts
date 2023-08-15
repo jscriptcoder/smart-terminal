@@ -17,7 +17,7 @@ function parseValue(value: string, variables: Record<string, unknown>) {
     // It's a variable. Let's replace it
     const varName = tmpValue.slice(1)
 
-    if (!variables[varName]) {
+    if (typeof variables[varName] === 'undefined') {
       throw new Error(`Variable not defined: ${varName}`)
     }
 
