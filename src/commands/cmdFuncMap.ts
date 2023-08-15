@@ -14,6 +14,7 @@ import {
   getBlock,
   getProof,
   getTransactionReceipt,
+  parseUnits,
   supportedChains,
   switchNetwork,
 } from './web3'
@@ -128,11 +129,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       '[token] => ERC20 contract address'
     ].join('<br>')
   },
-  ['balanceDetail']: {
+  ['balanceDetails']: {
     exec: getBalanceDetails,
     help: [
       'Returns details about balance and token.',
-      'Usage: balanceDetail [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect',
+      'Usage: balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect',
       'Output:',
       '{',
       '&nbsp;&nbsp;decimals: number // 18',
@@ -249,11 +250,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Usage: switchNetwork chainId'
     ].join('<br>')
   },
-  ['contractEvent']: {
+  ['contractEvents']: {
     exec: contractEvents,
     help: [
       'Retrieves events from a contract.',
-      'Usage: contractEvent abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]',
+      'Usage: contractEvents abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]',
       'Params:',
       `abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable`,
       '[chainId] => Forces a specific chain id for the request',
@@ -387,6 +388,17 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'values => Array of values to encode. Example: [ 123456 ]',
     ].join('<br>')
   },
+  ['parseUnits']: {
+    exec: parseUnits,
+    help: [
+      'Multiplies a string representation of a number by a given exponent of base 10.',
+      'Usage: parseUnits 420 9',
+      'Output: 420000000000n',
+      'Params:',
+      'value => String representation of a number',
+      'decimals => Exponent of base 10'
+    ].join('<br>')
+  }
 }
 
 export default cmdFuncMap

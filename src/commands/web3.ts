@@ -11,7 +11,7 @@ import {
 } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 import { checkSupportedChain } from '../web3/wagmi'
-import type { GetBlockParameters, Hex } from 'viem'
+import { type GetBlockParameters, type Hex, parseUnits as viemParseUnits } from 'viem'
 import getPublicClient from '../utils/getPublicClient'
 
 export function getAddress() {
@@ -144,4 +144,10 @@ export async function getProof(args: GetProofArgs) {
       args.block,
     ],
   });
+}
+
+export const parseUnits = (value: string | number, decimals: number) => {
+  // We need to convert the value to string manually, because Viem lib
+  // doesn't support numbers as input
+  return viemParseUnits(`${value}`, decimals)
 }
