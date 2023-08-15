@@ -42,7 +42,7 @@
       }
 
       result = await func(...params, namedParams)
-    } else if (variables[funcName]) {
+    } else if (typeof variables[funcName] !== 'undefined') {
       // We actually have a value stored in a variable with this name
       result = variables[funcName]
 

@@ -1,5 +1,5 @@
 export function echo(value: string) {
-  if (!value) throw new Error('No value provided.')
+  if (typeof value === 'undefined') throw new Error('No value provided.')
   return value
 }
 
