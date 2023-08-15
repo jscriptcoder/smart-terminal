@@ -30,7 +30,7 @@ type GetBalanceArgs = {
   token?: Address
 }
 
-export async function getBalance(args?: GetBalanceArgs) {
+export function getBalanceDetails(args?: GetBalanceArgs) {
   checkConnected()
 
   if (!args?.address) {
@@ -45,13 +45,17 @@ export async function getBalance(args?: GetBalanceArgs) {
   }
 
   try {
-    const balance = await fetchBalance(args)
-
-    return `${balance.formatted} ${balance.symbol}`
+    return fetchBalance(args)
   } catch (error) {
     console.error(error)
     throw new Error('Error fetching balance.', { cause: error })
   }
+}
+
+export async function getBalance(args?: GetBalanceArgs) {
+  const balance = await getBalanceDetails(args)
+
+  return `${balance.formatted} ${balance.symbol}`
 }
 
 export function supportedChains() {

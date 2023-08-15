@@ -10,6 +10,7 @@ import {
   connectedChain,
   getAddress,
   getBalance,
+  getBalanceDetails,
   getBlock,
   getProof,
   getTransactionReceipt,
@@ -125,6 +126,20 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       '[chainId] => Chain to get the balance from',
       '[formatUnits] => Units for formatting output. Values: ether | gwei | wei',
       '[token] => ERC20 contract address'
+    ].join('<br>')
+  },
+  ['balanceDetail']: {
+    exec: getBalanceDetails,
+    help: [
+      'Returns details about balance and token.',
+      'Usage: balanceDetail [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect',
+      'Output:',
+      '{',
+      '&nbsp;&nbsp;decimals: number // 18',
+      '&nbsp;&nbsp;formatted: string // 2',
+      '&nbsp;&nbsp;symbol: string // BLL',
+      '&nbsp;&nbsp;value: bigint // 2000000000000000000',
+      '}',
     ].join('<br>')
   },
   ['keys']: {
