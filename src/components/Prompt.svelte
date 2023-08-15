@@ -8,6 +8,7 @@
   import { account } from '../stores/account'
   import shortenAddress from '../utils/shortenAddress'
   import noop from '../utils/noop'
+  import findCommonPrefix from '../utils/findCommonPrefix'
 
   const dispatch = createEventDispatcher<{
     command: string | undefined
@@ -43,6 +44,10 @@
 
     await tick()
     inputElem.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  function replaceLastWord(input: string, isVar: boolean, replacement: string) {
+    return input.replace(/\$?[^\s=]*$/, `${isVar ? '$' : ''}${replacement}`)
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -103,6 +108,8 @@
             inputElem.textContent = matches[0]
             moveCursorToEnd()
           } else if (matches.length > 1) {
+            inputElem.textContent = findCommonPrefix(matches)
+
             dispatch('tab', { input, matches })
             focusInput()
           }
@@ -119,7 +126,7 @@
             let isVar = false // we use it to add the `$` sign if it's a variable
 
             if (groupMatch.startsWith('$')) {
-              // We looking  variables
+              // We are looking for variables
               matches = vars.filter((variable) => variable.startsWith(lastUtil))
               isVar = true
             } else {
@@ -130,12 +137,10 @@
             console.log('Matches:', matches)
 
             if (matches.length === 1) {
-              inputElem.textContent = input.replace(
-                /\$?[^\s=]*$/,
-                `${isVar ? '$' : ''}${matches[0]}`
-              )
+              inputElem.textContent = replaceLastWord(input, isVar, matches[0])
               moveCursorToEnd()
             } else if (matches.length > 1) {
+              inputElem.textContent = replaceLastWord(input, isVar, findCommonPrefix(matches))
               dispatch('tab', { input, matches })
               focusInput()
             }
