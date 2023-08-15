@@ -1,0 +1,24 @@
+{
+  "id": 167006,
+  "name": "Eldfell L3",
+  "network": "L3",
+  "nativeCurrency": {
+    "name": "Ether",
+    "symbol": "ETH",
+    "decimals": 18
+  },
+  "rpcUrls": {
+    "public": {
+      "http": ["https://rpc.l3test.taiko.xyz"]
+    },
+    "default": {
+      "http": ["https://rpc.l3test.taiko.xyz"]
+    }
+  },
+  "blockExplorers": {
+    "default": {
+      "name": "Main",
+      "url": "https://explorer.l3test.taiko.xyz"
+    }
+  }
+}

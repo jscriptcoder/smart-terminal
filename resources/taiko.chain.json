@@ -1,0 +1,24 @@
+{
+  "id": 167005,
+  "name": "Taiko",
+  "network": "L2",
+  "nativeCurrency": {
+    "name": "Ether",
+    "symbol": "ETH",
+    "decimals": 18
+  },
+  "rpcUrls": {
+    "public": {
+      "http": ["https://rpc.test.taiko.xyz"]
+    },
+    "default": {
+      "http": ["https://rpc.test.taiko.xyz"]
+    }
+  },
+  "blockExplorers": {
+    "default": {
+      "name": "Main",
+      "url": "https://explorer.test.taiko.xyz"
+    }
+  }
+}

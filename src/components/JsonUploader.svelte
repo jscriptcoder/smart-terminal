@@ -2,6 +2,9 @@
   import { onDestroy, onMount } from 'svelte'
   import cmdFuncMap from '../commands/cmdFuncMap'
   import Deferred from '../utils/Deferred'
+  import type { Chain } from '@wagmi/core'
+  import { CHAIN_STORAGE_KEY, chainSchema } from '../utils/chain'
+  import type { ValidationError } from 'validate'
 
   export let variables: Record<string, unknown> = {}
 
@@ -90,6 +93,35 @@
       help: [
         'Loads a JSON file with variables.',
         'Usage: loadVars => Sends the parsed json into variables defined in the file'
+      ].join('<br>')
+    }
+
+    cmdFuncMap['loadChains'] = {
+      exec: async () => {
+        let objChains = (await cmdFuncMap['loadJson'].exec()) as Chain | Chain[]
+        objChains = Array.isArray(objChains) ? objChains : [objChains]
+
+        // Throws validation errors if any of the chains is invalid
+        let schemaValidationErrors: ValidationError[] = []
+
+        if (
+          objChains.some((chain) => {
+            schemaValidationErrors = chainSchema.validate(chain)
+            return schemaValidationErrors.length > 0
+          })
+        ) {
+          throw schemaValidationErrors
+        }
+
+        const serializedChains = JSON.stringify(objChains)
+        localStorage.setItem(CHAIN_STORAGE_KEY, serializedChains)
+
+        location.reload()
+        return 'Reloading app...'
+      },
+      help: [
+        'Loads custom chains from a JSON file.',
+        'Usage: loadChains => Sends the parsed json into localStorage and refresh the app loading the new chains'
       ].join('<br>')
     }
 

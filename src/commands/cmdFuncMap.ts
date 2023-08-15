@@ -371,7 +371,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'abiParameters => Array of ABI parameters (inputs/outputs). Example: [{ "name": "amount", "type": "uint256" }]',
       'values => Array of values to encode. Example: [ 123456 ]',
     ].join('<br>')
-  }
+  },
 }
 
 export default cmdFuncMap

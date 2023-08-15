@@ -37,6 +37,7 @@
     "@web3modal/ethereum": "^2.7.1",
     "@web3modal/html": "^2.7.1",
     "codemirror": "^6.0.1",
+    "validate": "^5.2.0",
     "viem": "^1.5.0"
   }
 }

@@ -2,16 +2,19 @@ import { w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { configureChains, createConfig, type Chain } from '@wagmi/core'
 import { arbitrum, mainnet, polygon, sepolia } from '@wagmi/core/chains'
 import { PUBLIC_WALLET_CONNECT_PROJECT_ID } from '$env/static/public'
-import customChains from './customChains.json'
+import { CHAIN_STORAGE_KEY } from '../utils/chain'
 
 const projectId = PUBLIC_WALLET_CONNECT_PROJECT_ID
+
+// These chains are stored in local storage and can be added vi `loadChains` command
+const customChains = JSON.parse(localStorage?.getItem(CHAIN_STORAGE_KEY)  ?? '[]') as Chain[]
 
 export const chains: Chain[] = [
   arbitrum, 
   mainnet, 
   polygon, 
-  sepolia, 
-  ...customChains
+  sepolia,
+  ...customChains,
 ]
 
 export const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
