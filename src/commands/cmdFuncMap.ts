@@ -119,6 +119,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     help: [
       'Returns the balance.',
       'Usage: balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]',
+      'Output: 0.5 ETH',
       'Params:',
       '[address] => Address of balance to get back. Defaults to connected wallet',
       '[chainId] => Chain to get the balance from',
@@ -257,11 +258,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'objects => Array of objects to search in',
     ].join('<br>')
   },
-  ['getProperty']: {
+  ['property']: {
     exec: getProperty,
     help: [
       'Returns the value of a property in an object.',
-      'Usage: getProperty pathToProp $object',
+      'Usage: property pathToProp $object',
       'Params:',
       'pathToProp => Path to the property to get. Example: prop1.prop2.prop3',
       'object => Object to get the property from'
@@ -315,11 +316,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'toRlp ["0x7f", "0x7f", "0x8081e8"] => 0xc67f7f838081e8',
     ].join('<br>')
   },
-  ['getBlock']: {
+  ['block']: {
     exec: getBlock,
     help: [
-      'Returns information about a block at a block number, hash or tag.',
-      'Usage: getBlock [blockHash=0x…] [blockNumber=123…] [blockTag=latest] [includeTransactions=false]',
+      'Returns information about a block at a block number, hash or tag. Defaults to latest block.',
+      'Usage: block [blockHash=0x…] [blockNumber=123…] [blockTag=latest] [includeTransactions=false]',
       'Params:',
       'blockHash => The hash of the block to retrieve',
       'blockNumber => The block number of the block to retrieve',
@@ -338,12 +339,12 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'block => A hexadecimal block number, or the string "latest" or "earliest"'
     ].join('<br>')
   },
-  ['parseAbiParameters']: {
+  ['parseAbiParams']: {
     exec: parseAbiParameters,
     help: [
       'Parses human-readable <a href="https://viem.sh/docs/glossary/types.html#abiparameter" target="_blank">ABI parameters</a> into AbiParameters. Re-exported from <a href="https://abitype.dev/api/human#parseabiparameters-1" target="_blank">ABIType</a>',
       'Usage:',
-      'parseAbiParameters "address from, address to, uint256 amount"',
+      'parseAbiParams "address from, address to, uint256 amount"',
       'Output:',
       '[{',
       '&nbsp;&nbsp;"type": "address",',
@@ -361,11 +362,11 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'params => Human-readable ABI parameters',
     ].join('<br>')
   },
-  ['encodeAbiParameters']: {
+  ['encodeAbiParams']: {
     exec: encodeAbiParameters,
     help: [
       'Generates ABI encoded data using the <a href="https://docs.soliditylang.org/en/latest/abi-spec.html" target="_blank">ABI specification</a>, given a set of ABI parameters (inputs/outputs) and their corresponding values.',
-      'Usage: encodeAbiParameters $abiParameters $values',
+      'Usage: encodeAbiParams $abiParameters $values',
       'Params:',
       'abiParameters => Array of ABI parameters (inputs/outputs). Example: [{ "name": "amount", "type": "uint256" }]',
       'values => Array of values to encode. Example: [ 123456 ]',
