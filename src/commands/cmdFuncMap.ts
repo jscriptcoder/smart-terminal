@@ -136,10 +136,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Usage: balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect',
       'Output:',
       '{',
-      '&nbsp;&nbsp;decimals: number // 18',
-      '&nbsp;&nbsp;formatted: string // 2',
-      '&nbsp;&nbsp;symbol: string // BLL',
-      '&nbsp;&nbsp;value: bigint // 2000000000000000000',
+      '&nbsp;&nbsp;decimals: 18',
+      '&nbsp;&nbsp;formatted: "2"',
+      '&nbsp;&nbsp;symbol: "BLL"',
+      '&nbsp;&nbsp;value: 2000000000000000000',
       '}',
     ].join('<br>')
   },
@@ -338,10 +338,10 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Returns information about a block at a block number, hash or tag. Defaults to latest block.',
       'Usage: block [blockHash=0x…] [blockNumber=123…] [blockTag=latest] [includeTransactions=false]',
       'Params:',
-      'blockHash => The hash of the block to retrieve',
-      'blockNumber => The block number of the block to retrieve',
-      'blockTag => The tag of the block to retrieve. Values: latest | earliest | pending | safe | finalized',
-      'includeTransactions => If true, includes the transactions in the block'
+      '[blockHash] => The hash of the block to retrieve',
+      '[blockNumber] => The block number of the block to retrieve',
+      '[blockTag] => The tag of the block to retrieve. Values: latest | earliest | pending | safe | finalized',
+      '[includeTransactions] => If true, includes the transactions in the block'
     ].join('<br>')
   },
   ['getProof']: {
