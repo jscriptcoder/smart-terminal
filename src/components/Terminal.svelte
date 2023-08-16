@@ -283,8 +283,8 @@
     overflow: hidden;
     padding: 0 2rem;
     color: white;
-    font-family: monospace;
-    font-size: 1.2rem;
+    font-family: 'Share Tech Mono', monospace;
+    /* font-size: 1.2rem; */
     text-shadow: 0 0 5px rgb(200 200 200);
   }
 
