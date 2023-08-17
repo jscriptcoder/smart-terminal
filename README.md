@@ -76,15 +76,15 @@ Returns details about balance and token.
 
 Usage:
 ```bash
-balance balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect
+balance balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]
 ```
 
 Output
 <pre>{
-  "decimals": 18,
-  "formatted": "2",
-  "symbol": "BLL",
-  "value": 2000000000000000000
+  decimals: 18,
+  formatted: "2",
+  symbol: "BLL",
+  value: 2000000000000000000
 }</pre>
 
 ## block
@@ -120,18 +120,18 @@ Returns the chain we are currently connected to.
 
 Usage:
 ```bash
-connectedChain | inspect
+connectedChain
 ```
 
 Output:
 <pre>{
-  "id": 11155111,
-  "network": "sepolia",
-  "name": "Sepolia",
-  "nativeCurrency": {
-    "name": "Sepolia Ether",
-    "symbol": "SEP",
-    "decimals": 18
+  id: 11155111,
+  network: "sepolia",
+  name: "Sepolia",
+  nativeCurrency: {
+    name: "Sepolia Ether",
+    symbol: "SEP",
+    decimals: 18
   },
   rpcUrls: {…},
   blockExplorers: {…},
@@ -153,6 +153,11 @@ Params:
 - [eventName]: Name of the event to filter on
 - [fromBlock]: Block number to start the filter from
 - [toBlock]: Block number to end the filter at
+
+Output:
+<pre>{
+  …
+}</pre>
 
 ## date
 Returns the current date in a human readable format.
@@ -187,15 +192,17 @@ editor > result
 ```js
 ({
   name: 'Fran',
-  profession: 'Software Enginner'
+  profession: 'Software Enginner',
+  timestamp: Date.now(),
 })
 // CTRL+s
 ```
 
 Output (in variable `result`):
 <pre>{
-  "name": "Fran",
-  "profession": "Software Enginner"
+  name: "Fran",
+  profession: "Software Enginner",
+  timestamp: 1691869299389
 }</pre>
 
 ## encodeAbiParams
@@ -231,10 +238,10 @@ inspect $object
 
 Output:
 <pre>{
-  prop1: value1,
-  prop2: [value2, value3, …],
-  prop2: {
-    subprop: value4,
+  "prop1": value1,
+  "prop2": [value2, value3, …],
+  "prop2": {
+    "subprop": value4,
     …
   },
   …
@@ -293,7 +300,7 @@ Waits for a transaction to be mined, and returns the receipt.
 
 Usage:
 ```bash
-transactionReceipt $txHash
+transactionReceipt $txHash | inspect
 ```
 
 Params:
