@@ -18,7 +18,6 @@ address
 ```
 
 Output:
-
 <pre>0xB3cAe61…</pre>
 
 ## array
@@ -30,7 +29,6 @@ array arg1 arg2 arg3 ...
 ```
 
 Output:
-
 <pre>[arg1, arg2, arg3, ...]</pre>
 
 ## asyncEcho
@@ -48,7 +46,6 @@ author
 ```
 
 Output:
-
 <pre>
 Francisco Ramos &lt;<a href="mailto:jscriptcoder@gmail.com">jscriptcoder@gmail.com</a>&gt;
 LinkedIn: <a href="https://www.linkedin.com/in/jscriptcoder" target="_blank">https://www.linkedin.com/in/jscriptcoder</a>
@@ -57,6 +54,21 @@ GitHub: <a href="https://github.com/jscriptcoder" target="_blank">https://github
 
 
 ## balance
+Returns the balance.
+
+Usage:
+```bash
+balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]
+```
+
+Params:
+- [address]: Address of balance to get back. Defaults to connected wallet
+- [chainId]: Chain to get the balance from
+- [formatUnits]: Units for formatting output. Values: ether | gwei | wei'
+- [token]: ERC20 contract address
+
+Output
+<pre>0.256 ETH</pre>
 
 ## balanceDetails
 
