@@ -9,156 +9,133 @@ Latest deployment: https://smart-terminal.vercel.app/
 </P>
 
 ## List of available commands
-- address
-```bash
+### address
 Returns the current wallet address.
-Usage: address
-Output: 0xB3cAe61…
-```
-- array
+
+Usage:
 ```bash
+address
+```
+
+Output: `0xB3cAe61…`
+
+## array
 Returns an array with the arguments passed to the command.
-Usage: array arg1 arg2 arg3 ...
-Output: [arg1, arg2, arg3, ...]
-```
-- asyncEcho
+
+Usage:
 ```bash
+array arg1 arg2 arg3 ...
 ```
-- asyncLog
+
+Output: `[arg1, arg2, arg3, ...]`
+
+## asyncEcho
+Echos a message asynchronously. Check out [echo](#echo) command for more details.
+
+## asyncLog
+Logs a message asynchronously. Check out [log](#log) command for more details.
+
+## author
+Shows details about the author of this shell.
+
+Usage:
 ```bash
-```
 author
-```bash
 ```
-balance
-```bash
+
+Output:
 ```
-balanceDetails
-```bash
+Francisco Ramos <jscriptcoder@gmail.com>
+LinkedIn: https://www.linkedin.com/in/jscriptcoder
+GitHub: https://github.com/jscriptcoder
 ```
-block
-```bash
-```
-byteArray
-```bash
-```
-clear
-```bash
-```
-connectedChain
-```bash
-```
-contractEvents
-```bash
-```
-date
-```bash
-```
-echo
-```bash
-```
-editor
-```bash
-```
-encodeAbiParams
-```bash
-```
-encodePacked
-```bash
-```
-eval
-```bash
-```
-findInSerialize
-```bash
-```
-fromProperty
-```bash
-```
-getProof
-```bash
-```
-help
-```bash
-```
-inspect
-```bash
-```
-isoDate
-```bash
-```
-keccak256
-```bash
-```
-keys
-```bash
-```
-loadChains
-```bash
-```
-loadJson
-```bash
-```
-loadVars
-```bash
-```
-log
-```bash
-```
-now
-```bash
-```
-parseAbiParams
-```bash
-```
-parseUnits
-```bash
-```
-property
-```bash
-```
-readContract
-```bash
-```
-set
-```bash
-```
-supportedChains
-```bash
-```
-switchNetwork
-```bash
-```
-toBigint
-```bash
-```
-toBoolean
-```bash
-```
-toHex
-```bash
-```
-toNumber
-```bash
-```
-toRlp
-```bash
-```
-transactionReceipt
-```bash
-```
-values
-```bash
-```
-vars
-```bash
-```
-wallet
-```bash
-```
-writeContract
-```bash
-```
+
+## balance
+
+## balanceDetails
+
+## block
+
+## byteArray
+
+## clear
+
+## connectedChain
+
+## contractEvents
+
+## date
+
+## echo
+
+## editor
+
+## encodeAbiParams
+
+## encodePacked
+
+## eval
+
+## findInSerialize
+
+## fromProperty
+
+## getProof
+
+## help
+
+## inspect
+
+## isoDate
+
+## keccak256
+
+## keys
+
+## loadChains
+
+## loadJson
+
+## loadVars
+
+## log
+
+## now
+
+## parseAbiParams
+
+## parseUnits
+
+## property
+
+## readContract
+
+## set
+
+## supportedChains
+
+## switchNetwork
+
+## toBigint
+
+## toBoolean
+
+## toHex
+
+## toNumber
+
+## toRlp
+
+## transactionReceipt
+
+## values
+
+## vars
+
+## wallet
+
+## writeContract
+
 
 ## Developing
 
