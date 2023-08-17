@@ -79,22 +79,65 @@ balance balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0
 ```
 
 Output
-<pre>
-{
+<pre>{
   "decimals": 18,
   "formatted": "2",
   "symbol": "BLL",
   "value": 2000000000000000000
-}
-</pre>
+}</pre>
 
 ## block
+Returns information about a block at a block number, hash or tag. Defaults to latest block.
+
+Usage:
+```bash
+block [blockHash=0x…] [blockNumber=123…] [blockTag=latest] [includeTransactions=false]
+```
+
+Params:
+- [blockHash]: The hash of the block to retrieve
+- [blockNumber]: The block number of the block to retrieve
+- [blockTag]: The tag of the block to retrieve. Values: `latest` | `earliest` | `pending` | `safe` | `finalized`
+- [includeTransactions]: If true, includes the transactions in the block
+
+Output:
 
 ## byteArray
+Returns an array of bytes with the arguments passed to the command.
+
+Usage:
+```bash
+byteArray arg1 arg2 arg3 ...
+```
+
+Output:
+<pre>Uint8Array[arg1, arg2, arg3, ...]</pre>
 
 ## clear
+Clears the terminal.
 
 ## connectedChain
+Returns the chain we are currently connected to.
+
+Usage:
+```bash
+connectedChain | inspect
+```
+
+Output:
+<pre>{
+  "id": 11155111,
+  "network": "sepolia",
+  "name": "Sepolia",
+  "nativeCurrency": {
+    "name": "Sepolia Ether",
+    "symbol": "SEP",
+    "decimals": 18
+  },
+  rpcUrls: {...},
+  blockExplorers: {...},
+  ...
+}</pre>
 
 ## contractEvents
 

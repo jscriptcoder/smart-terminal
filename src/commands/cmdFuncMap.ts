@@ -135,12 +135,12 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Returns details about balance and token.',
       'Usage: balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect',
       'Output:',
-      '{',
-      '&nbsp;&nbsp;decimals: 18',
-      '&nbsp;&nbsp;formatted: "2"',
-      '&nbsp;&nbsp;symbol: "BLL"',
-      '&nbsp;&nbsp;value: 2000000000000000000',
-      '}',
+      '<pre>{',
+      '  "decimals": 18,',
+      '  "formatted": "2",',
+      '  "symbol": "BLL",',
+      '  "value": 2000000000000000000',
+      '}</pre>',
     ].join('<br>')
   },
   ['keys']: {
