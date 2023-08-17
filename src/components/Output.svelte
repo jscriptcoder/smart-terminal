@@ -62,7 +62,7 @@
 <style>
   @keyframes ellipsis {
     to {
-      width: 3rem;
+      width: 2.4rem;
     }
   }
 
