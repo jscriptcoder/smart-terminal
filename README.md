@@ -262,14 +262,41 @@ Output:
 <pre>[key1, key2, key3, …]</pre>
 
 ## loadChains
+Loads custom chains from a JSON file, sending the parsed json into localStorage and refreshing the app. The new chains will be loaded from the storage and be included in the web3 libs initialzation.
+
+Usage:
+```bash
+loadChains
+```
 
 ## loadJson
+Loads a JSON file, which can be added into a variable.
+
+Usage:
+```bash
+loadJson > $parsedJson
+```
 
 ## loadVars
+Loads a JSON file with variables, loading those variables into memory. See (vars)[#vars] command to list available variables.
+
+Usage:
+```bash
+loadVars
+```
 
 ## log
 
 ## now
+Returns the current date in milliseconds.
+
+Usage:
+```bash
+now
+```
+
+Output:
+<pre>1691869299389</pre>
 
 ## parseAbiParams
 
