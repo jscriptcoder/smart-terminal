@@ -179,7 +179,6 @@ Output:
 Opens an editor to enter data that will be evaluated as Javascript. Pressing `ESC` cancels the operation. `CTRL/CMD+s` closes the editor and returns the result of the evaluation.
 
 Usage:
-Usage:
 ```bash
 editor > result
 ```
@@ -189,9 +188,10 @@ editor > result
   name: 'Fran',
   profession: 'Software Enginner'
 })
+// CMD+s
 ```
 
-Output:
+Output (in variable `result`):
 <pre>{
   "name": "Fran",
   "profession": "Software Enginner"
