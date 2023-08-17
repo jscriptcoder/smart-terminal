@@ -71,6 +71,22 @@ Output
 <pre>0.256 ETH</pre>
 
 ## balanceDetails
+Returns details about balance and token.
+
+Usage:
+```bash
+balance balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0x…] | inspect
+```
+
+Output
+<code>
+{
+  decimals: 18,
+  formatted: "2",
+  symbol: "BLL",
+  value: 2000000000000000000'
+}
+</code>
 
 ## block
 
