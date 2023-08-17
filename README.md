@@ -79,13 +79,14 @@ balance balanceDetails [address=0x…] [chainId=id] [formatUnits=units] [token=0
 ```
 
 Output
-<code>
+```json
 {
-  decimals: 18,
-  formatted: "2",
-  symbol: "BLL",
-  value: 2000000000000000000'
+  "decimals": 18,
+  "formatted": "2",
+  "symbol": "BLL",
+  "value": 2000000000000000000'
 }
+```
 </code>
 
 ## block
