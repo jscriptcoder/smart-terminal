@@ -48,8 +48,9 @@ author
 Output:
 <pre>
 Francisco Ramos &lt;<a href="mailto:jscriptcoder@gmail.com">jscriptcoder@gmail.com</a>&gt;
-LinkedIn: <a href="https://www.linkedin.com/in/jscriptcoder" target="_blank">https://www.linkedin.com/in/jscriptcoder</a>
 GitHub: <a href="https://github.com/jscriptcoder" target="_blank">https://github.com/jscriptcoder</a>
+LinkedIn: <a href="https://www.linkedin.com/in/jscriptcoder" target="_blank">https://www.linkedin.com/in/jscriptcoder</a>
+Medium: <a href="https://medium.com/@jscriptcoder" target="_blank">https://medium.com/@jscriptcoder</a><br>
 </pre>
 
 
@@ -210,6 +211,15 @@ Output (in variable `result`):
 ## getProof
 
 ## help
+Shows available commands or help about a specific command.
+
+Usage:
+```bash
+help [command]
+```
+
+Params:
+- [command]: Command to get help for
 
 ## inspect
 
@@ -218,6 +228,15 @@ Output (in variable `result`):
 ## keccak256
 
 ## keys
+Returns the keys of an object as array.
+
+Usage:
+```bash
+keys $object
+```
+
+Output:
+<pre>[key1, key2, key3, ...]</pre>
 
 ## loadChains
 
@@ -256,8 +275,26 @@ Output (in variable `result`):
 ## transactionReceipt
 
 ## values
+Returns the values of an object as array.
+
+Usage:
+```bash
+values $object
+```
+
+Output:
+<pre>[value1, value2, value3, ...]</pre>
 
 ## vars
+Shows available variables.
+
+Usage:
+```bash
+vars
+```
+
+Output:
+<pre>varName1, varName2, varName3, ...</pre>
 
 ## wallet
 
