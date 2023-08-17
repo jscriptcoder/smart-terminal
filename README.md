@@ -222,7 +222,23 @@ Params:
 - [command]: Command to get help for
 
 ## inspect
+Helps to visualize objects rather than printing `[object Object]`.
 
+Usage:
+```bash
+inspect $object
+```
+
+Output:
+<pre>{
+  prop1: value1,
+  prop2: [value2, value3, ...],
+  prop2: {
+    subprop: value4,
+    ...
+  },
+  ...
+}</pre>
 ## isoDate
 
 ## keccak256
