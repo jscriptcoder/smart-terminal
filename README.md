@@ -188,7 +188,7 @@ editor > result
   name: 'Fran',
   profession: 'Software Enginner'
 })
-// CMD+s
+// CTRL+s
 ```
 
 Output (in variable `result`):
