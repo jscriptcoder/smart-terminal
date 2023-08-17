@@ -17,7 +17,9 @@ Usage:
 address
 ```
 
-Output: `0xB3cAe61…`
+Output:
+
+<pre>0xB3cAe61…</pre>
 
 ## array
 Returns an array with the arguments passed to the command.
@@ -27,7 +29,9 @@ Usage:
 array arg1 arg2 arg3 ...
 ```
 
-Output: `[arg1, arg2, arg3, ...]`
+Output:
+
+<pre>[arg1, arg2, arg3, ...]</pre>
 
 ## asyncEcho
 Echos a message asynchronously. Check out [echo](#echo) command for more details.
@@ -47,8 +51,8 @@ Output:
 
 <pre>
 Francisco Ramos <jscriptcoder@gmail.com>
-LinkedIn: https://www.linkedin.com/in/jscriptcoder
-GitHub: https://github.com/jscriptcoder
+LinkedIn: <a href="https://www.linkedin.com/in/jscriptcoder" target="_blank">https://www.linkedin.com/in/jscriptcoder</a>
+GitHub: <a href="https://github.com/jscriptcoder" target="_blank">https://github.com/jscriptcoder</a>
 </pre>
 
 
