@@ -44,11 +44,11 @@ author
 ```
 
 Output:
-```
+
 Francisco Ramos <jscriptcoder@gmail.com>
 LinkedIn: https://www.linkedin.com/in/jscriptcoder
 GitHub: https://github.com/jscriptcoder
-```
+
 
 ## balance
 
