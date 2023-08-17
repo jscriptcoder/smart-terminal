@@ -63,8 +63,8 @@ balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]
 
 Params:
 - [address]: Address of balance to get back. Defaults to connected wallet
-- [chainId]: Chain to get the balance from
-- [formatUnits]: Units for formatting output. Values: ether | gwei | wei'
+- [chainId]: Chain id to get the balance from
+- [formatUnits]: Units for formatting output. Values: `ether` | `gwei` | `wei`
 - [token]: ERC20 contract address
 
 Output
