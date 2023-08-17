@@ -100,8 +100,6 @@ Params:
 - [blockTag]: The tag of the block to retrieve. Values: `latest` | `earliest` | `pending` | `safe` | `finalized`
 - [includeTransactions]: If true, includes the transactions in the block
 
-Output:
-
 ## byteArray
 Returns an array of bytes with the arguments passed to the command.
 
@@ -140,10 +138,42 @@ Output:
 }</pre>
 
 ## contractEvents
+Retrieves events from a contract.
+
+Usage:
+```bash
+contractEvents abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]
+```
+
+Params:
+- abi: Contract's Abi as JSON. See [loadJson](#loadJson) command to import this file into a variable
+- [chainId]: Forces a specific chain id for the request
+- [address]: Address of the contract
+- [eventName]: Name of the event to filter on
+- [fromBlock]: Block number to start the filter from
+- [toBlock]: Block number to end the filter at
 
 ## date
+Returns the current date in a human readable format.
+
+Usage:
+```bash
+date
+```
+
+Output:
+<pre>Sat Aug 12 2023 21:41:24 GMT+0200 (Central European Summer Time)</pre>
 
 ## echo
+Echos a value in the terminal.
+
+Usage:
+```bash
+echo value
+```
+
+Output:
+<pre>value</pre>
 
 ## editor
 
