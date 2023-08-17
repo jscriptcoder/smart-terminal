@@ -162,7 +162,7 @@ const cmdFuncMap: Record<string, CmdFunc> = {
   ['inspect']: {
     exec: inspect,
     help: [
-      'Helps to visualize objects.',
+      'Helps to visualize objects rather than printing `[object Object]`.',
       'Usage: inspect $object',
       'Output:',
       '{',
@@ -202,7 +202,6 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'address => Address of the contract',
       `abi => Contract's Abi as JSON. See "loadJson" command to import this file into a variable`,
       'functionName => A function to extract from the ABI and call',
-      '[chainId] => Forces a specific chain id for the request',
       '[args] => List of arguments to pass to the function',
     ].join('<br>')
   },
@@ -210,9 +209,9 @@ const cmdFuncMap: Record<string, CmdFunc> = {
     exec: getTransactionReceipt,
     help: [
       'Waits for a transaction to be mined, and returns the receipt.',
-      'Usage: transactionReceipt hash=0x…',
+      'Usage: transactionReceipt $txHash',
       'Params:',
-      'hash => Transaction hash to wait for'
+      'txHash => Transaction hash to wait for'
     ].join('<br>')
   },
   ['array']: {

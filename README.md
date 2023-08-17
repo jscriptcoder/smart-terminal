@@ -25,11 +25,11 @@ Returns an array with the arguments passed to the command.
 
 Usage:
 ```bash
-array arg1 arg2 arg3 ...
+array arg1 arg2 arg3 …
 ```
 
 Output:
-<pre>[arg1, arg2, arg3, ...]</pre>
+<pre>[arg1, arg2, arg3, …]</pre>
 
 ## asyncEcho
 Echos a message asynchronously. Check out [echo](#echo) command for more details.
@@ -106,11 +106,11 @@ Returns an array of bytes with the arguments passed to the command.
 
 Usage:
 ```bash
-byteArray arg1 arg2 arg3 ...
+byteArray arg1 arg2 arg3 …
 ```
 
 Output:
-<pre>Uint8Array[arg1, arg2, arg3, ...]</pre>
+<pre>Uint8Array[arg1, arg2, arg3, …]</pre>
 
 ## clear
 Clears the terminal.
@@ -133,9 +133,9 @@ Output:
     "symbol": "SEP",
     "decimals": 18
   },
-  rpcUrls: {...},
-  blockExplorers: {...},
-  ...
+  rpcUrls: {…},
+  blockExplorers: {…},
+  …
 }</pre>
 
 ## contractEvents
@@ -232,12 +232,12 @@ inspect $object
 Output:
 <pre>{
   prop1: value1,
-  prop2: [value2, value3, ...],
+  prop2: [value2, value3, …],
   prop2: {
     subprop: value4,
-    ...
+    …
   },
-  ...
+  …
 }</pre>
 ## isoDate
 
@@ -252,7 +252,7 @@ keys $object
 ```
 
 Output:
-<pre>[key1, key2, key3, ...]</pre>
+<pre>[key1, key2, key3, …]</pre>
 
 ## loadChains
 
@@ -289,6 +289,27 @@ Output:
 ## toRlp
 
 ## transactionReceipt
+Waits for a transaction to be mined, and returns the receipt.
+
+Usage:
+```bash
+transactionReceipt $txHash
+```
+
+Params:
+- txHash: Transaction hash to wait for. Example
+
+Output:
+<pre>{
+  "blockHash": "0x…"
+  "blockNumber": 123…
+  "contractAddress": "0x…"
+  …,
+  "status": "success",
+  "to": "0x…",
+  "transactionHash": "0x…",
+  …
+}</pre>
 
 ## values
 Returns the values of an object as array.
@@ -299,7 +320,7 @@ values $object
 ```
 
 Output:
-<pre>[value1, value2, value3, ...]</pre>
+<pre>[value1, value2, value3, …]</pre>
 
 ## vars
 Shows available variables.
@@ -310,11 +331,32 @@ vars
 ```
 
 Output:
-<pre>varName1, varName2, varName3, ...</pre>
+<pre>varName1, varName2, varName3, …</pre>
 
 ## wallet
+Connects your wallet or opens the wallet modal if already connected.
+
+Usage:
+```bash
+wallet [option]
+```
+
+Params:
+- [option] => Option to open a specific modal. Values: `help` | `account` | `connect` | `network`
 
 ## writeContract
+Calls a write function on a contract and returns the transaction hash.
+
+Usage:
+```bash
+writeContract address=0x… abi=$abiJson functionName=contractMethod [args=$args]
+```
+
+Params:
+- address: Address of the contract
+- abi: Contract's Abi as JSON. See [loadJson](#loadjson) command to import this file into a variable
+- functionName: A function to extract from the ABI and call
+- [args]: List of arguments to pass to the function
 
 
 ## Developing
