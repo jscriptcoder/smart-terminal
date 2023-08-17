@@ -245,7 +245,12 @@
           waiting = false
         }
       },
-      help: 'Shows'
+      help: [
+        'Opens an editor to enter data that will be evaluated as Javascript.',
+        'Pressing ESC cancels the operation.',
+        'CTRL/CMD+s closes the editor and returns the result of the evaluation.',
+        'Usage: editor > result'
+      ].join('<br>')
     }
   })
 </script>

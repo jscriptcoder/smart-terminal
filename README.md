@@ -176,6 +176,26 @@ Output:
 <pre>value</pre>
 
 ## editor
+Opens an editor to enter data that will be evaluated as Javascript. Pressing `ESC` cancels the operation. `CTRL/CMD+s` closes the editor and returns the result of the evaluation.
+
+Usage:
+Usage:
+```bash
+editor > result
+```
+
+```js
+({
+  name: 'Fran',
+  profession: 'Software Enginner'
+})
+```
+
+Output:
+<pre>{
+  "name": "Fran",
+  "profession": "Software Enginner"
+}</pre>
 
 ## encodeAbiParams
 
