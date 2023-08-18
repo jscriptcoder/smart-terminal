@@ -10,7 +10,7 @@ Latest deployment: https://smart-terminal.vercel.app/
 This is an mintable ERC20 token.
 
 <p align="center">
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/CalOmrOSg3g?si=1_vhbyx25HRWavsp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    [![Minting Horse Token](https://img.youtube.com/vi/CalOmrOSg3g/0.jpg)](https://youtu.be/CalOmrOSg3g)
 </P>
 
 ## List of available commands
