@@ -28,7 +28,7 @@ Sending an ERC20 token to the TokenVault contract in order to later on claim it 
 </a>
 
 ### Claiming Horse Token
-Processing bridging message, claiming an ERC20 token on the destination chain.
+Processing bridge message, claiming an ERC20 token on the destination chain.
 
 <a href="https://youtu.be/lzbstwPTQTQ" target="_blank">
  <img src="images/claiming-horse-token_thumbnail.png" alt="Processing erc20 token" width="640" />
