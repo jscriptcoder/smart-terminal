@@ -21,7 +21,11 @@ Watch how we can set an amount as the allowance of spender over the caller's tok
 </a>
 
 ### Bridging Horse Token
-TODO
+Sending an ERC20 token to the TokenVault contract in order to later on claim it on Taiko chain.
+
+<a href="https://youtu.be/a27E4Rlyy2k" target="_blank">
+ <img src="images/bridging-horse-token_thumbnail.png" alt="Sending erc20 token to TokenVault" width="640" />
+</a>
 
 ### Claiming Horse Token
 TODO
