@@ -9,12 +9,16 @@ Latest deployment: https://smart-terminal.vercel.app/
 ### Minting Horse Token
 This is an mintable ERC20 token.
 
-[![Minting horse token](images/minting_horse-token_thumbnail.png)](https://youtu.be/CalOmrOSg3g)
+<a href="https://youtu.be/CalOmrOSg3g" target="_blank">
+ <img src="images/minting_horse-token_thumbnail.png" alt="Minting horse token" width="240" />
+</a>
 
 ### Approving Spender Allowance
 Sets an amount as the allowance of spender over the caller's tokens.
 
-[![Minting horse token](images/approving_allowance_thumbnail.png)](https://youtu.be/KTCe6aTcq9Q)
+<a href="https://youtu.be/KTCe6aTcq9Q" target="_blank">
+ <img src="images/approving-allowance_thumbnail.png" alt="Approving spender allowance" width="240" />
+</a>
 
 ### Bridging Horse Token
 TODO
