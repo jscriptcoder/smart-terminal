@@ -327,7 +327,7 @@ Waits for a transaction to be mined, and returns the receipt.
 
 Usage:
 ```bash
-transactionReceipt $txHash | inspect
+transactionReceipt $txHash
 ```
 
 Params:
@@ -335,13 +335,15 @@ Params:
 
 Output:
 <pre>{
-  "blockHash": "0x…"
-  "blockNumber": 123…
-  "contractAddress": "0x…"
+  blockHash: "0x…"
+  blockNumber: 123…
+  contractAddress: "0x…"
   …,
-  "status": "success",
-  "to": "0x…",
-  "transactionHash": "0x…",
+  status: "success",
+  to: "0x…",
+  transactionHash: "0x…",
+  transactionIndex: 1,
+  type: "eip1559"
   …
 }</pre>
 
