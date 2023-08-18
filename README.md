@@ -224,16 +224,28 @@ Output (in variable `result`):
 }</pre>
 
 ## encodeAbiParams
+TODO
 
 ## encodePacked
+TODO
 
 ## eval
+TODO
 
 ## findInSerialize
+TODO
+
+## formatEther
+TODO
+
+## formatUnits
+TODO
 
 ## fromProperty
+TODO
 
 ## getProof
+TODO
 
 ## help
 Shows available commands or help about a specific command.
@@ -265,8 +277,10 @@ Output:
   …
 }</pre>
 ## isoDate
+TODO
 
 ## keccak256
+TODO
 
 ## keys
 Returns the keys of an object as array.
@@ -304,6 +318,7 @@ loadVars
 ```
 
 ## log
+TODO
 
 ## now
 Returns the current date in milliseconds.
@@ -317,28 +332,43 @@ Output:
 <pre>1691869299389</pre>
 
 ## parseAbiParams
+TODO
+
+## parseEther
+TODO
 
 ## parseUnits
+TODO
 
 ## property
+TODO
 
 ## readContract
+TODO
 
 ## set
+TODO
 
 ## supportedChains
+TODO
 
 ## switchNetwork
+TODO
 
 ## toBigint
+TODO
 
 ## toBoolean
+TODO
 
 ## toHex
+TODO
 
 ## toNumber
+TODO
 
 ## toRlp
+TODO
 
 ## transactionReceipt
 Waits for a transaction to be mined, and returns the receipt.
