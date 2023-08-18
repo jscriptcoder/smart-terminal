@@ -8,12 +8,15 @@ import { getProperty, inspect } from './object'
 import { wallet } from './wallet'
 import {
   connectedChain,
+  formatEther,
+  formatUnits,
   getAddress,
   getBalance,
   getBalanceDetails,
   getBlock,
   getProof,
   getTransactionReceipt,
+  parseEther,
   parseUnits,
   supportedChains,
   switchNetwork,
@@ -396,6 +399,37 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Params:',
       'value => String representation of a number',
       'decimals => Exponent of base 10'
+    ].join('<br>')
+  },
+  ['formatUnits']: {
+    exec: formatUnits,
+    help: [
+      'Divides a number by a given exponent of base 10, and formats it into a string representation of the number.',
+      'Usage: formatUnits 420000000000n 9',
+      'Output: 420',
+      'Params:',
+      'value => BigNumber to format as a string, number or bigint',
+      'decimals => Exponent of base 10'
+    ].join('<br>')
+  },
+  ['parseEther']: {
+    exec: parseEther,
+    help: [
+      'Converts a string representation of ether to numerical wei.',
+      'Usage: parseEther 420',
+      'Output: 420000000000000000000n',
+      'Params:',
+      'value => String representation of ether'
+    ].join('<br>')
+  },
+  ['formatEther']: {
+    exec: formatEther,
+    help: [
+      'Converts numerical wei to a string representation of ether.',
+      'Usage: formatEther 1000000000000000000n',
+      'Output: 1',
+      'Params:',
+      'value => The wei value',
     ].join('<br>')
   }
 }

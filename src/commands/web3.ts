@@ -11,7 +11,14 @@ import {
 } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
 import { checkSupportedChain } from '../web3/wagmi'
-import { type GetBlockParameters, type Hex, parseUnits as viemParseUnits } from 'viem'
+import { 
+  type GetBlockParameters, 
+  type Hex, 
+  parseUnits as viemParseUnits, 
+  formatUnits as viemFormatUnits,
+  parseEther as viemParseEther,
+  formatEther as viemFormatEther
+} from 'viem'
 import getPublicClient from '../utils/getPublicClient'
 
 export function getAddress() {
@@ -150,4 +157,17 @@ export const parseUnits = (value: string | number, decimals: number) => {
   // We need to convert the value to string manually, because Viem lib
   // doesn't support numbers as input
   return viemParseUnits(`${value}`, decimals)
+}
+
+export const formatUnits = (value: string | number | bigint, decimals: number) => {
+  return viemFormatUnits(BigInt(value), decimals)
+}
+
+export const parseEther = (value: string | number) => {
+  // Converting to string for support of numbers as input
+  return viemParseEther(`${value}`)
+}
+
+export const formatEther = (value: string | number | bigint) => {
+  return viemFormatEther(BigInt(value))
 }
