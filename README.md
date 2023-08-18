@@ -4,8 +4,13 @@ Smart Terminal is a tool to interact with Smart Contracts and make RPC calls fro
 
 Latest deployment: https://smart-terminal.vercel.app/
 
+## Examples
+
+### Minting Horse Token
+This is an mintable ERC20 token.
+
 <p align="center">
-    <img src="smart-terminal.png">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/CalOmrOSg3g?si=1_vhbyx25HRWavsp" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 </P>
 
 ## List of available commands
