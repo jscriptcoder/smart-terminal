@@ -11,6 +11,17 @@ This is an mintable ERC20 token.
 
 [![Minting horse token](images/minting_horse-token_thumbnail.png)](https://youtu.be/CalOmrOSg3g)
 
+### Approving Spender Allowance
+Sets an amount as the allowance of spender over the caller's tokens.
+
+TODO
+
+### Bridging Horse Token
+TODO
+
+### Claiming Horse Token
+TODO
+
 ## List of available commands
 ### address
 Returns the current wallet address.
