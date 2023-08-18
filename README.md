@@ -6,7 +6,7 @@ Latest deployment: https://smart-terminal.vercel.app/
 
 ## Examples
 
-### Minting Horse Token
+### Minting ERC20 Token
 Watch how a mintable ERC20 token is minted into the account.
 
 <a href="https://youtu.be/CalOmrOSg3g" target="_blank">
@@ -20,14 +20,14 @@ Watch how we can set an amount as the allowance of spender over the caller's tok
  <img src="images/approving-allowance_thumbnail.png" alt="Approving spender allowance" width="640" />
 </a>
 
-### Bridging Horse Token
+### Bridging ERC20 Token
 Sending an ERC20 token to the TokenVault contract in order to later on claim it on Taiko chain.
 
 <a href="https://youtu.be/a27E4Rlyy2k" target="_blank">
  <img src="images/bridging-horse-token_thumbnail.png" alt="Sending erc20 token to TokenVault" width="640" />
 </a>
 
-### Claiming Horse Token
+### Claiming ERC20 Token
 Processing bridge message, claiming an ERC20 token on the destination chain.
 
 <a href="https://youtu.be/lzbstwPTQTQ" target="_blank">
