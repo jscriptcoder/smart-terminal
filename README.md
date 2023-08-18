@@ -9,9 +9,7 @@ Latest deployment: https://smart-terminal.vercel.app/
 ### Minting Horse Token
 This is an mintable ERC20 token.
 
-<p align="center">
-    [![Minting Horse Token](https://img.youtube.com/vi/CalOmrOSg3g/0.jpg)](https://youtu.be/CalOmrOSg3g)
-</P>
+[![Minting horse token](https://img.youtube.com/vi/CalOmrOSg3g/0.jpg)](https://youtu.be/CalOmrOSg3g)
 
 ## List of available commands
 ### address
