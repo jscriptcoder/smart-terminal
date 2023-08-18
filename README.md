@@ -31,6 +31,14 @@ Sending an ERC20 token to the TokenVault contract in order to later on claim it 
 TODO
 
 ## List of available commands
+
+```bash
+help
+```
+
+Output:
+<pre>[address](#address), [array](#array), [asyncEcho](#asyncecho), [asyncLog](#asynclog), [author](#author), [balance](#balance), [balanceDetails](#balancedetails), [block](#block), [byteArray](#bytearray), [clear](#clear), [connectedChain](#connectedchain), [contractEvents](#contractevents), [date](#date), [echo](#echo), [editor](#editor), [encodeAbiParams](#encodeabiparams), [encodePacked](#encodepacked), [eval](#eval), [findInSerialize](#findinserialize), [formatEther](#formatether), [formatUnits](#formatunits), [fromProperty](#fromproperty), [getProof](#getproof), [help](#help), [inspect](#inspect), [isoDate](#isodate), [keccak256](#keccak256), [keys](#keys), [loadChains](#loadchains), [loadJson](#loadjson), [loadVars](#loadvars), [log](#log), [now](#now), [parseAbiParams](#parseabiparams), [parseEther](#parseether), [parseUnits](#parseunits), [property](#property), [readContract](#readcontract), [set](#set), [supportedChains](#supportedchains), [switchNetwork](#switchnetwork), [toBigint](#tobigint), [toBoolean](#toboolean), [toHex](#tohex), [toNumber](#tonumber), [toRlp](#torlp), [transactionReceipt](#transactionreceipt), [values](#values), [vars](#values), [wallet](#wallet), [writeContract](#writecontract)</pre>
+
 ### address
 Returns the current wallet address.
 
