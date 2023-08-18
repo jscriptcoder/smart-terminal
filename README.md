@@ -374,10 +374,26 @@ Output:
   …
 }</pre>
 ## isoDate
-TODO
+Returns the current date in ISO format.
+
+Usage:
+```bash
+isoDate
+```
+
+Output:
+<pre>2023-08-12T19:42:10.598Z</pre>
 
 ## keccak256
-TODO
+Calculates the <a href="https://en.wikipedia.org/wiki/SHA-3"target="_blank">Keccak256</a> hash of a byte array or hex value.
+
+Usage:
+```bash
+keccak256 0x123
+```
+
+Output:
+<pre>0x667d3611…</pre>
 
 ## keys
 Returns the keys of an object as array.
@@ -415,7 +431,15 @@ loadVars
 ```
 
 ## log
-TODO
+Logs a value in the console.
+
+Usage:
+```bash
+log value
+```
+
+Console:
+<pre>value</pre>
 
 ## now
 Returns the current date in milliseconds.
@@ -429,16 +453,68 @@ Output:
 <pre>1691869299389</pre>
 
 ## parseAbiParams
-TODO
+Parses human-readable <a href="https://viem.sh/docs/glossary/types.html#abiparameter" target="_blank">ABI parameters</a> into AbiParameters. Re-exported from <a href="https://abitype.dev/api/human#parseabiparameters-1" target="_blank">ABIType</a>
+
+Usage:
+```bash
+parseAbiParams "address from, address to, uint256 amount"
+```
+
+Output:
+<pre>[{
+  type: "address",
+  name: "from"
+}, {
+  type: "address",
+  name: "to"
+}, {
+  type: "uint256",
+  name: "amount"
+}]</pre>
+
+Params:
+- params: Human-readable ABI parameters as string
 
 ## parseEther
-TODO
+Converts a string representation of ether to numerical wei.
+
+Usage:
+```bash
+parseEther 420
+```
+
+Output:
+<pre>420000000000000000000n</pre>
+
+Params:
+- value: String representation of ether
 
 ## parseUnits
-TODO
+Multiplies a string representation of a number by a given exponent of base 10.
+
+Usage:
+```bash
+parseUnits 420 9
+```
+
+Output:
+<pre>420000000000n</pre>
+
+Params:
+- value: String representation of a number
+- decimals: Exponent of base 10
 
 ## property
-TODO
+Returns the value of a property in an object.
+
+Usage:
+```bash
+property pathToProp $object
+```
+
+Params:
+- pathToProp: Path to the property to get. Example: `prop1.prop2.prop3`
+- object: Object to get the property from
 
 ## readContract
 TODO
