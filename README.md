@@ -517,31 +517,81 @@ Params:
 - object: Object to get the property from
 
 ## readContract
-TODO
+Calls a read-only function on a contract, returning data.
+
+Usage:
+```bash
+readContract address=0x… abi=$abiJson functionName=balanceOf [chainId=id] [args=$args]
+```
+
+Params:
+address: Address of the contract
+abi: Contract's Abi as JSON. See [loadJson](#loadjson) command to import this file into a variable
+functionName: A function to extract from the ABI and call
+[chainId]: Forces a specific chain id for the request
+[args]: List of arguments to pass to the function
 
 ## set
-TODO
+Can be used to set a variable.
+
+Usage:
+```bash
+set value > varName
+```
 
 ## supportedChains
-TODO
+Returns an array of supported chains.
+
+Usage:
+```bash
+supportedChains
+```
+
+Output:
+<pre>[{
+  id: 11155111,
+  network: "sepolia",
+  name: "Sepolia",
+  nativeCurrency: {
+    name: "Sepolia Ether",
+    symbol: "SEP",
+    decimals: 18
+  },
+  rpcUrls: {…},
+  blockExplorers: {…},
+  …
+}, {…}, …]</pre>
 
 ## switchNetwork
-TODO
+Switches to a different chain. Chain must be supported. You can list the supported chain ids by typing `supportedChains | fromProperty id`
 
 ## toBigint
-TODO
+Converts a string to a BigInt.
 
 ## toBoolean
-TODO
+Converts a string to a Boolean.
 
 ## toHex
-TODO
+Encodes a string, number, boolean or byte array to a hex value value.
+
+Usage:
+```bash
+toHex 420 # 0x1a4
+toHex "Hello world" # 0x48656c6c6f20776f726c642e
+toHex true # 0x1
+```
 
 ## toNumber
-TODO
+Converts a string to a Number.
 
 ## toRlp
-TODO
+Encodes a hex value or byte array into a <a href="https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/">Recursive-Length Prefix (RLP)</a> encoded value.
+
+Usage:
+```bash
+toRlp 0x123456789 # 0x850123456789
+toRlp ["0x7f", "0x7f", "0x8081e8"] # 0xc67f7f838081e8
+```
 
 ## transactionReceipt
 Waits for a transaction to be mined, and returns the receipt.
