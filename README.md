@@ -14,7 +14,7 @@ This is an mintable ERC20 token.
 ### Approving Spender Allowance
 Sets an amount as the allowance of spender over the caller's tokens.
 
-TODO
+[![Minting horse token](images/approving_allowance_thumbnail.png)](https://youtu.be/KTCe6aTcq9Q)
 
 ### Bridging Horse Token
 TODO
