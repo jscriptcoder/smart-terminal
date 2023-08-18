@@ -84,14 +84,14 @@ Usage:
 balance [address=0x…] [chainId=id] [formatUnits=units] [token=0x…]
 ```
 
+Output
+<pre>0.256 ETH</pre>
+
 Params:
 - [address]: Address of balance to get back. Defaults to connected wallet
 - [chainId]: Chain id to get the balance from
 - [formatUnits]: Units for formatting output. Values: `ether` | `gwei` | `wei`
 - [token]: ERC20 contract address
-
-Output
-<pre>0.256 ETH</pre>
 
 ## balanceDetails
 Returns details about balance and token.
@@ -168,6 +168,23 @@ Usage:
 contractEvents abi=$abiJson [chainId=id] [address=0x…] [eventName=Transfer] [fromBlock=0] [toBlock=latest]
 ```
 
+Output:
+<pre>[{
+    address: "0x…",
+    topics: […],
+    data: "0x…",
+    blockNumber: 123,
+    transactionHash: "0x…",
+    transactionIndex: 1,
+    blockHash: "0x…",
+    …,
+    args: {
+      msgHash: "0x…",
+      message: {…}
+    },
+    eventName: "MessageSent"
+}, …]</pre>
+
 Params:
 - abi: Contract's Abi as JSON. See [loadJson](#loadJson) command to import this file into a variable
 - [chainId]: Forces a specific chain id for the request
@@ -175,11 +192,6 @@ Params:
 - [eventName]: Name of the event to filter on
 - [fromBlock]: Block number to start the filter from
 - [toBlock]: Block number to end the filter at
-
-Output:
-<pre>{
-  …
-}</pre>
 
 ## date
 Returns the current date in a human readable format.
@@ -228,28 +240,109 @@ Output (in variable `result`):
 }</pre>
 
 ## encodeAbiParams
-TODO
+Generates ABI encoded data using the <a href="https://docs.soliditylang.org/en/latest/abi-spec.html" target="_blank">ABI specification</a>, given a set of ABI parameters (inputs/outputs) and their corresponding values.
+
+Usage:
+```bash
+encodeAbiParams $abiParams $values
+```
+
+Params:
+- abiParams: Array of ABI parameters (inputs/outputs). Example: `[{ "name": "amount", "type": "uint256" }]`
+- values: Array of values to encode. Example: `[ 123456 ]`
 
 ## encodePacked
-TODO
+Generates <a href="https://docs.soliditylang.org/en/v0.8.18/abi-spec.html#non-standard-packed-mode" target="_blank">ABI non-standard packed encoded data</a> given a set of solidity types compatible with packed encoding.
+
+Usage:
+```bash
+encodePacked $listOfTypes $listOfValues
+```
+
+Params:
+- listOfTypes: List of solidity types compatible with packed encoding. Example: `['address', 'string', 'bytes16[]']`
+- listOfValues: List of values to encode. Example: `['0x123…', 'Hello world', ['0x123…', '0x456…']]`
 
 ## eval
-TODO
+Evaluates a JavaScript expression between double quotation.
+
+Usage:
+```bash
+eval expression
+eval "2 + 2" # outputs 4
+eval "[1, 2, 3]" # outputs the array
+eval "({name: 'Fran', age: 44})" # outputs the object
+eval expression > varName # Sends the result to a variable for later use
+```
 
 ## findInSerialize
-TODO
+Finds objects where the serilized version includes the string passed as parameter.
+
+Usage:
+```bash
+findInSerialize stringToFind $objects
+```
+
+Params:
+- stringToFind: String to find in the array of objects
+- objects: Array of objects to search in
 
 ## formatEther
-TODO
+Converts numerical wei to a string representation of ether.
+
+Usage:
+```bash
+formatEther 1000000000000000000
+```
+
+Output:
+<pre>1</pre>
+
+Params:
+- value: The wei value
 
 ## formatUnits
-TODO
+Divides a number by a given exponent of base 10, and formats it into a string representation of the number.
+
+Usage:
+```bash
+formatUnits 420000000000 9
+```
+
+Output:
+<pre>420</pre>
+
+Params:
+- value: BigNumber to format as a string, number or bigint
+- decimals: Exponent of base 10
 
 ## fromProperty
-TODO
+Returns an array with the values of a property in an array of objects.
+
+Usage:
+```bash
+fromProperty pathToProp $objects
+```
+
+Params:
+- pathToProp: Path to the property to get. Example: `prop1.prop2.prop3`
+- objects: Array of objects to get the property from
 
 ## getProof
-TODO
+Returns the account and storage values, including the Merkle proof, of the specified account.
+
+Usage:
+```bash
+getProof address=0x… storageKeys=["0x…"] block=0x…
+```
+
+Output:
+<pre>TODO</pre>
+
+Params:
+- address: The address of the account for which the balance is to be checked
+- storageKeys: An array of storage-keys that should be proofed and included
+- block: A hexadecimal block number, or the string `latest` or `earliest`
 
 ## help
 Shows available commands or help about a specific command.
@@ -382,9 +475,6 @@ Usage:
 transactionReceipt $txHash
 ```
 
-Params:
-- txHash: Transaction hash to wait for. Example
-
 Output:
 <pre>{
   blockHash: "0x…"
@@ -398,6 +488,9 @@ Output:
   type: "eip1559"
   …
 }</pre>
+
+Params:
+- txHash: Transaction hash to wait for. Example
 
 ## values
 Returns the values of an object as array.
