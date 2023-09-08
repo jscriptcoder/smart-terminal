@@ -40,7 +40,7 @@ Processing bridge message, claiming an ERC20 token on the destination chain.
 help
 ```
 
-[address](#address), [array](#array), [asyncEcho](#asyncecho), [asyncLog](#asynclog), [author](#author), [balance](#balance), [balanceDetails](#balancedetails), [block](#block), [byteArray](#bytearray), [clear](#clear), [connectedChain](#connectedchain), [contractEvents](#contractevents), [date](#date), [echo](#echo), [editor](#editor), [encodeAbiParams](#encodeabiparams), [encodePacked](#encodepacked), [eval](#eval), [findInSerialize](#findinserialize), [formatEther](#formatether), [formatUnits](#formatunits), [fromProperty](#fromproperty), [getProof](#getproof), [help](#help), [inspect](#inspect), [isoDate](#isodate), [keccak256](#keccak256), [keys](#keys), [loadChains](#loadchains), [loadJson](#loadjson), [loadVars](#loadvars), [log](#log), [now](#now), [parseAbiParams](#parseabiparams), [parseEther](#parseether), [parseUnits](#parseunits), [property](#property), [readContract](#readcontract), [set](#set), [supportedChains](#supportedchains), [switchNetwork](#switchnetwork), [toBigint](#tobigint), [toBoolean](#toboolean), [toHex](#tohex), [toNumber](#tonumber), [toRlp](#torlp), [transactionReceipt](#transactionreceipt), [values](#values), [vars](#values), [wallet](#wallet), [writeContract](#writecontract)
+[address](#address), [array](#array), [asyncEcho](#asyncecho), [asyncLog](#asynclog), [author](#author), [balance](#balance), [balanceDetails](#balancedetails), [block](#block), [byteArray](#bytearray), [clear](#clear), [connectedChain](#connectedchain), [contractEvents](#contractevents), [date](#date), [deployContract](#deployContract), [echo](#echo), [editor](#editor), [encodeAbiParams](#encodeabiparams), [encodePacked](#encodepacked), [eval](#eval), [findInSerialize](#findinserialize), [formatEther](#formatether), [formatUnits](#formatunits), [fromProperty](#fromproperty), [getProof](#getproof), [help](#help), [inspect](#inspect), [isoDate](#isodate), [keccak256](#keccak256), [keys](#keys), [loadChains](#loadchains), [loadJson](#loadjson), [loadVars](#loadvars), [log](#log), [now](#now), [parseAbiParams](#parseabiparams), [parseEther](#parseether), [parseUnits](#parseunits), [property](#property), [readContract](#readcontract), [set](#set), [supportedChains](#supportedchains), [switchNetwork](#switchnetwork), [toBigint](#tobigint), [toBoolean](#toboolean), [toHex](#tohex), [toNumber](#tonumber), [toRlp](#torlp), [transactionReceipt](#transactionreceipt), [values](#values), [vars](#values), [wallet](#wallet), [writeContract](#writecontract)
 
 ### address
 Returns the current wallet address.
@@ -214,6 +214,21 @@ date
 
 Output:
 <pre>Sat Aug 12 2023 21:41:24 GMT+0200 (Central European Summer Time)</pre>
+
+## deployContract
+Deploys a contract to the network, given bytecode & constructor arguments.
+
+Usage:
+```bash
+deployContract account=0x… abi=$abiJson bytecode=0x… [chainId=id] [args=$args]
+```
+
+Params:
+- account: Owner of the contract
+- abi: Contract's Abi as JSON
+- bytecode: The contract's bytecode as 0x… hex string",
+- [chainId]: Forces a specific chain id for the request',
+- [args]: List of arguments to pass to the constructor',
 
 ## echo
 Echos a value in the terminal.
