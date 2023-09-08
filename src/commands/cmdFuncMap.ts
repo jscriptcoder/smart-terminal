@@ -1,6 +1,6 @@
 import { encodeAbiParameters, encodePacked, keccak256, parseAbiParameters, toHex, toRlp } from 'viem';
 import { array, byteArray, findInSerialize, fromProperty } from './array'
-import { contractEvents, readContract, writeContract } from './contract'
+import { contractEvents, deployContract, readContract, writeContract } from './contract'
 import { date, isoDate, now } from './date'
 import { asyncEcho, echo } from './echo'
 import { asyncLog, log } from './log'
@@ -430,6 +430,19 @@ const cmdFuncMap: Record<string, CmdFunc> = {
       'Output: 1',
       'Params:',
       'value => The wei value',
+    ].join('<br>')
+  },
+  ['deployContract']: {
+    exec: deployContract,
+    help: [
+      'Deploys a contract to the network, given bytecode & constructor arguments.',
+      'Usage: deployContract account=0x… abi=$abiJson bytecode=0x… [chainId=id] [args=$args]',
+      'Params:',
+      'account => Owner of the contract',
+      `abi => Contract's Abi as JSON`,
+      "bytecode => The contract's bytecode as 0x hex string",
+      '[chainId] => Forces a specific chain id for the request',
+      '[args] => List of arguments to pass to the constructor',
     ].join('<br>')
   }
 }

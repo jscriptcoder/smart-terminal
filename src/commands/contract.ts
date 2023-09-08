@@ -1,7 +1,10 @@
 import { getPublicClient, readContract as wagmiReadContract, writeContract as wagmiWriteContract } from '@wagmi/core'
 import checkConnected from '../utils/checkConnected'
-import type { Abi, Address } from 'viem'
+import type { Abi, Address, Hex } from 'viem'
 import { checkSupportedChain } from '../web3/wagmi'
+import getConnectedWallet from '../utils/getConnectedWallet'
+import { get } from 'svelte/store'
+import { network } from '../stores'
 
 type ContractOptions = {
   abi: Abi
@@ -18,6 +21,14 @@ type ContractEventFilterArgs = {
   eventName?: string,
   fromBlock?: bigint,
   toBlock?: bigint,
+}
+
+type DeployOptions = {
+  abi: Abi,
+  account: Address, // owner of the contract
+  bytecode: Hex,
+  chainId?: number,
+  args?: unknown[],
 }
 
 function checkOptions(options: ContractOptions) {
@@ -74,4 +85,29 @@ export async function contractEvents(args: ContractEventFilterArgs) {
   console.log('Filter created:', filter)
 
   return client.getFilterLogs({ filter });
+}
+
+export async function deployContract(options: DeployOptions) {
+  if (!options?.account) {
+    throw new Error('Account is required. Type "help deployContract" for more details.')
+  }
+
+  if (!options?.abi) {
+    throw new Error('ABI is required. Type "help deployContract" for more details.')
+  }
+
+  if (!options?.bytecode) {
+    throw new Error(`Contract's bytecode is required. Type "help deployContract" for more details.`)
+  }
+
+  // If no chainId is passed, we use the current network
+  const chainId = options?.chainId || get(network)?.id
+
+  if (!chainId) {
+    throw new Error('No chain ID found. Type "help deployContract" for more details.')
+  }
+  
+  const wallet = await getConnectedWallet(chainId)
+
+  return wallet.deployContract(options)
 }

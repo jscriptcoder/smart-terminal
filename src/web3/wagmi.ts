@@ -1,6 +1,6 @@
 import { w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { configureChains, createConfig, type Chain } from '@wagmi/core'
-import { arbitrum, mainnet, polygon, sepolia } from '@wagmi/core/chains'
+import { arbitrum, mainnet, polygon, sepolia, goerli } from '@wagmi/core/chains'
 import { PUBLIC_WALLET_CONNECT_PROJECT_ID } from '$env/static/public'
 import { CHAIN_STORAGE_KEY } from '../utils/chain'
 
@@ -14,6 +14,7 @@ export const chains: Chain[] = [
   mainnet, 
   polygon, 
   sepolia,
+  goerli,
   ...customChains,
 ]
 
